@@ -1,0 +1,175 @@
+import { StyleSheet, View, ActivityIndicator } from "react-native";
+import React, { useState, useEffect } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
+import Header from "@/src/component/common/header";
+import { COLORS } from "@/src/constant/COLORS";
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
+import CustomTextInput from "@/src/component/common/customTextInput";
+import Selector from "@/src/component/common/selector";
+import CustomBtn from "@/src/component/common/customBtn";
+import { useNavigation } from "@react-navigation/native";
+import { useGetAllServices, useGetServicePLan } from "@/src/api/hooks/useBills";
+
+const DataScreen = () => {
+  const navigation = useNavigation();
+  const { data, isLoading } = useGetAllServices("data");
+
+  // State variables
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [selectedNetwork, setSelectedNetwork] = useState("");
+  const [selectedDataPlan, setSelectedDataPlan] = useState("");
+  const [networks, setNetworks] = useState([]);
+  const [dataPlans, setDataPlans] = useState([]);
+
+  // Parse network providers from API response
+  useEffect(() => {
+    if (data?.data?.content) {
+      const providersData = data.data.content.map((item) => ({
+        id: item.serviceID,
+        label: item.name ? item.name.split(" ")[0] : "Unknown",
+        value: item.serviceID,
+        image: item.image,
+      }));
+
+      // Remove duplicates
+      const uniqueProviders = providersData.filter(
+        (provider, index, self) =>
+          index === self.findIndex((p) => p.label === provider.label)
+      );
+
+      setNetworks(uniqueProviders);
+    }
+  }, [data]);
+
+  // Fetch data plans based on selected network
+  const { data: dataPackage, isLoading: isPending } =
+    useGetServicePLan(selectedNetwork);
+
+  // Process data plans when new data is fetched
+  useEffect(() => {
+    if (dataPackage?.data?.content?.variations) {
+      const plans = dataPackage.data.content.variations.map((plan) => {
+        // Remove the last numeric part (-3000) from variation_code for display
+        const cleanVariationCode = plan.variation_code.replace(/-\d+$/, "");
+
+        // Modify variation_code to end with "-300" before sending to next screen
+        const modifiedVariationCode = plan.variation_code;
+
+        // Remove .00 from amount
+        const cleanAmount = parseFloat(plan.variation_amount)
+          .toFixed(2)
+          .replace(/\.00$/, "");
+
+        return {
+          id: modifiedVariationCode,
+          label: `${cleanVariationCode} ₦${cleanAmount}`,
+          value: modifiedVariationCode,
+        };
+      });
+
+      setDataPlans(plans);
+    } else {
+      setDataPlans([]);
+    }
+  }, [dataPackage]);
+
+  // Handle Continue button click
+  const handleContinue = () => {
+    if (!phoneNumber || !selectedNetwork || !selectedDataPlan) {
+      return;
+    }
+
+    const selectedPlanObject = dataPlans.find(
+      (plan) => plan.value === selectedDataPlan
+    );
+
+    navigation.navigate("ReviewScreen1", {
+      phoneNumber,
+      amount: selectedPlanObject ? selectedPlanObject.label.split("₦")[1] : "",
+      variation_code: selectedPlanObject?.id,
+      serviceID: selectedNetwork,
+    });
+  };
+
+  return (
+    <SafeAreaView style={styles.root}>
+      <Header label="Data Subscription" showLogo />
+
+      {
+        <View style={styles.input}>
+          <CustomTextInput
+            placeholder="eg 09036018013"
+            title="Phone Number"
+            keyboardType="numeric"
+            value={phoneNumber}
+            setValue={setPhoneNumber}
+          />
+
+          <Selector
+            label="Network"
+            options={networks}
+            selectedValue={selectedNetwork}
+            onSelect={(value) => {
+              setSelectedNetwork(value);
+              setSelectedDataPlan("");
+            }}
+            getOptionLabel={(option) => option.label}
+            getOptionValue={(option) => option.value}
+          />
+
+          <Selector
+            key={selectedDataPlan}
+            label="Data Plan"
+            options={dataPlans}
+            selectedValue={selectedDataPlan}
+            onSelect={(value) => {
+              console.log("Selected Data Plan:", value);
+              setSelectedDataPlan(value);
+            }}
+            getOptionLabel={(option) => option.label}
+            getOptionValue={(option) => option.value}
+            disabled={!selectedNetwork || dataPlans.length === 0}
+          />
+        </View>
+      }
+
+      <View style={styles.btn}>
+        <CustomBtn
+          label="Continue"
+          onPress={handleContinue}
+          disabled={
+            isLoading || !phoneNumber || !selectedNetwork || !selectedDataPlan
+          }
+        />
+      </View>
+    </SafeAreaView>
+  );
+};
+
+export default DataScreen;
+
+const styles = StyleSheet.create({
+  root: {
+    flex: 1,
+    backgroundColor: COLORS.white,
+    paddingHorizontal: wp(4),
+  },
+  input: {
+    marginTop: hp(5),
+    gap: hp(2),
+  },
+  btn: {
+    position: "absolute",
+    alignSelf: "center",
+    bottom: hp(4),
+    width: wp(92),
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});

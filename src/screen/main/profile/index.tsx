@@ -4,6 +4,7 @@ import {
   View,
   ScrollView,
   TouchableOpacity,
+  Pressable,
 } from "react-native";
 import React, { useState } from "react";
 import * as ImagePicker from "expo-image-picker";
@@ -193,21 +194,29 @@ const Profile = () => {
             <Item2 name="Forgot PIN" func={onUpdatePIN} />
             <Item2 name="Update Phone Number" func={onUpdateNumber} />
             <Divider />
-            <Item3
+            {/* <Item3
               name="Enable Biometric"
               value={isBioEnable}
               onToggle={setIsBioEnable}
-            />
+            /> */}
             <Item3
               name="Push Notification"
               value={enableNotification}
               onToggle={setEnableNotification}
             />
             <Divider />
-            <BoldText size="large" color="primary">
-              Terms & Policies
-            </BoldText>
-            <MediumText size="medium">Terms of use</MediumText>
+            <Pressable
+              onPress={() =>
+                navigation.navigate("StackNavigation", {
+                  screen: "TermsAndPolicies",
+                })
+              }
+            >
+              <BoldText size="large" color="primary">
+                Terms & Policies
+              </BoldText>
+              <MediumText size="medium">Terms of use</MediumText>
+            </Pressable>
             <Divider />
             <CustomBtn label="Logout" width={wp(85)} onPress={handleLogOut} />
           </Card>

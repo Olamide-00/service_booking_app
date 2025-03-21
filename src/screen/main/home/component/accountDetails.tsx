@@ -1,5 +1,11 @@
 import { RegularText } from "@/src/component/text/indext";
-import { View, StyleSheet, Pressable, ToastAndroid } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Pressable,
+  ToastAndroid,
+  Touchable,
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { COLORS } from "@/src/constant/COLORS";
 import {
@@ -9,12 +15,15 @@ import {
 import * as Clipboard from "expo-clipboard";
 import ToastMessage from "@/src/component/common/toastMessage";
 import React from "react";
+import { useNavigation } from "@react-navigation/native";
 
 type AccountDetailsProps = {
   wallet: string;
 };
 
 const AccountDetails = ({ wallet }: AccountDetailsProps) => {
+  const navigation = useNavigation();
+
   const [isVisible, setIsVisible] = React.useState<boolean>(false);
   const [message, setMessage] = React.useState<string>("");
   const [isSuccess, setIsSuccess] = React.useState<boolean>(false);
@@ -28,11 +37,16 @@ const AccountDetails = ({ wallet }: AccountDetailsProps) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.item}>
+      <Pressable
+        style={styles.item}
+        onPress={() =>
+          navigation.navigate("StackNavigation", { screen: "FundWallet" })
+        }
+      >
         <RegularText size="small" color="black">
           Account Details
         </RegularText>
-      </View>
+      </Pressable>
       <Pressable style={styles.item2} onPress={copyToClipboard}>
         <RegularText size="small" color="black">
           {wallet}

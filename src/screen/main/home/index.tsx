@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import * as ImagePicker from "expo-image-picker";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { styles } from "./style";
-import { BoldText } from "@/src/component/text/indext";
+import { BoldText, RegularText } from "@/src/component/text/indext";
 import { Ionicons } from "@expo/vector-icons";
 import { COLORS } from "@/src/constant/COLORS";
 import AccountDetails from "./component/accountDetails";
@@ -50,9 +50,21 @@ const Home = () => {
               <Ionicons name="person-circle" size={50} color={COLORS.primary} />
             )}
           </Pressable>
-          <BoldText size="large" color="black">
-            Hello, {firstName}!
-          </BoldText>
+          <View>
+            <BoldText size="large" color="black">
+              Hello, {firstName}!
+            </BoldText>
+            <View style={styles.tagContainer}>
+              <RegularText size="medium" color="secondaryColor">
+                {/* {userData?.tag} */} Remit Tag
+              </RegularText>
+              <View style={styles.tag}>
+                <RegularText size="small" color="white">
+                  {userData?.tag}
+                </RegularText>
+              </View>
+            </View>
+          </View>
         </View>
         <Ionicons name="notifications" size={28} color={COLORS.primary} />
       </View>

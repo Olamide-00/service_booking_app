@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useFonts } from "expo-font";
 import * as Updates from "expo-updates";
-import AppLoading from "expo-app-loading";
 import RootNavigation from "./src/navigation/rootNavigation";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ActivityIndicator, Alert, View } from "react-native";
+import { ActivityIndicator, View } from "react-native";
+import { COLORS } from "./src/constant/COLORS";
 
 const queryClient = new QueryClient();
 
@@ -37,9 +37,12 @@ const App = () => {
   });
 
   if (!fontsLoaded) {
-    return <AppLoading />;
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator size="small" color={COLORS.primary} />
+      </View>
+    );
   }
-
   return (
     <QueryClientProvider client={queryClient}>
       <RootNavigation />

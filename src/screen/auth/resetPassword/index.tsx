@@ -68,6 +68,7 @@ const ResetPassword = () => {
       }
     );
   };
+  const disable = !OTP || !password || !confirmPassword || otpLoading;
 
   return (
     <SafeAreaView style={styles.root}>
@@ -107,7 +108,7 @@ const ResetPassword = () => {
           label="Continue"
           onPress={handleRequestOTP}
           isLoading={otpLoading}
-          disabled={otpLoading}
+          disabled={disable}
         />
       </View>
       <ToastMessage

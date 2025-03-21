@@ -27,6 +27,10 @@ const ReviewScreen1: React.FC = () => {
   const route = useRoute<any>();
   const { serviceID, variation_code, amount, phoneNumber, billersCode, type } =
     route.params as ReviewScreenParams;
+  const electricity =
+    variation_code === "prepaid" || variation_code === "postpaid";
+
+  const dstv = serviceID === "dstv";
 
   return (
     <SafeAreaView style={styles.root}>
@@ -36,6 +40,8 @@ const ReviewScreen1: React.FC = () => {
       <View style={styles.item}>
         <Item label="Provider" value={serviceID} />
         {variation_code && <Item label="Package" value={variation_code} />}
+        {electricity && <Item label="Meter Number" value={billersCode} />}
+        {dstv && <Item label="SmartCard Number" value={billersCode} />}
         <Item label="Phone Number" value={phoneNumber} />
         <Item label="Amount" value={`₦${amount}`} />
         <Item label="Transaction Fee" value="Free" />

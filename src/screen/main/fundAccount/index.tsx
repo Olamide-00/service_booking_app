@@ -14,52 +14,58 @@ import Card from "@/src/component/common/card";
 import { CardAdd } from "iconsax-react-native";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import Spacer from "@/src/component/common/spacer";
-import Divider from "@/src/component/common/divider";
-import * as Clipboard from "expo-clipboard";
 import ToastMessage from "@/src/component/common/toastMessage";
 import { useWalletDetails } from "@/src/api/hooks/useWallet";
+import useAuthStore from "@/src/store/userStore";
+import * as Clipboard from "expo-clipboard";
 
-const FundWallet = () => {
-  const [isVisible, setIsvisible] = React.useState<boolean>(false);
+interface Account {
+  accountNumber: string;
+  accountName: string;
+  bankName: string;
+}
+
+const FundWallet: React.FC = () => {
+  const [isVisible, setIsVisible] = React.useState<boolean>(false);
   const [message, setMessage] = React.useState<string>("");
   const [isSuccess, setIsSuccess] = React.useState<boolean>(false);
   const { walletData, isSuccess: isDataLoaded } = useWalletDetails();
+  const userData = useAuthStore((state) => state.userData);
 
-  // Access accounts from wallet data properly
-  const accounts = walletData?.accounts || [];
+  const accounts: Account[] = walletData?.accounts || [];
 
-  const copyToClipboard = (accountNumber, accountName) => {
-    Clipboard.setString(accountNumber);
+  const copyToClipboard = (accountNumber: string) => {
+    Clipboard.setStringAsync(accountNumber);
     setIsSuccess(true);
-    setIsvisible(true);
+    setIsVisible(true);
     setMessage("Account Details Copied");
   };
 
-  const shareDetails = async (accountNumber, accountName) => {
+  const shareDetails = async (accountNumber: string, accountName: string) => {
     try {
       await Share.share({
         message: `Remit Account Details: ${accountNumber} ${accountName}`,
       });
     } catch (error) {
-      setIsvisible(true);
+      setIsVisible(true);
       setIsSuccess(false);
       setMessage("Error occurred");
     }
   };
 
-  const renderAccountCard = ({ item }) => (
+  const renderAccountCard = ({ item }: { item: Account }) => (
     <Card style={{ paddingVertical: hp(3), marginBottom: hp(2) }}>
-      <MediumText size="medium">Remit Account Number</MediumText>
-      <BoldText size="large" color={"primary"}>
+      <MediumText size="medium">Remit- {userData?.name}</MediumText>
+      <BoldText size="large" color="primary">
         {item.accountNumber}
       </BoldText>
-      <MediumText size="small" style={{ marginTop: 5 }}>
+      <MediumText size="small" style={{ marginTop: 5 }} color="secondaryColor">
         {item.bankName}
       </MediumText>
       <View style={styles.btnContainer}>
         <TouchableOpacity
           style={styles.btn}
-          onPress={() => copyToClipboard(item.accountNumber, item.accountName)}
+          onPress={() => copyToClipboard(item.accountNumber)}
         >
           <RegularText size="small" color="primary">
             Copy Number
@@ -79,7 +85,6 @@ const FundWallet = () => {
 
   return (
     <SafeAreaView style={styles.root}>
-      {/* header */}
       <Header label="Fund Wallet" showLogo />
       <Spacer size={hp(3)} direction="vertical" />
       <View style={styles.container}>
@@ -118,7 +123,7 @@ const FundWallet = () => {
       </View>
       <ToastMessage
         isVisible={isVisible}
-        onClose={() => setIsvisible(false)}
+        onClose={() => setIsVisible(false)}
         message={message}
         isSuccessful={isSuccess}
       />

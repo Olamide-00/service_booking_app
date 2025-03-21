@@ -63,10 +63,33 @@ const PIN = () => {
                       "TRANSACTION SUCCESSFUL"
                     );
 
-                  if (isSuccess) {
-                    navigation.navigate("Success", {
-                      message: "Transaction Completed",
-                    });
+                  const hasToken =
+                    typeof response?.data?.token === "string" &&
+                    response?.data?.token.trim() !== "";
+                  const hasUnits =
+                    typeof response?.data?.units === "string" &&
+                    response?.data?.units.trim() !== "";
+
+                  if (isSuccess && hasToken && hasUnits) {
+                    setIsVisible(true);
+                    setMessage("Transaction Successful");
+                    setSuccess(true);
+
+                    setTimeout(() => {
+                      navigation.navigate("ElectReceipt", {
+                        data: response?.data,
+                      });
+                    }, 3000);
+                  } else if (isSuccess) {
+                    setIsVisible(true);
+                    setMessage("Transaction Completed");
+                    setSuccess(true);
+
+                    setTimeout(() => {
+                      navigation.navigate("Success", {
+                        message: "Transaction Completed",
+                      });
+                    }, 3000);
                   } else {
                     setIsVisible(true);
                     setMessage(
@@ -74,22 +97,37 @@ const PIN = () => {
                         "Payment Failed. Try again."
                     );
                     setSuccess(false);
+
+                    setTimeout(() => {
+                      navigation.navigate("BottomTabs");
+                    }, 3000);
                   }
                 },
-                onError: () => {
+                onError: (error) => {
                   setLoading(false);
                   setIsVisible(true);
-                  setMessage("Payment Failed. Try again.");
+                  const errorMessage =
+                    error?.message || "Payment Failed. Try again.";
+                  setMessage(errorMessage);
                   setSuccess(false);
+
+                  setTimeout(() => {
+                    navigation.navigate("BottomTabs");
+                  }, 3000);
                 },
               }
             );
           },
-          onError: () => {
+          onError: (error) => {
             setLoading(false);
             setIsVisible(true);
-            setMessage("Incorrect PIN");
+            const errorMessage = "Incorrect PIN.";
+            setMessage(errorMessage);
             setSuccess(false);
+
+            setTimeout(() => {
+              navigation.navigate("BottomTabs");
+            }, 3000);
           },
         }
       );
@@ -99,8 +137,6 @@ const PIN = () => {
   return (
     <SafeAreaView style={styles.root}>
       <Header showIcon label="Transaction PIN" />
-
-      {/* Loading Overlay (Only visible when loading) */}
       {loading && (
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color="blue" />

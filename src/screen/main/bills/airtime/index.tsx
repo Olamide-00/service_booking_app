@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, Alert } from "react-native";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Header from "@/src/component/common/header";
 import { COLORS } from "@/src/constant/COLORS";
@@ -12,6 +12,8 @@ import Selector from "@/src/component/common/selector";
 import CustomBtn from "@/src/component/common/customBtn";
 import { useNavigation } from "@react-navigation/native";
 import { useGetAllServices } from "@/src/api/hooks/useBills";
+import Spacer from "@/src/component/common/spacer";
+import { RegularText } from "@/src/component/text/indext";
 
 const AirtimeScreen = () => {
   const navigation = useNavigation();
@@ -21,6 +23,11 @@ const AirtimeScreen = () => {
   const [selectedNetwork, setSelectedNetwork] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [amount, setAmount] = useState("");
+  const [errors, setErrors] = useState({
+    phoneNumber: "",
+    amount: "",
+    selectedNetwork: "",
+  });
 
   // Network options
   const network = [
@@ -36,8 +43,19 @@ const AirtimeScreen = () => {
   );
 
   const handleContinue = () => {
-    if (!selectedNetwork || !phoneNumber || !amount) {
-      Alert.alert("Error", "Please fill all fields.");
+    let newErrors = { phoneNumber: "", amount: "", selectedNetwork: "" };
+
+    if (!selectedNetwork)
+      newErrors.selectedNetwork = "Please select a network.";
+    if (!phoneNumber) newErrors.phoneNumber = "Phone number is required.";
+    if (!amount) newErrors.amount = "Amount is required.";
+
+    if (
+      newErrors.phoneNumber ||
+      newErrors.amount ||
+      newErrors.selectedNetwork
+    ) {
+      setErrors(newErrors);
       return;
     }
 
@@ -48,10 +66,12 @@ const AirtimeScreen = () => {
     });
   };
 
+  const disable = !selectedNetwork || !phoneNumber || !amount;
+
   return (
     <SafeAreaView style={styles.root}>
       {/* Header */}
-      <Header label="Airtime" showIcon showLogo />
+      <Header showLogo />
 
       <View style={styles.input}>
         {/* Selector for Network */}
@@ -61,6 +81,15 @@ const AirtimeScreen = () => {
           selectedValue={selectedNetwork}
           onSelect={(value) => setSelectedNetwork(value)}
         />
+        {errors.selectedNetwork ? (
+          <View style={styles.errorCon}>
+            <RegularText size="small" color="secondaryColor">
+              {errors.selectedNetwork}
+            </RegularText>
+          </View>
+        ) : null}
+
+        <Spacer size={hp(0.2)} />
 
         {/* Phone Number Input */}
         <CustomTextInput
@@ -68,7 +97,9 @@ const AirtimeScreen = () => {
           title="Phone Number"
           keyboardType="numeric"
           value={phoneNumber}
-          onChangeText={setPhoneNumber}
+          setValue={setPhoneNumber}
+          maxLength={11}
+          error={errors.phoneNumber}
         />
 
         {/* Amount Input */}
@@ -77,13 +108,18 @@ const AirtimeScreen = () => {
           title="Amount"
           keyboardType="numeric"
           value={amount}
-          onChangeText={setAmount}
+          setValue={setAmount}
+          error={errors.amount}
         />
       </View>
 
       {/* Continue Button */}
       <View style={styles.btn}>
-        <CustomBtn label="Continue" onPress={handleContinue} />
+        <CustomBtn
+          label="Continue"
+          onPress={handleContinue}
+          disabled={disable}
+        />
       </View>
     </SafeAreaView>
   );
@@ -99,11 +135,14 @@ const styles = StyleSheet.create({
   },
   input: {
     marginTop: hp(5),
-    gap: hp(2),
+    gap: hp(3),
   },
   btn: {
     position: "absolute",
     alignSelf: "center",
     bottom: hp(4),
+  },
+  errorCon: {
+    marginTop: hp(-2),
   },
 });

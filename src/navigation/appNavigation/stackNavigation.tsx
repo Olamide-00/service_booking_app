@@ -1,6 +1,7 @@
 import AirtimeScreen from "@/src/screen/main/bills/airtime";
 import DataScreen from "@/src/screen/main/bills/data";
 import ElectricityScreen from "@/src/screen/main/bills/electricity";
+import ElectReceipt from "@/src/screen/main/bills/receipt/electricity";
 import ReviewScreen1 from "@/src/screen/main/bills/review1";
 import TVScreen from "@/src/screen/main/bills/tv";
 import ComingSoon from "@/src/screen/main/comingSoon";
@@ -9,6 +10,7 @@ import ConfirmPin from "@/src/screen/main/kyc/confirmPin";
 import CreatePin from "@/src/screen/main/kyc/createPin";
 import KYC1 from "@/src/screen/main/kyc/kyc1";
 import PIN from "@/src/screen/main/PIN";
+import TermsAndPolicies from "@/src/screen/main/polices";
 import SendBank from "@/src/screen/main/sendBank";
 import SendRemit from "@/src/screen/main/sendRemit";
 import SendReview from "@/src/screen/main/sendReview";
@@ -39,6 +41,8 @@ export default function StackNavigation() {
       <Stack.Screen name="ComingSoon" component={ComingSoon} />
       <Stack.Screen name="FundWallet" component={FundWallet} />
       <Stack.Screen name="TransactionDetails" component={TransactionDetails} />
+      <Stack.Screen name="ElectReceipt" component={ElectReceipt} />
+      <Stack.Screen name="TermsAndPolicies" component={TermsAndPolicies} />
     </Stack.Navigator>
   );
 }

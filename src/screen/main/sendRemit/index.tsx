@@ -1,4 +1,10 @@
-import { Pressable, StyleSheet, View, Alert } from "react-native";
+import {
+  Pressable,
+  StyleSheet,
+  View,
+  Text,
+  ActivityIndicator,
+} from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { COLORS } from "@/src/constant/COLORS";
@@ -7,35 +13,38 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import { ExtraBoldText } from "@/src/component/text/indext";
+import { ExtraBoldText, RegularText } from "@/src/component/text/indext";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import CustomTextInput from "@/src/component/common/customTextInput";
 import CustomBtn from "@/src/component/common/customBtn";
 import Spacer from "@/src/component/common/spacer";
 import ToastMessage from "@/src/component/common/toastMessage";
+import { useFindRemit } from "@/src/api/hooks/useTransfer";
 
 const SendRemit = () => {
   const route = useRoute();
   const navigation = useNavigation();
-  const [walletNumber, setWalletNumber] = useState("");
+  const [tag, setTag] = useState("");
   const [amount, setAmount] = useState("");
   const [walletError, setWalletError] = useState("");
   const [amountError, setAmountError] = useState("");
 
+  // Fetch user data when tag length is valid
+  const { data, isLoading } = useFindRemit(tag.length >= 5 ? tag : null);
+
   const validateAndProceed = () => {
     let isValid = true;
 
-    if (!walletNumber.trim()) {
-      setWalletError("Wallet number is required");
+    if (!tag.trim()) {
+      setWalletError("Remit Tag is required");
       isValid = false;
-    } else if (walletNumber.length != 11) {
-      setWalletError("Invalid Wallet");
+    } else if (tag.length < 3) {
+      setWalletError("Invalid Remit Tag");
       isValid = false;
     } else {
       setWalletError("");
     }
 
-    // Validate amount
     if (!amount.trim()) {
       setAmountError("Amount is required");
       isValid = false;
@@ -47,13 +56,17 @@ const SendRemit = () => {
     }
 
     if (isValid) {
-      navigation.navigate("SendReview", { wallet: "wallet" });
+      navigation.navigate("SendReview", {
+        name: data?.name || "Unknown",
+        tag,
+        amount,
+      });
     }
   };
 
   return (
     <SafeAreaView style={styles.root} key={route.key}>
-      {/* header */}
+      {/* Header */}
       <Pressable onPress={() => navigation.goBack()} style={styles.header}>
         <ArrowLeft size="30" color={COLORS.primary} />
         <ExtraBoldText size="large" color="primary">
@@ -64,14 +77,25 @@ const SendRemit = () => {
       {/* Input Fields */}
       <View style={styles.input}>
         <CustomTextInput
-          title="Wallet Number"
-          placeholder="Enter Remit wallet number"
-          value={walletNumber}
-          setValue={setWalletNumber}
-          keyboardType="numeric"
+          title="Remit Tag"
+          placeholder="Enter Your Remit Tag"
+          value={tag}
+          setValue={setTag}
           error={walletError}
           maxLength={11}
         />
+        <View style={styles.name}>
+          {isLoading ? (
+            <ActivityIndicator size="small" color={COLORS.primary} />
+          ) : (
+            data?.name && (
+              <RegularText size="small" color="secondaryColor">
+                {data.name}
+              </RegularText>
+            )
+          )}
+        </View>
+
         <CustomTextInput
           title="Amount"
           placeholder="Amount"
@@ -106,5 +130,9 @@ const styles = StyleSheet.create({
   },
   input: {
     marginTop: hp(10),
+  },
+  name: {
+    marginTop: hp(-2),
+    alignSelf: "flex-end",
   },
 });

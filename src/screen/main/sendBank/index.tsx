@@ -1,13 +1,12 @@
-import { Pressable, StyleSheet, View } from "react-native";
-import React, { useState } from "react";
+import { ActivityIndicator, Pressable, StyleSheet, View } from "react-native";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { COLORS } from "@/src/constant/COLORS";
-import { ArrowLeft } from "iconsax-react-native";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import { ExtraBoldText, RegularText } from "@/src/component/text/indext";
+import { RegularText } from "@/src/component/text/indext";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import CustomTextInput from "@/src/component/common/customTextInput";
 import CustomBtn from "@/src/component/common/customBtn";
@@ -15,16 +14,7 @@ import Spacer from "@/src/component/common/spacer";
 import Selector from "@/src/component/common/selector";
 import { useAllBanks } from "@/src/api/hooks/useTransfer";
 import Header from "@/src/component/common/header";
-
-// Define navigation types
-type RootStackParamList = {
-  SendReview: {
-    accountNumber: string;
-    bankCode: string;
-    amount: string;
-    narration: string;
-  };
-};
+import { useVerifyBank } from "@/src/api/hooks/useVerify";
 
 const SendBank = () => {
   const route = useRoute();
@@ -32,23 +22,16 @@ const SendBank = () => {
 
   const { data: bankData, isPending, isError } = useAllBanks();
 
-  const bankOptions =
-    Array.isArray(bankData) && bankData.length > 0
-      ? bankData.map((bank) => ({
-          label: bank.name,
-          value: bank.code,
-        }))
-      : [];
+  const [customerName, setCustomerName] = useState<string>("");
 
-  // Form state
   const [formState, setFormState] = useState({
     accountNumber: "",
     amount: "",
     selectedBank: "",
+    selectedBankName: "",
     narration: "",
   });
 
-  // Error state
   const [errors, setErrors] = useState({
     accountNumber: "",
     amount: "",
@@ -56,8 +39,23 @@ const SendBank = () => {
     narration: "",
   });
 
-  const handleBankSelect = (bankCode: string) => {
-    setFormState((prev) => ({ ...prev, selectedBank: bankCode }));
+  const { data: verifyData, isLoading: isVerifying } = useVerifyBank(
+    formState.accountNumber.length === 10 ? formState.selectedBank : "",
+    formState.accountNumber.length === 10 ? formState.accountNumber : ""
+  );
+
+  useEffect(() => {
+    if (verifyData?.responseBody?.accountName) {
+      setCustomerName(verifyData.responseBody.accountName);
+    }
+  }, [verifyData]);
+
+  const handleBankSelect = (bankCode: string, bankName: string) => {
+    setFormState((prev) => ({
+      ...prev,
+      selectedBank: bankCode,
+      selectedBankName: bankName,
+    }));
     setErrors((prev) => ({ ...prev, bank: "" }));
   };
 
@@ -78,7 +76,6 @@ const SendBank = () => {
     };
     let isValid = true;
 
-    // Validate account number
     if (!formState.accountNumber.trim()) {
       newErrors.accountNumber = "Account number is required";
       isValid = false;
@@ -87,7 +84,6 @@ const SendBank = () => {
       isValid = false;
     }
 
-    // Validate amount
     if (!formState.amount.trim()) {
       newErrors.amount = "Amount is required";
       isValid = false;
@@ -99,13 +95,11 @@ const SendBank = () => {
       isValid = false;
     }
 
-    // Validate bank selection
     if (!formState.selectedBank) {
       newErrors.bank = "Please select a bank";
       isValid = false;
     }
 
-    // Validate narration
     if (!formState.narration.trim()) {
       newErrors.narration = "Narration is required";
       isValid = false;
@@ -120,20 +114,16 @@ const SendBank = () => {
       navigation.navigate("SendReview", {
         destinationAccountNumber: formState.accountNumber,
         destinationBankCode: formState.selectedBank,
+        destinationBankName: formState.selectedBankName,
         amount: formState.amount,
         narration: formState.narration,
+        customerName,
       });
     }
   };
 
   return (
     <SafeAreaView style={styles.root} key={route.key}>
-      {/* <Pressable onPress={() => navigation.goBack()} style={styles.header}>
-        <ArrowLeft size="30" color={COLORS.primary} />
-        <ExtraBoldText size="large" color="primary">
-          Bank Transfer
-        </ExtraBoldText>
-      </Pressable> */}
       <Header label="Bank Transfer" showLogo />
 
       <View style={styles.input}>
@@ -146,13 +136,39 @@ const SendBank = () => {
           error={errors.accountNumber}
           maxLength={10}
         />
+        <View style={styles.accountNameContainer}>
+          {customerName &&
+          formState.selectedBank &&
+          formState.accountNumber.length === 10 ? (
+            <RegularText size="small" color="secondaryColor">
+              {customerName}
+            </RegularText>
+          ) : (
+            isVerifying && (
+              <ActivityIndicator size="small" color={COLORS.primary} />
+            )
+          )}
+        </View>
 
         <Spacer size={hp(1.5)} direction="vertical" />
 
         <Selector
           label="Select Bank"
-          options={bankOptions}
-          onSelect={handleBankSelect}
+          options={
+            Array.isArray(bankData) && bankData.length > 0
+              ? bankData.map((bank) => ({
+                  label: bank.name,
+                  value: bank.code,
+                }))
+              : []
+          }
+          onSelect={(bankCode) => {
+            const bankName =
+              Array.isArray(bankData) && bankData.length > 0
+                ? bankData.find((bank) => bank.code === bankCode)?.name || ""
+                : "";
+            handleBankSelect(bankCode, bankName);
+          }}
           selectedValue={formState.selectedBank}
         />
         {errors.bank ? (
@@ -196,12 +212,6 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.white,
     paddingHorizontal: wp(4),
   },
-  header: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: wp(6),
-    marginTop: hp(2),
-  },
   input: {
     marginTop: hp(6),
   },
@@ -209,6 +219,10 @@ const styles = StyleSheet.create({
     marginTop: hp(0.5),
     marginLeft: wp(1),
     color: "red",
+  },
+  accountNameContainer: {
+    alignSelf: "flex-end",
+    marginTop: hp(-2),
   },
 });
 

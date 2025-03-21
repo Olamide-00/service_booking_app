@@ -12,6 +12,7 @@ import Selector from "@/src/component/common/selector";
 import CustomBtn from "@/src/component/common/customBtn";
 import { useNavigation } from "@react-navigation/native";
 import { useGetAllServices, useGetServicePLan } from "@/src/api/hooks/useBills";
+import Spacer from "@/src/component/common/spacer";
 
 const DataScreen = () => {
   const navigation = useNavigation();
@@ -106,6 +107,7 @@ const DataScreen = () => {
             keyboardType="numeric"
             value={phoneNumber}
             setValue={setPhoneNumber}
+            maxLength={11}
           />
 
           <Selector
@@ -119,6 +121,7 @@ const DataScreen = () => {
             getOptionLabel={(option) => option.label}
             getOptionValue={(option) => option.value}
           />
+          <Spacer size={hp(0.2)} />
 
           <Selector
             key={selectedDataPlan}
@@ -158,8 +161,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: wp(4),
   },
   input: {
-    marginTop: hp(5),
-    gap: hp(2),
+    marginTop: hp(3.5),
+    gap: hp(3),
   },
   btn: {
     position: "absolute",

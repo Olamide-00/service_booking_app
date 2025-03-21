@@ -11,7 +11,15 @@ const Item = ({ label, value }: Props) => {
   return (
     <View style={styles.container}>
       <RegularText size="medium">{label}</RegularText>
-      <RegularText size="small">{value}</RegularText>
+      <View
+        style={{
+          width: "33%",
+        }}
+      >
+        <RegularText size="small" color="primary">
+          {value}
+        </RegularText>
+      </View>
     </View>
   );
 };

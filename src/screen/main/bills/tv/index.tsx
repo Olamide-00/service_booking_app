@@ -14,6 +14,10 @@ import { useNavigation } from "@react-navigation/native";
 import { useGetAllServices, useGetServicePLan } from "@/src/api/hooks/useBills";
 import useVerify from "@/src/api/hooks/useVerify";
 import { RegularText } from "@/src/component/text/indext";
+import useAuthStore from "@/src/store/userStore";
+import ToastMessage from "@/src/component/common/toastMessage";
+import Spacer from "@/src/component/common/spacer";
+import { isLoading } from "expo-font";
 
 interface ServiceOption {
   label: string;
@@ -31,7 +35,7 @@ interface NavigationPayload {
   billersCode: string;
   variation_code: string;
   amount: string;
-  phoneNumber: string;
+  phoneNumber: string | null;
   quantity: number;
 }
 
@@ -56,6 +60,12 @@ const TVScreen: React.FC = () => {
   const [smartcardNumber, setSmartcardNumber] = useState<string>("");
   const [selectedPackage, setSelectedPackage] = useState<string>("");
   const [customerName, setCustomerName] = useState<string>("");
+  const userData = useAuthStore((state) => state.userData);
+
+  // toast message
+  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const [message, setMessage] = useState<string>("");
+  const [success, setSuccess] = useState<boolean>(false);
 
   // Fetch packages for the selected service
   const {
@@ -103,7 +113,9 @@ const TVScreen: React.FC = () => {
       !selectedPackage ||
       !customerName
     ) {
-      Alert.alert("Error", "All fields are required.");
+      setIsVisible(true);
+      setMessage("All fields are required");
+      setSuccess(false);
       return;
     }
 
@@ -116,12 +128,20 @@ const TVScreen: React.FC = () => {
       billersCode: smartcardNumber,
       variation_code: selectedPackage,
       amount: selectedPackageObj?.amount || "",
-      phoneNumber: "08011111111",
+      phoneNumber: userData?.phoneNumber,
       quantity: 1,
     };
 
     navigation.navigate("ReviewScreen1", payload);
   };
+
+  const disable =
+    !selectedService ||
+    !smartcardNumber ||
+    !selectedPackage ||
+    !customerName ||
+    packageOptions.length === 0 ||
+    isVerifying;
 
   return (
     <SafeAreaView style={styles.root}>
@@ -137,7 +157,7 @@ const TVScreen: React.FC = () => {
           selectedValue={selectedService}
           disabled={servicesLoading || !!servicesError}
         />
-
+        <Spacer size={hp(0.2)} />
         <CustomTextInput
           placeholder="Enter smartcard number"
           title="Smartcard Number"
@@ -149,7 +169,7 @@ const TVScreen: React.FC = () => {
           {isVerifying ? (
             <ActivityIndicator size="small" color={COLORS.primary} />
           ) : (
-            <RegularText color="primary" size="small">
+            <RegularText color="secondaryColor" size="small">
               {customerName}
             </RegularText>
           )}
@@ -160,18 +180,23 @@ const TVScreen: React.FC = () => {
           options={packageOptions}
           onSelect={(value: string) => setSelectedPackage(value)}
           selectedValue={selectedPackage}
-          disabled={
-            !selectedService ||
-            packagesLoading ||
-            !!packagesError ||
-            packageOptions.length === 0
-          }
+          disabled={disable}
         />
       </View>
 
       <View style={styles.btn}>
-        <CustomBtn label="Continue" onPress={handleContinue} />
+        <CustomBtn
+          label="Continue"
+          onPress={handleContinue}
+          disabled={disable}
+        />
       </View>
+      <ToastMessage
+        isVisible={isVisible}
+        onClose={() => setIsVisible(false)}
+        message={message}
+        isSuccessful={success}
+      />
     </SafeAreaView>
   );
 };

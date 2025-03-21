@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Share } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Header from "@/src/component/common/header";
@@ -10,14 +10,11 @@ import {
 import Card from "@/src/component/common/card";
 import { BoldText, MediumText, RegularText } from "@/src/component/text/indext";
 import { COLORS } from "@/src/constant/COLORS";
-import {
-  CardReceive,
-  ChartSuccess,
-  LayoutMaximize,
-} from "iconsax-react-native";
+import { CardReceive, LayoutMaximize } from "iconsax-react-native";
 import Item from "./component/item";
 import { useRoute } from "@react-navigation/native";
 import useAuthStore from "@/src/store/userStore";
+import CustomBtn from "@/src/component/common/customBtn";
 
 const TransactionDetails = () => {
   const route = useRoute();
@@ -40,15 +37,54 @@ const TransactionDetails = () => {
     }).format(date);
   };
 
+  // Formatted amount
+  const formattedBalance = new Intl.NumberFormat("en-NG", {
+    style: "decimal",
+    minimumFractionDigits: 2,
+  }).format(transaction.amount);
+
+  // Share Function
+  const handleShare = async () => {
+    try {
+      const message = `
+        Transaction Details:
+        ------------------------
+        Amount: ₦${formattedBalance}
+        Status: ${transaction.status ?? "N/A"}
+        Type: ${transaction.type ?? "N/A"}
+        ${transaction.units ? `Units: ${transaction.units}` : ""}
+        ${
+          transaction.token
+            ? `Token: ${transaction.token.replace("Token : ", "")}`
+            : ""
+        }
+        Recipient: ${transaction.receipentName || name || "N/A"}
+        Date: ${formatDate(transaction.date || transaction.transaction_date)}
+        Reference Number: ${transaction.transactionReference ?? "N/A"}
+      `;
+
+      await Share.share({ message });
+    } catch (error) {
+      console.error("Error sharing transaction details:", error);
+    }
+  };
+
   return (
     <SafeAreaView style={styles.root}>
-      {/* header */}
+      {/* Header */}
       <Header showLogo />
       <Spacer size={hp(3)} direction="vertical" />
+
+      {/* Transaction Summary Card */}
       <Card style={styles.card}>
-        <MediumText size="medium">{transaction.service}</MediumText>
+        {transaction.service ? (
+          <MediumText size="medium">{transaction.service}</MediumText>
+        ) : (
+          <MediumText size="medium">{transaction.type}</MediumText>
+        )}
+
         <BoldText size="large" color="primary">
-          ₦{transaction.amount}
+          ₦{formattedBalance}
         </BoldText>
         <View style={styles.item2}>
           {transaction.status === "SUCCESS" ? (
@@ -56,24 +92,59 @@ const TransactionDetails = () => {
           ) : (
             <LayoutMaximize size={18} color={COLORS.secondaryColor} />
           )}
-          <RegularText size="small">{transaction.status}</RegularText>
+          <RegularText
+            size="small"
+            color={transaction.type === "DEBIT" ? "error" : "primary"}
+          >
+            {transaction.type ?? transaction.status}
+          </RegularText>
         </View>
       </Card>
+      <Spacer size={hp(2)} />
+      {/* Transaction Details Card */}
       <Card style={styles.card2}>
         <MediumText size="large" color="primary">
           Transaction Details
         </MediumText>
-        <Item label="Account Name" value={name} />
-        <Item label="Receipient Number" value={transaction.unique_element} />
+        <Item
+          label={transaction.type ? "Recipient Name" : "Account Name"}
+          value={transaction.receipentName || name}
+        />
+        {transaction.units && <Item label="Units" value={transaction.units} />}
+        {transaction.token && (
+          <Item
+            label="Token"
+            value={transaction.token.replace("Token : ", "")}
+          />
+        )}
+
+        {transaction.receipentBank && (
+          <Item
+            label={
+              transaction.receipentBank ? "Recipient Bank" : "Recipient Number"
+            }
+            value={transaction.receipentBank || transaction.unique_element}
+          />
+        )}
+
+        {(transaction.service === "Bank Transfer" ||
+          transaction.service === "REMIT_TRANSFER") && (
+          <Item label="Sender Name" value={name} />
+        )}
+
         <Item
           label="Transaction Date"
-          value={formatDate(transaction.transaction_date)}
+          value={formatDate(transaction.date || transaction.transaction_date)}
         />
         <Item
           label="Reference Number"
           value={transaction.transactionReference}
         />
       </Card>
+
+      {/* Share Button */}
+      <Spacer size={hp(10)} />
+      <CustomBtn label="Share" onPress={handleShare} />
     </SafeAreaView>
   );
 };

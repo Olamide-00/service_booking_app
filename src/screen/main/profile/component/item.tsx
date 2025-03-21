@@ -12,7 +12,9 @@ const Item = ({ name, value }: Props) => {
       <RegularText size="small" color="gray">
         {name}
       </RegularText>
-      <MediumText size="medium">{value}</MediumText>
+      <MediumText size="medium" color="primary">
+        {value}
+      </MediumText>
     </View>
   );
 };

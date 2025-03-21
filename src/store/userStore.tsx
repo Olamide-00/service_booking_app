@@ -24,6 +24,7 @@ interface UserData {
   isWalletCreated: boolean;
   balance: number;
   profilePicture: string;
+  tag: string;
 }
 
 // Interface for account details

@@ -32,8 +32,12 @@ export const API_ENDPOINTS = {
 
   // verification
   VERIFY: "/verify",
+  VERIFY_BANK: "wallet/verify-bank",
 
   // banking services
   TRANSFER: "/transfer",
   ALL_BANKS: "/bank/banks",
+  TRANSFER_HISTORY: "/wallet/transactions-history",
+  FIND_REMIT_TAG: "/findRemit",
+  TRANSFER_REMIT: "/transferRemit",
 };

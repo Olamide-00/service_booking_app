@@ -1,10 +1,4 @@
-import {
-  StyleSheet,
-  View,
-  ScrollView,
-  Alert,
-  ActivityIndicator,
-} from "react-native";
+import { StyleSheet, View, ScrollView, ActivityIndicator } from "react-native";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Header from "@/src/component/common/header";
@@ -20,15 +14,16 @@ import { useNavigation } from "@react-navigation/native";
 import { useGetAllServices, useGetServicePLan } from "@/src/api/hooks/useBills";
 import useVerify from "@/src/api/hooks/useVerify";
 import { RegularText } from "@/src/component/text/indext";
+import ToastMessage from "@/src/component/common/toastMessage";
 
-type ReviewScreenParams = {
-  serviceID: string | null;
-  discoName: string | null;
-  variation_code: string | null;
+interface ReviewScreenParams {
+  serviceID: string;
+  discoName: string;
+  variation_code: string;
   amount: string;
   billersCode: string;
   phoneNumber: string;
-};
+}
 
 const ElectricityScreen = () => {
   const navigation = useNavigation();
@@ -41,106 +36,109 @@ const ElectricityScreen = () => {
   const [meterNumber, setMeterNumber] = useState<string>("");
   const [amount, setAmount] = useState<string>("");
   const [customerName, setCustomerName] = useState<string>("");
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
-  // Fetch all electricity services (Disco types)
-  const {
-    data,
-    isLoading: servicesLoading,
-    isError: servicesError,
-  } = useGetAllServices("electricity-bill");
+  // toast message
+  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const [message, setMessage] = useState<string>("");
+  const [success, setSuccess] = useState<boolean>(false);
 
-  // Map fetched services into dropdown options
+  const { data, isLoading: servicesLoading } =
+    useGetAllServices("electricity-bill");
+
   const discoOptions =
     data?.data?.content?.map((item: { name: string; serviceID: string }) => ({
       label: item.name,
       value: item.serviceID,
     })) || [];
 
-  // Fetch electric company plans based on selected Disco type
-  const {
-    data: electricCompany,
-    isLoading: isPending,
-    isError,
-  } = useGetServicePLan(selectedService);
+  const { data: electricCompany, isLoading: isPending } =
+    useGetServicePLan(selectedService);
 
-  // Extract package options
-  const packageOptions =
-    electricCompany?.data?.content?.variations?.map(
-      (pkg: {
-        name: string;
-        variation_code: string;
-        variation_amount: number;
-      }) => ({
-        label: pkg.name,
-        value: pkg.variation_code,
-        amount: pkg.variation_amount,
-      })
-    ) || [];
-
-  // Define meter types
   const meterTypes = [
     { label: "Prepaid", value: "prepaid" },
     { label: "Postpaid", value: "postpaid" },
   ];
 
-  // Use the verify mutation hook
   const { mutate: verify, isPending: isVerifying } = useVerify();
 
-  // Auto-trigger verification when service and meter number are set
   useEffect(() => {
-    if (selectedService && meterNumber) {
+    if (selectedService && meterNumber.length === 13) {
       verify(
         { serviceID: selectedService, billersCode: meterNumber },
         {
           onSuccess: (data) => {
             setCustomerName(data.data?.content?.Customer_Name || "Unknown");
-            console.log(data);
           },
-          onError: (error) => {
-            Alert.alert(
-              "Verification Failed",
-              error?.message || "Something went wrong"
-            );
+          onError: () => {
+            setIsVisible(true);
+            setSuccess(false);
+            setMessage("Error occurred, please try again");
           },
         }
       );
     }
   }, [selectedService, meterNumber, verify]);
 
-  // Handle form submission
+  const validateFields = () => {
+    let newErrors: { [key: string]: string } = {};
+    if (meterNumber.length !== 13)
+      newErrors.meterNumber = "Meter number must be 13 digits";
+    if (!selectedService) newErrors.selectedService = "Disco type is required";
+    if (!selectedMeterType)
+      newErrors.selectedMeterType = "Meter type is required";
+    if (!amount) newErrors.amount = "Amount is required";
+    if (!customerName)
+      newErrors.customerName = "Verification failed, please try again";
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleContinue = () => {
+    if (!validateFields()) {
+      setMessage("Please ensure all fields are filled correctly");
+      setIsVisible(true);
+      setSuccess(false);
+      return;
+    }
+
     const payload: ReviewScreenParams = {
-      serviceID: selectedService,
-      discoName: selectedDisco,
-      variation_code: selectedMeterType,
+      serviceID: selectedService!,
+      discoName: selectedDisco!,
+      variation_code: selectedMeterType!,
       billersCode: meterNumber,
       amount,
       phoneNumber: "08011111111",
     };
 
-    console.log("Navigating with payload:", payload); // Log data going to the next screen
-
     navigation.navigate("ReviewScreen1", payload);
   };
 
+  // Check if all conditions are met
+  const isFormValid =
+    meterNumber.length === 13 &&
+    customerName &&
+    selectedService &&
+    selectedMeterType &&
+    amount;
+
   return (
     <SafeAreaView style={styles.root}>
-      {/* Header */}
       <Header label="Electricity" showLogo />
-
-      {/* Scrollable Form */}
       <ScrollView
         contentContainerStyle={styles.scrollContainer}
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.input}>
-          {/* Meter Number Input */}
           <CustomTextInput
             placeholder="Enter meter number"
             title="Meter Number"
             keyboardType="numeric"
             value={meterNumber}
-            onChangeText={setMeterNumber}
+            setValue={setMeterNumber}
+            error={errors.meterNumber}
+            maxLength={13}
           />
           <View style={styles.customerName}>
             {isVerifying ? (
@@ -151,8 +149,6 @@ const ElectricityScreen = () => {
               </RegularText>
             )}
           </View>
-
-          {/* Disco Type Selector */}
           <Selector
             label="Disco Type"
             options={discoOptions}
@@ -163,29 +159,34 @@ const ElectricityScreen = () => {
               setSelectedDisco(selected ? selected.label : null);
             }}
           />
-
-          {/* Meter Type Selector */}
           <Selector
             label="Meter Type"
             options={meterTypes}
             selectedValue={selectedMeterType}
             onSelect={setSelectedMeterType}
           />
-
-          {/* Amount Input */}
           <CustomTextInput
             title="Amount"
             placeholder="Enter amount"
             keyboardType="numeric"
             value={amount}
-            onChangeText={setAmount}
+            setValue={setAmount}
+            error={errors.amount}
           />
         </View>
-
-        {/* Continue Button */}
         <View style={styles.btn}>
-          <CustomBtn label="Continue" onPress={handleContinue} />
+          <CustomBtn
+            label="Continue"
+            onPress={handleContinue}
+            disabled={!isFormValid}
+          />
         </View>
+        <ToastMessage
+          isVisible={isVisible}
+          onClose={() => setIsVisible(false)}
+          message={message}
+          isSuccessful={success}
+        />
       </ScrollView>
     </SafeAreaView>
   );

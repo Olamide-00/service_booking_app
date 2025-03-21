@@ -14,28 +14,31 @@ export const styles = StyleSheet.create({
   title: {
     alignSelf: "center",
   },
-  dateSelector: {
+  menuContainer: {
     flexDirection: "row",
-    gap: wp(3),
-    marginTop: hp(5),
-    alignItems: "center",
+    justifyContent: "space-around",
+    marginTop: hp(4),
+    backgroundColor: "#F3F3F3",
+    padding: hp(1),
+    borderRadius: 10,
   },
-  input: {
-    borderWidth: 0.5,
-    borderColor: COLORS.border,
+
+  menuItem: {
+    paddingVertical: hp(1),
+    paddingHorizontal: wp(6),
     borderRadius: 8,
-    width: wp(78),
-    height: hp(6.5),
-    paddingHorizontal: wp(4),
   },
-  item: {
-    flex: 1,
+
+  activeMenuItem: {
+    backgroundColor: COLORS.primary,
   },
-  seperator: {
-    gap: hp(3),
+
+  menuText: {
+    color: COLORS.primary,
   },
-  empty: {
-    flex: 1,
-    marginTop: hp(20),
+
+  activeMenuText: {
+    color: "#fff",
+    fontWeight: "bold",
   },
 });

@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { API_ENDPOINTS } from "../endpoints";
 import axiosInstance from "../axiosInstance";
 
@@ -10,7 +10,7 @@ type VerifyPayload = {
 type VerifyResponse = any;
 
 const useVerify = () => {
-  const queryClient = useQueryClient(); // Get the QueryClient instance
+  const queryClient = useQueryClient();
 
   return useMutation<VerifyResponse, Error, VerifyPayload>({
     mutationFn: async (payload: VerifyPayload) => {
@@ -26,6 +26,21 @@ const useVerify = () => {
         queryKey: ["verification", variables.serviceID, variables.billersCode],
       });
     },
+  });
+};
+
+// verify bank details
+export const useVerifyBank = (bankCode?: string, accountNumber?: string) => {
+  return useQuery({
+    queryKey: ["verifyBank", bankCode, accountNumber],
+    queryFn: async () => {
+      if (!bankCode || !accountNumber) return null;
+      const response = await axiosInstance.get(
+        `${API_ENDPOINTS.VERIFY_BANK}?bankCode=${bankCode}&accountNumber=${accountNumber}`
+      );
+      return response.data;
+    },
+    enabled: !!bankCode && !!accountNumber,
   });
 };
 

@@ -14,6 +14,7 @@ const TEXT_COLORS = {
   black: "#000000",
   gray: "gray",
   secondaryColor: "#F77F00",
+  error: "#FF0000",
 } as const;
 
 type TextSize = keyof typeof TEXT_SIZES;

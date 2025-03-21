@@ -1,4 +1,10 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  Pressable,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 import {
@@ -15,6 +21,7 @@ type historyProps = {
   amount: string;
   status: string;
   date: string;
+  type: string;
 };
 
 // Function to format the date properly
@@ -40,7 +47,7 @@ const Item = ({ transaction, onPress }: { transaction: historyProps }) => {
   }).format(transaction.amount);
 
   return (
-    <TouchableOpacity onPress={onPress}>
+    <Pressable onPress={onPress}>
       <Card style={styles.container}>
         <View style={styles.details}>
           <View
@@ -61,22 +68,47 @@ const Item = ({ transaction, onPress }: { transaction: historyProps }) => {
             )}
           </View>
           <View>
-            <MediumText size="medium">{transaction.service}</MediumText>
+            {transaction.service ? (
+              <MediumText size="medium">{transaction.service}</MediumText>
+            ) : (
+              <MediumText size="medium">{transaction.type}</MediumText>
+            )}
+
             <RegularText size="small">
-              {formatDate(transaction.transaction_date)}
+              {formatDate(transaction.date || transaction.transaction_date)}
             </RegularText>
           </View>
         </View>
-        <BoldText
-          size="medium"
-          color={
-            transaction.status === "SUCCESS" ? "primary" : "secondaryColor"
-          }
-        >
-          ₦{formattedBalance}
-        </BoldText>
+        <View>
+          <BoldText
+            size="medium"
+            color={
+              transaction.status === "SUCCESS" ? "primary" : "secondaryColor"
+            }
+          >
+            ₦{formattedBalance}
+          </BoldText>
+          {transaction.status && !transaction.type && (
+            <RegularText
+              size="small"
+              color={
+                transaction.status === "SUCCESS" ? "primary" : "secondaryColor"
+              }
+            >
+              {transaction.status}
+            </RegularText>
+          )}
+          {transaction.type && (
+            <RegularText
+              size="small"
+              color={transaction.type === "CREDIT" ? "primary" : "error"}
+            >
+              {transaction.type}
+            </RegularText>
+          )}
+        </View>
       </Card>
-    </TouchableOpacity>
+    </Pressable>
   );
 };
 

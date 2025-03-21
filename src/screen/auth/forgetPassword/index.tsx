@@ -47,6 +47,7 @@ const ForgetPassword = () => {
       }
     );
   };
+  const disable = otpLoading || !email;
 
   return (
     <SafeAreaView style={styles.root}>
@@ -71,7 +72,7 @@ const ForgetPassword = () => {
           label="Continue"
           onPress={handleRequestOTP}
           isLoading={otpLoading}
-          disabled={otpLoading}
+          disabled={disable}
         />
       </View>
       <ToastMessage

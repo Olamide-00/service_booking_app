@@ -32,4 +32,15 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     gap: wp(1),
   },
+  tagContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: wp(1),
+  },
+  tag: {
+    backgroundColor: COLORS.primary,
+    paddingHorizontal: wp(2),
+    // paddingVertical: hp(0.01),
+    borderRadius: 20,
+  },
 });

@@ -77,6 +77,12 @@ const SignUp = () => {
       }
     );
   };
+  const disable =
+    !formData.name ||
+    !formData.email ||
+    !formData.password ||
+    !formData.confirmPassword ||
+    isPending;
 
   return (
     <SafeAreaView style={styles.root}>
@@ -131,7 +137,7 @@ const SignUp = () => {
           <CustomBtn
             label="Sign Up"
             onPress={handleSubmit}
-            disabled={isPending}
+            disabled={disable}
             isLoading={isPending}
           />
           <Spacer direction="vertical" size={hp(2)} />

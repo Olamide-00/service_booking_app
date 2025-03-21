@@ -93,6 +93,7 @@ const Login = () => {
         onSuccess: async (data) => {
           console.log("Login Success:", data);
           await SecureStore.setItemAsync("token", data.token);
+
           const userData = {
             email: data.user.email,
             name: data.user.name,
@@ -100,6 +101,7 @@ const Login = () => {
             isWalletCreated: data.user.isWalletCreated,
             balance: data.user.balance,
             profilePicture: data.user.profilePicture,
+            tag: data.user.tag,
           };
 
           // Update Zustand store
@@ -108,13 +110,21 @@ const Login = () => {
         },
         onError: (err) => {
           console.error("Login Failed:", err);
+
+          // Extract API error message
+          const errorMessage =
+            err?.response?.data?.message ||
+            "An error occurred. Please try again.";
+
           setIsVisible(true);
           setSuccess(false);
-          setMessage("Login Failed");
+          setMessage(errorMessage);
         },
       }
     );
   };
+
+  const disable = !formData.email || !formData.password || isPending;
 
   return (
     <SafeAreaView style={styles.root}>
@@ -154,14 +164,14 @@ const Login = () => {
       <CustomBtn
         label="Login"
         onPress={handleLogin}
-        disabled={isPending}
+        disabled={disable}
         isLoading={isPending}
       />
       <Spacer direction="vertical" size={hp(2)} />
       <TouchableOpacity style={{ alignSelf: "center" }} onPress={handleSignUp}>
         <MediumText size="medium">I Don't Have An Account</MediumText>
       </TouchableOpacity>
-      <View>
+      {/* <View>
         {isBioEnable && (
           <>
             <View style={styles.viewContainer}>
@@ -178,7 +188,7 @@ const Login = () => {
             </TouchableOpacity>
           </>
         )}
-      </View>
+      </View> */}
 
       {/* modal */}
       <ToastMessage

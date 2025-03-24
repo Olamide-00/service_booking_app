@@ -93,7 +93,7 @@ const Notification = () => {
       <SafeAreaView style={styles.root}>
         <Header showLogo />
         <FlatList
-          data={[1, 2, 3, 4, 5]} // Dummy data for skeletons
+          data={[1, 2, 3, 4, 5]}
           keyExtractor={(item) => item.toString()}
           renderItem={() => <SkeletonLoader />}
           showsVerticalScrollIndicator={false}
@@ -118,11 +118,15 @@ const Notification = () => {
   const renderItem = ({ item }) => (
     <Card style={styles.card}>
       <View>
-        <MediumText size="medium">{item.service}</MediumText>
+        <MediumText size="medium" color="primary">
+          {item.service}
+        </MediumText>
         <RegularText size="small">{formatDate(item.date)}</RegularText>
       </View>
       <View>
-        <MediumText size="medium">{formatAmount(item.amount)}</MediumText>
+        <MediumText size="medium" color="primary">
+          {formatAmount(item.amount)}
+        </MediumText>
         <RegularText
           size="small"
           color={item.status === "FAILED" ? "secondaryColor" : "primary"}

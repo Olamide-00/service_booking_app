@@ -1,5 +1,5 @@
 import {
-  Image,
+  // Image,
   StyleSheet,
   View,
   ScrollView,
@@ -34,6 +34,7 @@ import UpdateNumber from "@/src/component/modals/updateNumber";
 import useAuthStore from "@/src/store/userStore";
 import Item3 from "./component/item3";
 import { useSetProfilePicture } from "@/src/api/hooks/useAuth";
+import { Image } from "expo-image";
 
 const Profile = () => {
   const navigation = useNavigation();
@@ -157,7 +158,7 @@ const Profile = () => {
             <View style={styles.imageContainer}>
               <Image
                 source={{ uri: userData?.profilePicture ?? image }}
-                resizeMode="cover"
+                contentFit="cover"
                 style={styles.image}
               />
               <TouchableOpacity

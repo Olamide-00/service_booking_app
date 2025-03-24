@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, View, Pressable } from "react-native";
+import { StyleSheet, Text, View, Pressable } from "react-native";
 import React, { useState } from "react";
 import * as ImagePicker from "expo-image-picker";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -22,6 +22,7 @@ import useAuthStore from "@/src/store/userStore";
 import { useWalletDetails } from "@/src/api/hooks/useWallet";
 import { useGetBalance } from "@/src/api/hooks/useAuth";
 import * as SecureStore from "expo-secure-store";
+import { Image } from "expo-image";
 
 const Home = () => {
   const navigation = useNavigation();

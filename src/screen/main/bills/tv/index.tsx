@@ -18,6 +18,7 @@ import useAuthStore from "@/src/store/userStore";
 import ToastMessage from "@/src/component/common/toastMessage";
 import Spacer from "@/src/component/common/spacer";
 import { isLoading } from "expo-font";
+import { usePercentage } from "@/src/api/hooks/useWallet";
 
 interface ServiceOption {
   label: string;
@@ -61,16 +62,20 @@ const TVScreen: React.FC = () => {
   const [selectedPackage, setSelectedPackage] = useState<string>("");
   const [customerName, setCustomerName] = useState<string>("");
   const userData = useAuthStore((state) => state.userData);
+  const isWalletCreated = userData?.isWalletCreated;
 
   // toast message
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [message, setMessage] = useState<string>("");
   const [success, setSuccess] = useState<boolean>(false);
 
+  const { data: percentage, isLoading } = usePercentage();
+  const tvPercentage = percentage?.tv;
+
   // Fetch packages for the selected service
   const {
     data: packagesData,
-    isLoading: packagesLoading,
+    isLoading: loads,
     isError: packagesError,
   } = useGetServicePLan(selectedService);
 
@@ -88,7 +93,7 @@ const TVScreen: React.FC = () => {
 
   // Auto-trigger verification when service and smartcard number are set
   useEffect(() => {
-    if (selectedService && smartcardNumber) {
+    if (selectedService && smartcardNumber.length === 10) {
       verify(
         { serviceID: selectedService, billersCode: smartcardNumber },
         {
@@ -107,6 +112,13 @@ const TVScreen: React.FC = () => {
   }, [selectedService, smartcardNumber, verify]);
 
   const handleContinue = () => {
+    if (!isWalletCreated) {
+      setIsVisible(true);
+      setMessage("Complete your KYC");
+      setSuccess(false);
+      return;
+    }
+
     if (
       !selectedService ||
       !smartcardNumber ||
@@ -123,12 +135,23 @@ const TVScreen: React.FC = () => {
       (pkg: PackageOption) => pkg.value === selectedPackage
     );
 
+    if (!selectedPackageObj) {
+      setIsVisible(true);
+      setMessage("Invalid package selection");
+      setSuccess(false);
+      return;
+    }
+
+    const baseAmount = parseFloat(selectedPackageObj.amount);
+    const percentageIncrease = (tvPercentage / 100) * baseAmount;
+    const totalAmount = (baseAmount + percentageIncrease).toFixed(2);
+
     const payload: NavigationPayload = {
       serviceID: selectedService,
       billersCode: smartcardNumber,
       variation_code: selectedPackage,
-      amount: selectedPackageObj?.amount || "",
-      phoneNumber: userData?.phoneNumber,
+      amount: totalAmount,
+      phoneNumber: userData?.phoneNumber ?? "08011111111",
       quantity: 1,
     };
 
@@ -156,6 +179,7 @@ const TVScreen: React.FC = () => {
           }}
           selectedValue={selectedService}
           disabled={servicesLoading || !!servicesError}
+          loading={servicesLoading}
         />
         <Spacer size={hp(0.2)} />
         <CustomTextInput
@@ -164,6 +188,7 @@ const TVScreen: React.FC = () => {
           keyboardType="numeric"
           value={smartcardNumber}
           setValue={setSmartcardNumber}
+          maxLength={10}
         />
         <View style={styles.customerName}>
           {isVerifying ? (
@@ -180,7 +205,7 @@ const TVScreen: React.FC = () => {
           options={packageOptions}
           onSelect={(value: string) => setSelectedPackage(value)}
           selectedValue={selectedPackage}
-          disabled={disable}
+          loading={loads}
         />
       </View>
 

@@ -49,8 +49,6 @@ const SendReview = () => {
     tag,
   } = route.params as RouteParams;
 
-  const fee = 50;
-  const total = parseInt(amount, 10) + fee;
   const userData = useAuthStore((state) => state.userData);
 
   return (
@@ -67,9 +65,7 @@ const SendReview = () => {
           label="Amount"
           value={`₦${parseInt(amount, 10).toLocaleString()}`}
         />
-        <ReviewItem label="Transaction Fee" value={`₦${fee}`} />
         {narration && <ReviewItem label="Narration" value={narration} />}
-        <ReviewItem label="Total" value={`₦${total.toLocaleString()}`} />
       </View>
       <View style={styles.btn}>
         <CustomBtn
@@ -79,7 +75,7 @@ const SendReview = () => {
               destinationAccountNumber,
               destinationBankCode,
               narration,
-              amount: total,
+              amount,
               destinationBankName,
               senderName: userData?.name,
               receipentName: customerName,

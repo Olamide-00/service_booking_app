@@ -5,13 +5,14 @@ import {
   widthPercentageToDP,
 } from "react-native-responsive-screen";
 import { COLORS } from "@/src/constant/COLORS";
-import { Image } from "expo-image";
+
 import {
   useNavigation,
   useRoute,
   useFocusEffect,
 } from "@react-navigation/native";
 import { RegularText } from "@/src/component/text/indext";
+import LottieView from "lottie-react-native";
 
 const Success = () => {
   const navigation = useNavigation();
@@ -41,14 +42,22 @@ const Success = () => {
 
   return (
     <View style={styles.root}>
-      <Image
-        source={require("../../../../assets/images/success.gif")}
-        style={styles.logo}
+      <LottieView
+        autoPlay
+        loop
+        source={require("@/assets/json/5.json")}
+        style={{ width: 200, height: 200 }}
       />
       <View style={{ alignItems: "center" }}>
         <RegularText size="medium" color="primary">
           {message}
         </RegularText>
+        <LottieView
+          autoPlay
+          loop
+          source={require("@/assets/json/4.json")}
+          style={{ width: 200, height: 200 }}
+        />
       </View>
     </View>
   );

@@ -81,15 +81,16 @@ const TransferPIN = () => {
                   onSuccess: (response: TransferResponse) => {
                     setLoading(false);
 
-                    if (response?.success) {
-                      navigation.navigate("Success", {
-                        message: "Transaction Completed",
-                      });
+                    if (response?.data?.success) {
+                      setTimeout(() => {
+                        navigation.navigate("Success", {
+                          message: "Transaction Completed",
+                        });
+                      }, 3000);
                     } else {
                       setIsVisible(true);
                       setMessage(
-                        response?.data?.response_description ||
-                          "Payment Failed. Try again."
+                        response?.data?.message || "Payment Failed. Try again."
                       );
                       setSuccess(false);
                     }
@@ -102,6 +103,9 @@ const TransferPIN = () => {
                         "Payment Failed. Try again."
                     );
                     setSuccess(false);
+                    setTimeout(() => {
+                      navigation.navigate("BottomTabs");
+                    }, 3000);
                   },
                 }
               );
@@ -122,17 +126,21 @@ const TransferPIN = () => {
                   onSuccess: (response: TransferResponse) => {
                     setLoading(false);
 
-                    if (response?.success) {
-                      navigation.navigate("Success", {
-                        message: "Transaction Completed",
-                      });
+                    if (response?.data?.success) {
+                      setTimeout(() => {
+                        navigation.navigate("Success", {
+                          message: "Transaction Completed",
+                        });
+                      }, 3000);
                     } else {
                       setIsVisible(true);
                       setMessage(
-                        response?.data?.response_description ||
-                          "Payment Failed. Try again."
+                        response?.data?.message || "Payment Failed. Try again."
                       );
                       setSuccess(false);
+                      setTimeout(() => {
+                        navigation.navigate("BottomTabs");
+                      }, 3000);
                     }
                   },
                   onError: (error: any) => {
@@ -143,6 +151,9 @@ const TransferPIN = () => {
                         "Payment Failed. Try again."
                     );
                     setSuccess(false);
+                    setTimeout(() => {
+                      navigation.navigate("BottomTabs");
+                    }, 3000);
                   },
                 }
               );

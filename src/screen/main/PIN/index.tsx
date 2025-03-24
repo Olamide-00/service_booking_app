@@ -92,10 +92,7 @@ const PIN = () => {
                     }, 3000);
                   } else {
                     setIsVisible(true);
-                    setMessage(
-                      response?.data?.response_description ||
-                        "Payment Failed. Try again."
-                    );
+                    setMessage("Payment Failed. Try again.");
                     setSuccess(false);
 
                     setTimeout(() => {

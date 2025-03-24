@@ -9,6 +9,7 @@ import FundWallet from "@/src/screen/main/fundAccount";
 import ConfirmPin from "@/src/screen/main/kyc/confirmPin";
 import CreatePin from "@/src/screen/main/kyc/createPin";
 import KYC1 from "@/src/screen/main/kyc/kyc1";
+import Notification from "@/src/screen/main/notification";
 import PIN from "@/src/screen/main/PIN";
 import TermsAndPolicies from "@/src/screen/main/polices";
 import SendBank from "@/src/screen/main/sendBank";
@@ -43,6 +44,7 @@ export default function StackNavigation() {
       <Stack.Screen name="TransactionDetails" component={TransactionDetails} />
       <Stack.Screen name="ElectReceipt" component={ElectReceipt} />
       <Stack.Screen name="TermsAndPolicies" component={TermsAndPolicies} />
+      <Stack.Screen name="Notification" component={Notification} />
     </Stack.Navigator>
   );
 }

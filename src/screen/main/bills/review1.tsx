@@ -44,7 +44,6 @@ const ReviewScreen1: React.FC = () => {
         {dstv && <Item label="SmartCard Number" value={billersCode} />}
         <Item label="Phone Number" value={phoneNumber} />
         <Item label="Amount" value={`₦${amount}`} />
-        <Item label="Transaction Fee" value="Free" />
         <Item label="Total" value={`₦${amount}`} />
       </View>
       <View style={styles.btn}>

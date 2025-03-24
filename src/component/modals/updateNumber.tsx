@@ -35,7 +35,7 @@ const UpdateNumber = ({ isVisible, closeModal }: UpdatePINProps) => {
   const handleUpdateNumber = () => {
     if (!email || !phoneNumber) {
       setOpen(true);
-      setMessage("Email and phone number are required");
+      setMessage("Phone number are required");
       setSuccess(false);
       return;
     }
@@ -71,7 +71,7 @@ const UpdateNumber = ({ isVisible, closeModal }: UpdatePINProps) => {
         <View style={styles.modal}>
           <View style={styles.header}>
             <RegularText size="large">Update Number</RegularText>
-            <CloseCircle color="#FF0000" size={20} onPress={closeModal} />
+            <CloseCircle color="#FF0000" size={28} onPress={closeModal} />
           </View>
           <Spacer size={hp(4)} direction="vertical" />
           <View style={styles.inputContainer}>
@@ -87,7 +87,7 @@ const UpdateNumber = ({ isVisible, closeModal }: UpdatePINProps) => {
             <CustomBtn
               label="Update"
               onPress={handleUpdateNumber}
-              isLoading={isPending}
+              isLoading={isPending || !phoneNumber}
               disabled={isPending}
             />
           </View>

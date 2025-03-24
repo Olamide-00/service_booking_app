@@ -9,6 +9,7 @@ import {
 import { COLORS } from "@/src/constant/COLORS";
 import { useNavigation } from "@react-navigation/native";
 import SendMoney from "@/src/component/modals/sendMoney";
+import Animated, { SlideInRight } from "react-native-reanimated";
 
 interface TransactionActionProps {
   icon: React.ReactNode;
@@ -25,24 +26,28 @@ const TransactionAction: React.FC = () => {
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         {transactionActionData.map(
           (item: TransactionActionProps, index: number) => (
-            <TouchableOpacity
-              style={styles.item}
+            <Animated.View
               key={index}
-              onPress={() => {
-                if (index === 0) {
-                  setIsVisible(true);
-                } else {
-                  navigation.navigate("StackNavigation", {
-                    screen: item.screen,
-                  });
-                }
-              }}
+              entering={SlideInRight.delay(index * 200).duration(500)}
             >
-              {item.icon}
-              <RegularText size="small" color="primary">
-                {item.label}
-              </RegularText>
-            </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.item}
+                onPress={() => {
+                  if (index === 0) {
+                    setIsVisible(true);
+                  } else {
+                    navigation.navigate("StackNavigation", {
+                      screen: item.screen,
+                    });
+                  }
+                }}
+              >
+                {item.icon}
+                <RegularText size="small" color="primary">
+                  {item.label}
+                </RegularText>
+              </TouchableOpacity>
+            </Animated.View>
           )
         )}
       </ScrollView>

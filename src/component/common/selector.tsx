@@ -12,6 +12,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
+import { MotiView } from "moti";
 
 const COLORS = {
   border: "#ccc",
@@ -30,6 +31,7 @@ interface SelectorProps {
   selectedValue: string;
   onSelect: (value: string) => void;
   testID?: string;
+  loading?: boolean;
 }
 
 const Selector = ({
@@ -38,6 +40,7 @@ const Selector = ({
   selectedValue,
   onSelect,
   testID,
+  loading = false,
 }: SelectorProps): JSX.Element => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -56,7 +59,7 @@ const Selector = ({
 
   return (
     <View style={styles.container} testID={testID}>
-      <RegularText style={styles.label}>{label}</RegularText>
+      <RegularText size="small">{label}</RegularText>
       <TouchableOpacity
         style={styles.selectorContainer}
         onPress={toggleDropdown}
@@ -72,18 +75,31 @@ const Selector = ({
       </TouchableOpacity>
       {isOpen && (
         <View style={styles.optionsContainer}>
-          <FlatList
-            data={options}
-            keyExtractor={(item) => item.value}
-            renderItem={({ item }) => (
-              <TouchableOpacity
-                style={styles.option}
-                onPress={() => handleOptionSelect(item)}
-              >
-                <RegularText size="medium">{item.label}</RegularText>
-              </TouchableOpacity>
-            )}
-          />
+          {loading ? (
+            [...Array(3)].map((_, index) => (
+              <MotiView
+                key={index}
+                from={{ opacity: 0.3 }}
+                animate={{ opacity: 1 }}
+                transition={{ loop: true, type: "timing", duration: 700 }}
+                style={styles.skeletonOption}
+              />
+            ))
+          ) : (
+            <FlatList
+              data={options}
+              keyExtractor={(item) => item.value}
+              showsVerticalScrollIndicator={false}
+              renderItem={({ item }) => (
+                <TouchableOpacity
+                  style={styles.option}
+                  onPress={() => handleOptionSelect(item)}
+                >
+                  <RegularText size="medium">{item.label}</RegularText>
+                </TouchableOpacity>
+              )}
+            />
+          )}
         </View>
       )}
     </View>
@@ -117,11 +133,21 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginTop: hp(1),
     maxHeight: hp(35),
+    backgroundColor: "#fff",
+    paddingHorizontal: wp(2),
+    paddingVertical: hp(1),
   },
   option: {
     padding: wp(2),
     borderBottomWidth: 0.5,
     borderBottomColor: COLORS.border,
+  },
+  skeletonOption: {
+    width: "100%",
+    height: hp(5),
+    backgroundColor: "#E0E0E0",
+    borderRadius: 5,
+    marginBottom: hp(1),
   },
 });
 

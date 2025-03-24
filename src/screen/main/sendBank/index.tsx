@@ -15,14 +15,27 @@ import Selector from "@/src/component/common/selector";
 import { useAllBanks } from "@/src/api/hooks/useTransfer";
 import Header from "@/src/component/common/header";
 import { useVerifyBank } from "@/src/api/hooks/useVerify";
+import { usePercentage } from "@/src/api/hooks/useWallet";
+import useAuthStore from "@/src/store/userStore";
+import { set } from "date-fns";
+import ToastMessage from "@/src/component/common/toastMessage";
 
 const SendBank = () => {
   const route = useRoute();
   const navigation = useNavigation<any>();
 
-  const { data: bankData, isPending, isError } = useAllBanks();
+  const { data: bankData, isPending } = useAllBanks();
+  const { data: percentage } = usePercentage();
+  const bankPercentage = percentage?.bank;
 
   const [customerName, setCustomerName] = useState<string>("");
+  const userData = useAuthStore((state) => state.userData);
+  const isWalletCreated = userData?.isWalletCreated;
+
+  // check
+  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const [message, setMessage] = useState<string>("");
+  const [success, setSuccess] = useState<boolean>(false);
 
   const [formState, setFormState] = useState({
     accountNumber: "",
@@ -76,6 +89,20 @@ const SendBank = () => {
     };
     let isValid = true;
 
+    if (!customerName) {
+      setIsVisible(true);
+      setMessage("Account number is invalid");
+      setSuccess(false);
+      return false;
+    }
+
+    if (!isWalletCreated) {
+      setIsVisible(true);
+      setMessage("Complete your KYC");
+      setSuccess(false);
+      return false;
+    }
+
     if (!formState.accountNumber.trim()) {
       newErrors.accountNumber = "Account number is required";
       isValid = false;
@@ -111,11 +138,14 @@ const SendBank = () => {
 
   const handleSubmit = () => {
     if (validateForm()) {
+      const amount = Number(formState.amount);
+      const finalAmount = amount * (1 + bankPercentage / 100);
+
       navigation.navigate("SendReview", {
         destinationAccountNumber: formState.accountNumber,
         destinationBankCode: formState.selectedBank,
         destinationBankName: formState.selectedBankName,
-        amount: formState.amount,
+        amount: finalAmount.toFixed(2),
         narration: formState.narration,
         customerName,
       });
@@ -141,7 +171,7 @@ const SendBank = () => {
           formState.selectedBank &&
           formState.accountNumber.length === 10 ? (
             <RegularText size="small" color="secondaryColor">
-              {customerName}
+              {customerName || "Invalid bank details"}
             </RegularText>
           ) : (
             isVerifying && (
@@ -170,6 +200,7 @@ const SendBank = () => {
             handleBankSelect(bankCode, bankName);
           }}
           selectedValue={formState.selectedBank}
+          loading={isPending}
         />
         {errors.bank ? (
           <RegularText size="small" style={styles.errorText}>
@@ -202,6 +233,12 @@ const SendBank = () => {
       <Spacer size={hp(10)} direction="vertical" />
 
       <CustomBtn label="Continue" onPress={handleSubmit} />
+      <ToastMessage
+        isVisible={isVisible}
+        message={message}
+        onClose={() => setIsVisible(false)}
+        isSuccessful={success}
+      />
     </SafeAreaView>
   );
 };

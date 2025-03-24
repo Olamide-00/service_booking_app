@@ -2,21 +2,22 @@ export const OnboardingData = [
   {
     id: 1,
     title: "Welcome to \nRemit",
-    image: require("../../assets/images/photo1.png"),
+    lottie: require("../../assets/json/2.json"),
     description:
-      "Your trusted partner for secure, seamless, and innovative financial management—empowering you with smarter transactions and complete control over your finances.",
+      "At Remit, we redefine financial management by providing you with a secure, seamless, and innovative platform for transactions. Experience the future of finance with smarter payments, real-time insights, and complete control over your financial well-being—anytime, anywhere.",
   },
   {
     id: 2,
     title: "Fast & \nSecure Transactions",
-    image: require("../../assets/images/photo2.png"),
+    lottie: require("../../assets/json/3.json"),
     description:
-      "Transfer funds, pay bills, and shop securely—all in a few taps",
+      "Powering the future of digital finance with cutting-edge technology and seamless user experience. Remit brings you fast, secure, and intuitive financial solutions",
   },
   {
     id: 3,
     title: "Get \nStarted",
-    image: require("../../assets/images/photo3.png"),
-    description: "Smiling person holding a phone with a success checkmark",
+    lottie: require("../../assets/json/1.json"),
+    description:
+      "light-speed transactions with zero worries. With Remit, your payments, transfers, and financial management happen in an instant",
   },
 ];

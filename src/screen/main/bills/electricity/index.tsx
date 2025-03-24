@@ -15,6 +15,8 @@ import { useGetAllServices, useGetServicePLan } from "@/src/api/hooks/useBills";
 import useVerify from "@/src/api/hooks/useVerify";
 import { RegularText } from "@/src/component/text/indext";
 import ToastMessage from "@/src/component/common/toastMessage";
+import { usePercentage } from "@/src/api/hooks/useWallet";
+import useAuthStore from "@/src/store/userStore";
 
 interface ReviewScreenParams {
   serviceID: string;
@@ -42,6 +44,13 @@ const ElectricityScreen = () => {
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [message, setMessage] = useState<string>("");
   const [success, setSuccess] = useState<boolean>(false);
+
+  // check
+  const userData = useAuthStore((state) => state.userData);
+  const isWalletCreated = userData?.isWalletCreated;
+
+  const { data: percentage, isLoading } = usePercentage();
+  const electricityPercentage = percentage?.electricity;
 
   const { data, isLoading: servicesLoading } =
     useGetAllServices("electricity-bill");
@@ -81,7 +90,15 @@ const ElectricityScreen = () => {
   }, [selectedService, meterNumber, verify]);
 
   const validateFields = () => {
+    if (!isWalletCreated) {
+      setIsVisible(true);
+      setMessage("Complete your KYC");
+      setSuccess(false);
+      return;
+    }
+
     let newErrors: { [key: string]: string } = {};
+
     if (meterNumber.length !== 13)
       newErrors.meterNumber = "Meter number must be 13 digits";
     if (!selectedService) newErrors.selectedService = "Disco type is required";
@@ -97,18 +114,22 @@ const ElectricityScreen = () => {
 
   const handleContinue = () => {
     if (!validateFields()) {
-      setMessage("Please ensure all fields are filled correctly");
+      setMessage("Complete your KYC");
       setIsVisible(true);
       setSuccess(false);
       return;
     }
+
+    const amountNumber = parseFloat(amount);
+    const extraCharge = (electricityPercentage / 100) * amountNumber;
+    const totalAmount = (amountNumber + extraCharge).toFixed(2);
 
     const payload: ReviewScreenParams = {
       serviceID: selectedService!,
       discoName: selectedDisco!,
       variation_code: selectedMeterType!,
       billersCode: meterNumber,
-      amount,
+      amount: totalAmount,
       phoneNumber: "08011111111",
     };
 
@@ -158,6 +179,7 @@ const ElectricityScreen = () => {
               const selected = discoOptions.find((item) => item.value === val);
               setSelectedDisco(selected ? selected.label : null);
             }}
+            loading={servicesLoading}
           />
           <Selector
             label="Meter Type"

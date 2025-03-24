@@ -66,7 +66,14 @@ const Home = () => {
             </View>
           </View>
         </View>
-        <Ionicons name="notifications" size={28} color={COLORS.primary} />
+        <Ionicons
+          name="notifications"
+          size={28}
+          color={COLORS.primary}
+          onPress={() =>
+            navigation.navigate("StackNavigation", { screen: "Notification" })
+          }
+        />
       </View>
       <Spacer direction="vertical" size={hp(2.5)} />
 
@@ -84,11 +91,11 @@ const Home = () => {
 
       {/* Transaction action */}
       <TransactionAction />
-      <Spacer direction="vertical" size={hp(2)} />
+      <Spacer direction="vertical" size={hp(1)} />
 
       {/* Quick action */}
       <QuickAction />
-      <Spacer direction="vertical" size={hp(1)} />
+      {/* <Spacer direction="vertical" size={hp(1)} /> */}
 
       {/* Recent transactions */}
       <RecentHistory email={email} />

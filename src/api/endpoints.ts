@@ -40,4 +40,7 @@ export const API_ENDPOINTS = {
   TRANSFER_HISTORY: "/wallet/transactions-history",
   FIND_REMIT_TAG: "/findRemit",
   TRANSFER_REMIT: "/transferRemit",
+
+  // percentage
+  PERCENTAGE: "/percentage",
 };

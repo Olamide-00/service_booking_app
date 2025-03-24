@@ -8,7 +8,6 @@ import {
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { COLORS } from "@/src/constant/COLORS";
-import { ArrowLeft } from "iconsax-react-native";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -20,6 +19,8 @@ import CustomBtn from "@/src/component/common/customBtn";
 import Spacer from "@/src/component/common/spacer";
 import ToastMessage from "@/src/component/common/toastMessage";
 import { useFindRemit } from "@/src/api/hooks/useTransfer";
+import Header from "@/src/component/common/header";
+import useAuthStore from "@/src/store/userStore";
 
 const SendRemit = () => {
   const route = useRoute();
@@ -31,9 +32,30 @@ const SendRemit = () => {
 
   // Fetch user data when tag length is valid
   const { data, isLoading } = useFindRemit(tag.length >= 5 ? tag : null);
+  const userData = useAuthStore((state) => state.userData);
+  const isWalletCreated = userData?.isWalletCreated;
+
+  // check
+  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const [message, setMessage] = useState<string>("");
+  const [success, setSuccess] = useState<boolean>(false);
 
   const validateAndProceed = () => {
     let isValid = true;
+
+    if (!data.name) {
+      setIsVisible(true);
+      setMessage("Invalid Remit Tag");
+      setSuccess(false);
+      return;
+    }
+
+    if (!isWalletCreated) {
+      setIsVisible(true);
+      setMessage("Complete your KYC");
+      setSuccess(false);
+      return;
+    }
 
     if (!tag.trim()) {
       setWalletError("Remit Tag is required");
@@ -66,14 +88,7 @@ const SendRemit = () => {
 
   return (
     <SafeAreaView style={styles.root} key={route.key}>
-      {/* Header */}
-      <Pressable onPress={() => navigation.goBack()} style={styles.header}>
-        <ArrowLeft size="30" color={COLORS.primary} />
-        <ExtraBoldText size="large" color="primary">
-          Remit
-        </ExtraBoldText>
-      </Pressable>
-
+      <Header showLogo />
       {/* Input Fields */}
       <View style={styles.input}>
         <CustomTextInput
@@ -110,6 +125,12 @@ const SendRemit = () => {
 
       {/* Continue Button */}
       <CustomBtn label="Continue" onPress={validateAndProceed} />
+      <ToastMessage
+        isVisible={isVisible}
+        message={message}
+        onClose={() => setIsVisible(false)}
+        isSuccessful={success}
+      />
     </SafeAreaView>
   );
 };
@@ -129,7 +150,8 @@ const styles = StyleSheet.create({
     marginTop: hp(2),
   },
   input: {
-    marginTop: hp(10),
+    marginTop: hp(5),
+    gap: hp(2),
   },
   name: {
     marginTop: hp(-2),

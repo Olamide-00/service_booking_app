@@ -13,7 +13,7 @@ const Item2 = ({ name, func }: Item2Props) => {
   return (
     <View style={styles.container}>
       <RegularText size="medium">{name}</RegularText>
-      <Edit size={20} color={COLORS.primary} onPress={func} />
+      <Edit size={24} color={COLORS.primary} onPress={func} />
     </View>
   );
 };

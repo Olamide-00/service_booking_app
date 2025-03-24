@@ -14,6 +14,7 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import CustomBtn from "@/src/component/common/customBtn";
+import LottieView from "lottie-react-native";
 
 const ElectReceipt = () => {
   const navigation = useNavigation();
@@ -90,6 +91,12 @@ const ElectReceipt = () => {
           </View>
         </Card>
       </ViewShot>
+      <LottieView
+        autoPlay
+        loop
+        source={require("@/assets/json/4.json")}
+        style={styles.lottie}
+      />
 
       {/* Share & Close Buttons */}
       <View style={styles.btn}>
@@ -125,5 +132,13 @@ const styles = StyleSheet.create({
     gap: wp(3),
     justifyContent: "center",
     marginTop: hp(2),
+  },
+  lottie: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    width: 500,
+    height: 500,
+    transform: [{ translateX: -100 }, { translateY: -100 }],
   },
 });

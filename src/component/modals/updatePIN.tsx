@@ -95,7 +95,7 @@ const UpdatePIN: React.FC<UpdatePINProps> = ({ isVisible, closeModal }) => {
         <View style={styles.modal}>
           <View style={styles.header}>
             <RegularText size="large">Forget PIN</RegularText>
-            <CloseCircle color="#FF0000" size={20} onPress={closeModal} />
+            <CloseCircle color="#FF0000" size={28} onPress={closeModal} />
           </View>
           <Spacer size={hp(4)} direction="vertical" />
           <View style={styles.inputContainer}>
@@ -132,7 +132,7 @@ const UpdatePIN: React.FC<UpdatePINProps> = ({ isVisible, closeModal }) => {
             <CustomBtn
               label={"Update PIN"}
               onPress={handleUpdatePIN}
-              disabled={pinLoading}
+              disabled={pinLoading || !newPIN || !confirmPIN || !otp}
               isLoading={pinLoading}
             />
           </View>

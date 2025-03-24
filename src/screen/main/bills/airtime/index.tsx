@@ -14,10 +14,21 @@ import { useNavigation } from "@react-navigation/native";
 import { useGetAllServices } from "@/src/api/hooks/useBills";
 import Spacer from "@/src/component/common/spacer";
 import { RegularText } from "@/src/component/text/indext";
+import useAuthStore from "@/src/store/userStore";
+import ToastMessage from "@/src/component/common/toastMessage";
 
 const AirtimeScreen = () => {
   const navigation = useNavigation();
   const { data, isLoading } = useGetAllServices("airtime");
+
+  // toast message
+  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const [message, setMessage] = useState<string>("");
+  const [success, setSuccess] = useState<boolean>(false);
+
+  //check
+  const userData = useAuthStore((state) => state.userData);
+  const isWalletCreated = userData?.isWalletCreated;
 
   // State for selected values
   const [selectedNetwork, setSelectedNetwork] = useState("");
@@ -43,6 +54,12 @@ const AirtimeScreen = () => {
   );
 
   const handleContinue = () => {
+    if (!isWalletCreated) {
+      setIsVisible(true);
+      setMessage("Complete your KYC");
+      setSuccess(false);
+      return;
+    }
     let newErrors = { phoneNumber: "", amount: "", selectedNetwork: "" };
 
     if (!selectedNetwork)
@@ -93,7 +110,7 @@ const AirtimeScreen = () => {
 
         {/* Phone Number Input */}
         <CustomTextInput
-          placeholder="e.g., 09036018013"
+          placeholder="e.g 09036018013"
           title="Phone Number"
           keyboardType="numeric"
           value={phoneNumber}
@@ -121,6 +138,12 @@ const AirtimeScreen = () => {
           disabled={disable}
         />
       </View>
+      <ToastMessage
+        isVisible={isVisible}
+        message={message}
+        onClose={() => setIsVisible(false)}
+        isSuccessful={success}
+      />
     </SafeAreaView>
   );
 };

@@ -1,4 +1,4 @@
-import { StyleSheet, View, ActivityIndicator } from "react-native";
+import { StyleSheet, View } from "react-native";
 import React, { useState, useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Header from "@/src/component/common/header";
@@ -13,10 +13,22 @@ import CustomBtn from "@/src/component/common/customBtn";
 import { useNavigation } from "@react-navigation/native";
 import { useGetAllServices, useGetServicePLan } from "@/src/api/hooks/useBills";
 import Spacer from "@/src/component/common/spacer";
+import { usePercentage } from "@/src/api/hooks/useWallet";
+import useAuthStore from "@/src/store/userStore";
+import ToastMessage from "@/src/component/common/toastMessage";
 
 const DataScreen = () => {
   const navigation = useNavigation();
   const { data, isLoading } = useGetAllServices("data");
+
+  // check
+  const userData = useAuthStore((state) => state.userData);
+  const isWalletCreated = userData?.isWalletCreated;
+
+  // toast message
+  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const [message, setMessage] = useState<string>("");
+  const [success, setSuccess] = useState<boolean>(false);
 
   // State variables
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -24,6 +36,10 @@ const DataScreen = () => {
   const [selectedDataPlan, setSelectedDataPlan] = useState("");
   const [networks, setNetworks] = useState([]);
   const [dataPlans, setDataPlans] = useState([]);
+
+  // Fetch percentage from backend (default to 0 if undefined)
+  const { data: percentage, isLoading: isPercentageLoading } = usePercentage();
+  const dataPercentage = percentage?.data || 0;
 
   // Parse network providers from API response
   useEffect(() => {
@@ -46,7 +62,7 @@ const DataScreen = () => {
   }, [data]);
 
   // Fetch data plans based on selected network
-  const { data: dataPackage, isLoading: isPending } =
+  const { data: dataPackage, isLoading: dataPackageLoading } =
     useGetServicePLan(selectedNetwork);
 
   // Process data plans when new data is fetched
@@ -59,14 +75,16 @@ const DataScreen = () => {
         // Modify variation_code to end with "-300" before sending to next screen
         const modifiedVariationCode = plan.variation_code;
 
-        // Remove .00 from amount
-        const cleanAmount = parseFloat(plan.variation_amount)
-          .toFixed(2)
-          .replace(/\.00$/, "");
+        // Convert price and apply percentage increase
+        const cleanAmount = parseFloat(plan.variation_amount) || 0;
+        const increasedAmount =
+          cleanAmount + (cleanAmount * dataPercentage) / 100;
 
         return {
           id: modifiedVariationCode,
-          label: `${cleanVariationCode} ₦${cleanAmount}`,
+          label: `${cleanVariationCode} ₦${increasedAmount
+            .toFixed(2)
+            .replace(/\.00$/, "")}`,
           value: modifiedVariationCode,
         };
       });
@@ -75,10 +93,17 @@ const DataScreen = () => {
     } else {
       setDataPlans([]);
     }
-  }, [dataPackage]);
+  }, [dataPackage, dataPercentage]);
 
   // Handle Continue button click
   const handleContinue = () => {
+    if (!isWalletCreated) {
+      setIsVisible(true);
+      setMessage("Complete your KYC");
+      setSuccess(false);
+      return;
+    }
+
     if (!phoneNumber || !selectedNetwork || !selectedDataPlan) {
       return;
     }
@@ -99,45 +124,44 @@ const DataScreen = () => {
     <SafeAreaView style={styles.root}>
       <Header label="Data Subscription" showLogo />
 
-      {
-        <View style={styles.input}>
-          <CustomTextInput
-            placeholder="eg 09036018013"
-            title="Phone Number"
-            keyboardType="numeric"
-            value={phoneNumber}
-            setValue={setPhoneNumber}
-            maxLength={11}
-          />
+      <View style={styles.input}>
+        <CustomTextInput
+          placeholder="eg 09036018013"
+          title="Phone Number"
+          keyboardType="numeric"
+          value={phoneNumber}
+          setValue={setPhoneNumber}
+          maxLength={11}
+        />
 
-          <Selector
-            label="Network"
-            options={networks}
-            selectedValue={selectedNetwork}
-            onSelect={(value) => {
-              setSelectedNetwork(value);
-              setSelectedDataPlan("");
-            }}
-            getOptionLabel={(option) => option.label}
-            getOptionValue={(option) => option.value}
-          />
-          <Spacer size={hp(0.2)} />
+        <Selector
+          label="Network"
+          options={networks}
+          selectedValue={selectedNetwork}
+          onSelect={(value) => {
+            setSelectedNetwork(value);
+            setSelectedDataPlan("");
+          }}
+          getOptionLabel={(option) => option.label}
+          getOptionValue={(option) => option.value}
+          loading={isLoading}
+        />
+        <Spacer size={hp(0.2)} />
 
-          <Selector
-            key={selectedDataPlan}
-            label="Data Plan"
-            options={dataPlans}
-            selectedValue={selectedDataPlan}
-            onSelect={(value) => {
-              console.log("Selected Data Plan:", value);
-              setSelectedDataPlan(value);
-            }}
-            getOptionLabel={(option) => option.label}
-            getOptionValue={(option) => option.value}
-            disabled={!selectedNetwork || dataPlans.length === 0}
-          />
-        </View>
-      }
+        <Selector
+          key={selectedDataPlan}
+          label="Data Plan"
+          options={dataPlans}
+          selectedValue={selectedDataPlan}
+          onSelect={(value) => {
+            setSelectedDataPlan(value);
+          }}
+          getOptionLabel={(option) => option.label}
+          getOptionValue={(option) => option.value}
+          disabled={!selectedNetwork || dataPlans.length === 0}
+          loading={dataPackageLoading}
+        />
+      </View>
 
       <View style={styles.btn}>
         <CustomBtn
@@ -148,6 +172,12 @@ const DataScreen = () => {
           }
         />
       </View>
+      <ToastMessage
+        isVisible={isVisible}
+        message={message}
+        onClose={() => setIsVisible(false)}
+        isSuccessful={success}
+      />
     </SafeAreaView>
   );
 };
@@ -169,10 +199,5 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     bottom: hp(4),
     width: wp(92),
-  },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
   },
 });

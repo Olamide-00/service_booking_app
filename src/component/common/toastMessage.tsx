@@ -5,6 +5,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
+import LottieView from "lottie-react-native";
 
 type Props = {
   message: string;
@@ -39,10 +40,29 @@ const ToastMessage = ({ message, isVisible, isSuccessful, onClose }: Props) => {
             {isSuccessful ? "Success!" : "Error!"}
           </BoldText>
         </View>
-        <View style={styles.message}>
+        <View
+          style={[
+            styles.message,
+            !isSuccessful && {
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+              marginTop: hp(-2),
+              width: wp(87),
+            },
+          ]}
+        >
           <RegularText size="medium" color="white">
             {message}
           </RegularText>
+          {!isSuccessful && (
+            <LottieView
+              autoPlay
+              loop
+              source={require("@/assets/json/6.json")}
+              style={{ width: 35, height: 55 }}
+            />
+          )}
         </View>
       </View>
     </Modal>

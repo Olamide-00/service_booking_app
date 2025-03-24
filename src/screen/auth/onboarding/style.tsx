@@ -1,9 +1,7 @@
 import { COLORS } from "@/src/constant/COLORS";
-import { StyleSheet } from "react-native";
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
+import { StyleSheet, Dimensions } from "react-native";
+
+const { width, height } = Dimensions.get("window");
 
 export const styles = StyleSheet.create({
   root: {
@@ -12,27 +10,28 @@ export const styles = StyleSheet.create({
   },
   onboarding: {
     flex: 1,
-    paddingTop: hp(5),
-    height: hp(100),
-    width: wp(100),
+    paddingTop: height * 0.05,
+    width: width,
   },
   image: {
-    width: wp(80),
-    height: hp(40),
+    width: width * 0.8,
+    height: height * 0.4,
     borderRadius: 20,
     alignSelf: "center",
-    marginTop: hp(7),
+    marginTop: height * 0.07,
+    resizeMode: "contain",
   },
   desc: {
-    width: wp(80),
-    marginTop: hp(3),
+    width: width * 0.8,
+    marginTop: height * 0.03,
   },
   footer: {
     position: "absolute",
-    bottom: hp(10),
-    width: wp(100),
+    bottom: height * 0.07,
+    width: width,
     flexDirection: "row",
     justifyContent: "space-between",
-    paddingHorizontal: wp(6),
+    paddingHorizontal: width * 0.07,
+    alignItems: "center",
   },
 });

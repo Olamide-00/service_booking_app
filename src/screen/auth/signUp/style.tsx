@@ -17,4 +17,8 @@ export const styles = StyleSheet.create({
   header: {
     alignItems: "center",
   },
+  image: {
+    width: wp(60),
+    height: 100,
+  },
 });

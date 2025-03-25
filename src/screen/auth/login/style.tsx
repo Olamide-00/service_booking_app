@@ -16,8 +16,11 @@ export const styles = StyleSheet.create({
   },
   header: {
     alignItems: "center",
-    marginBottom: hp(2),
-    paddingTop: hp(5),
+    marginTop: hp(4),
+  },
+  image: {
+    width: "70%",
+    height: 120,
   },
   bioContainer: {
     flexDirection: "row",

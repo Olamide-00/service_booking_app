@@ -36,7 +36,9 @@ const SignUp = () => {
   });
 
   const handleInputChange = (field, value) => {
-    setFormData((prevData) => ({ ...prevData, [field]: value }));
+    let formattedValue = field === "name" ? value : value.trim();
+
+    setFormData((prevData) => ({ ...prevData, [field]: formattedValue }));
     setErrors((prevErrors) => ({ ...prevErrors, [field]: "" }));
   };
 
@@ -95,16 +97,20 @@ const SignUp = () => {
           showsVerticalScrollIndicator={false}
         >
           <View style={styles.header}>
-            <Spacer size={hp(5)} direction="vertical" />
-            <Image source={require("../../../../assets/images/remit.png")} />
-            <Spacer size={hp(2)} direction="vertical" />
+            <Spacer size={hp(3)} direction="vertical" />
+            <Image
+              source={require("../../../../assets/images/REMITBRAND.png")}
+              style={styles.image}
+              resizeMode="cover"
+            />
+            <Spacer size={hp(-2)} direction="vertical" />
             <BoldText size="large">Sign Up to Remit</BoldText>
           </View>
           <Spacer size={hp(3)} direction="vertical" />
           <View style={styles.inputContainer}>
             <CustomTextInput
-              placeholder="e.g. Olamide"
-              title="Name"
+              placeholder="e.g. Olamide Oladele"
+              title="Full Name"
               value={formData.name}
               setValue={(val) => handleInputChange("name", val)}
               error={errors.name}

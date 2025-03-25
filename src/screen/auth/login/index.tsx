@@ -35,10 +35,10 @@ const Login = () => {
   });
 
   const handleInputChange = (field, value) => {
-    setFormData((prevData) => ({ ...prevData, [field]: value }));
-    setErrors((prevErrors) => ({ ...prevErrors, [field]: "" }));
+    let formattedValue = value.trim();
+    setFormData((prev) => ({ ...prev, [field]: formattedValue }));
+    setErrors((prev) => ({ ...prev, [field]: "" }));
   };
-
   const validate = () => {
     let newErrors = { email: "", password: "" };
     const { email, password } = formData;
@@ -129,9 +129,12 @@ const Login = () => {
   return (
     <SafeAreaView style={styles.root}>
       <View style={styles.header}>
-        <Spacer size={hp(5)} direction="vertical" />
-        <Image source={require("../../../../assets/images/remit.png")} />
-        <Spacer size={hp(3)} direction="vertical" />
+        <Image
+          source={require("../../../../assets/images/REMITBRAND.png")}
+          style={styles.image}
+          resizeMode="cover"
+        />
+        <Spacer size={hp(-3)} direction="vertical" />
         <BoldText size="large">Login To Remit</BoldText>
       </View>
       <Spacer size={hp(3)} direction="vertical" />

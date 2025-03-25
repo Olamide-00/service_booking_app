@@ -4,13 +4,12 @@
     "slug": "Remit",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/playstore.png",
+    "icon": "./assets/images/REMITBRAND.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "updates": {
-      "fallbackToCacheTimeout": 0,
-      "url": "https://u.expo.dev/fc1576b7-d071-4db6-ba03-d48d3fc3f810"
+      "fallbackToCacheTimeout": 0
     },
     "ios": {
       "supportsTablet": true

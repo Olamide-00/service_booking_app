@@ -43,7 +43,7 @@ const SendRemit = () => {
   const validateAndProceed = () => {
     let isValid = true;
 
-    if (!data.name) {
+    if (!data?.name) {
       setIsVisible(true);
       setMessage("Invalid Remit Tag");
       setSuccess(false);

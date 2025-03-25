@@ -35,6 +35,7 @@ import useAuthStore from "@/src/store/userStore";
 import Item3 from "./component/item3";
 import { useSetProfilePicture } from "@/src/api/hooks/useAuth";
 import { Image } from "expo-image";
+import Constants from "expo-constants";
 
 const Profile = () => {
   const navigation = useNavigation();
@@ -44,12 +45,8 @@ const Profile = () => {
   const [image, setImage] = useState(
     userData?.profilePicture || require("../../../../assets/images/image2.jpg")
   );
-
   const setProfilePicture = useSetProfilePicture();
-
-  // Cloudinary Credentials
   const cloudinary = "dsgvfker6";
-  const apikey = "351281192972682";
   const presetName = "RemitApp";
 
   const handleSelectImage = async () => {

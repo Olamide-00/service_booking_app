@@ -21,6 +21,7 @@ type RouteParams = {
   destinationBankName: string;
   tag?: string;
   name?: string;
+  percentRev?: string;
 };
 
 type RootStackParamList = {
@@ -51,6 +52,7 @@ const TransferPIN = () => {
     destinationBankName,
     tag,
     name,
+    percentRev,
   } = (route.params as RouteParams) || {};
 
   const [pin, setPin] = useState<string>("");
@@ -68,7 +70,7 @@ const TransferPIN = () => {
       verifyPin(
         { email, pin },
         {
-          onSuccess: () => {
+          onSuccess: (response) => {
             if (tag && name) {
               // Use `useTransferRemit` if tag and name are present
               transferRemit(
@@ -79,23 +81,29 @@ const TransferPIN = () => {
                 },
                 {
                   onSuccess: (response: TransferResponse) => {
+                    console.log(response);
                     setLoading(false);
 
-                    if (response?.data?.success) {
+                    if (response?.success) {
+                      setMessage(response?.message || "Payment Successful");
+                      setSuccess(true);
+                      setIsVisible(true);
                       setTimeout(() => {
                         navigation.navigate("Success", {
                           message: "Transaction Completed",
                         });
                       }, 3000);
                     } else {
+                      console.log(response);
                       setIsVisible(true);
                       setMessage(
-                        response?.data?.message || "Payment Failed. Try again."
+                        response?.message || "Payment Failed. Try again."
                       );
                       setSuccess(false);
                     }
                   },
                   onError: (error: any) => {
+                    console.log(error);
                     setLoading(false);
                     setIsVisible(true);
                     setMessage(
@@ -121,12 +129,17 @@ const TransferPIN = () => {
                   senderName,
                   receipentName,
                   amount: parseInt(amount, 10),
+                  percentRev,
                 },
                 {
                   onSuccess: (response: TransferResponse) => {
                     setLoading(false);
 
                     if (response?.data?.success) {
+                      setSuccess(true);
+                      setMessage("Transaction Completed");
+                      setIsVisible(true);
+
                       setTimeout(() => {
                         navigation.navigate("Success", {
                           message: "Transaction Completed",
@@ -181,6 +194,7 @@ const TransferPIN = () => {
     navigation,
     tag,
     name,
+    percentRev,
   ]);
 
   return (

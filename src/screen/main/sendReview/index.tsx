@@ -18,6 +18,7 @@ type RouteParams = {
   destinationBankName: string;
   name: string;
   tag: string;
+  percentRev: string;
 };
 
 type RootStackParamList = {
@@ -30,6 +31,7 @@ type RootStackParamList = {
     receipentBank: string;
     name: string;
     tag: string;
+    percentRev: string;
   };
 };
 
@@ -47,6 +49,7 @@ const SendReview = () => {
     destinationBankName,
     name,
     tag,
+    percentRev,
   } = route.params as RouteParams;
 
   const userData = useAuthStore((state) => state.userData);
@@ -81,6 +84,7 @@ const SendReview = () => {
               receipentName: customerName,
               name,
               tag,
+              percentRev,
             })
           }
         />

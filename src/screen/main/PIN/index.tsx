@@ -17,6 +17,7 @@ type RouteParams = {
   phoneNumber?: any;
   billersCode?: any;
   type: string;
+  percentRev?: number;
 };
 
 const PIN = () => {
@@ -25,8 +26,15 @@ const PIN = () => {
   const email = userData?.email;
 
   const route = useRoute<any>();
-  const { serviceID, variation_code, amount, phoneNumber, billersCode, type } =
-    (route.params as RouteParams) || {};
+  const {
+    serviceID,
+    variation_code,
+    amount,
+    phoneNumber,
+    billersCode,
+    type,
+    percentRev,
+  } = (route.params as RouteParams) || {};
 
   const [pin, setPin] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
@@ -52,6 +60,7 @@ const PIN = () => {
                 email,
                 billersCode,
                 type,
+                percentRev,
               },
               {
                 onSuccess: (response: any) => {

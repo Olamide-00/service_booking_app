@@ -107,6 +107,11 @@ export const useGetBillsHistory = (email: string) => {
       const response = await axiosInstance.get<ApiResponse<any>>(
         `${API_ENDPOINTS.BILLS_HISTORIES}/${email}`
       );
+      console.log(
+        "response",
+        response.data[0].transactionReference,
+        response.data[0].amount
+      );
       return response.data;
     },
     enabled: !!email,

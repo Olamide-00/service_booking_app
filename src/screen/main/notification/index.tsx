@@ -1,5 +1,5 @@
 import { View, FlatList } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useGetBillsHistory } from "@/src/api/hooks/useBills";
 import useAuthStore from "@/src/store/userStore";
@@ -8,6 +8,13 @@ import { styles } from "./style";
 import { MediumText, RegularText } from "@/src/component/text/indext";
 import Card from "@/src/component/common/card";
 import { MotiView } from "moti";
+import DateSelector from "@/src/component/common/dateSelector";
+import EmptyState from "@/src/component/common/emptyState";
+import Spacer from "@/src/component/common/spacer";
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
 
 const formatDate = (dateString) => {
   if (!dateString) return "Unknown Date";
@@ -16,9 +23,6 @@ const formatDate = (dateString) => {
     day: "2-digit",
     month: "short",
     year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: true,
   }).format(date);
 };
 
@@ -87,13 +91,14 @@ const Notification = () => {
   const email = userData?.email;
 
   const { data: Notification, isLoading, isError } = useGetBillsHistory(email);
+  const [selectedDate, setSelectedDate] = useState("");
 
   if (isLoading) {
     return (
       <SafeAreaView style={styles.root}>
         <Header showLogo />
         <FlatList
-          data={[1, 2, 3, 4, 5]}
+          data={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
           keyExtractor={(item) => item.toString()}
           renderItem={() => <SkeletonLoader />}
           showsVerticalScrollIndicator={false}
@@ -107,13 +112,19 @@ const Notification = () => {
       <SafeAreaView style={styles.root}>
         <Header showLogo />
         <View style={{ alignItems: "center", marginTop: 20 }}>
-          <RegularText size="medium" color="secondaryColor">
-            No notifications available
-          </RegularText>
+          <EmptyState message="No Notifications at the moment" />
         </View>
       </SafeAreaView>
     );
   }
+
+  // Filter notifications by selected date
+  const filteredNotifications = selectedDate
+    ? Notification.filter((item) => {
+        const itemDate = formatDate(item.date);
+        return itemDate === formatDate(selectedDate);
+      })
+    : Notification;
 
   const renderItem = ({ item }) => (
     <Card style={styles.card}>
@@ -140,12 +151,26 @@ const Notification = () => {
   return (
     <SafeAreaView style={styles.root}>
       <Header showLogo />
-      <FlatList
-        data={Notification}
-        keyExtractor={(item) => item._id || item.id}
-        renderItem={renderItem}
-        showsVerticalScrollIndicator={false}
+      <DateSelector
+        selectedDate={selectedDate}
+        onDateChange={setSelectedDate}
+        label="Notification Date"
       />
+
+      <Spacer size={hp(4)} />
+
+      {filteredNotifications.length > 0 ? (
+        <FlatList
+          data={filteredNotifications}
+          keyExtractor={(item) => item._id || item.id}
+          renderItem={renderItem}
+          showsVerticalScrollIndicator={false}
+        />
+      ) : (
+        <View style={{ alignItems: "center", marginTop: 20 }}>
+          <EmptyState message="No records found for the selected date" />
+        </View>
+      )}
     </SafeAreaView>
   );
 };

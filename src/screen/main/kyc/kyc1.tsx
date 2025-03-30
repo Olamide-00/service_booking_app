@@ -5,6 +5,8 @@ import {
   StyleSheet,
   Alert,
   KeyboardTypeOptions,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { BoldText } from "@/src/component/text/indext";
@@ -97,42 +99,51 @@ const KYC1: React.FC = () => {
     });
   };
 
+  const disable = !bvn.length || bvn.length != 11 || !dob || isPending;
+
   return (
-    <SafeAreaView style={styles.root}>
-      {/* Header */}
-      <View style={styles.title}>
-        <BoldText size="large">Complete your KYC</BoldText>
-      </View>
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <SafeAreaView style={styles.root}>
+        {/* Header */}
+        <View style={styles.title}>
+          <BoldText size="large">Complete your KYC</BoldText>
+        </View>
 
-      {/* Forms */}
-      <View>
-        <CustomTextInput
-          title="BVN"
-          placeholder="Enter your BVN"
-          keyboardType="numeric"
-          value={bvn}
-          setValue={setBvn}
+        {/* Forms */}
+        <View>
+          <CustomTextInput
+            title="BVN"
+            placeholder="Enter your BVN"
+            keyboardType="numeric"
+            value={bvn}
+            setValue={setBvn}
+            maxLength={11}
+          />
+          <DateSelector
+            selectedDate={dob}
+            onDateChange={setDob}
+            label="Date Of Birth"
+          />
+        </View>
+
+        {/* Submit Button */}
+        <View style={styles.btn}>
+          <CustomBtn
+            label="Create Wallet"
+            onPress={handleContinue}
+            disabled={disable}
+            isLoading={isPending}
+          />
+        </View>
+
+        <ToastMessage
+          isVisible={isVisible}
+          onClose={() => setIsVisible(false)}
+          message={message}
+          isSuccessful={success}
         />
-        <DateSelector selectedDate={dob} onDateChange={setDob} />
-      </View>
-
-      {/* Submit Button */}
-      <View style={styles.btn}>
-        <CustomBtn
-          label="Create Wallet"
-          onPress={handleContinue}
-          disabled={isPending}
-          isLoading={isPending}
-        />
-      </View>
-
-      <ToastMessage
-        isVisible={isVisible}
-        onClose={() => setIsVisible(false)}
-        message={message}
-        isSuccessful={success}
-      />
-    </SafeAreaView>
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 };
 

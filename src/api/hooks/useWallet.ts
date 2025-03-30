@@ -75,15 +75,10 @@ export const useWalletDetails = () => {
       return response.data;
     },
     enabled: !!email,
-    // Add these options to prevent excessive refetching
     refetchOnWindowFocus: false,
-    staleTime: 5 * 60 * 1000, // 5 minutes
-    cacheTime: 10 * 60 * 1000, // 10 minutes
     retry: 3,
   });
 
-  // Use useEffect to update the store ONLY when data changes
-  // This prevents the infinite loop
   useEffect(() => {
     if (isSuccess && data?.data?.accounts) {
       console.log("Setting account details:", data.data.accounts);

@@ -1,4 +1,4 @@
-import { StyleSheet, View } from "react-native";
+import { Dimensions, StyleSheet, View } from "react-native";
 import React, { useRef } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import ViewShot from "react-native-view-shot";
@@ -15,6 +15,7 @@ import {
 } from "react-native-responsive-screen";
 import CustomBtn from "@/src/component/common/customBtn";
 import LottieView from "lottie-react-native";
+import { COLORS } from "@/src/constant/COLORS";
 
 const ElectReceipt = () => {
   const navigation = useNavigation();
@@ -46,6 +47,8 @@ const ElectReceipt = () => {
     }
   };
 
+  const { width, height } = Dimensions.get("window");
+
   return (
     <SafeAreaView style={styles.root}>
       <Header showLogo />
@@ -67,9 +70,9 @@ const ElectReceipt = () => {
           <Divider />
           <Item label="Unit" value={data?.units || "N/A"} />
           <Item label="Token" value={token || "N/A"} showIcon />
-          {data?.content?.transactions?.type === "Electricity Bill" && (
+          {/* {data?.content?.transactions?.type === "Electricity Bill" && (
             <Item label="Type" value={data?.content?.transactions?.type} />
-          )}
+          )} */}
           {data?.content?.transactions?.product_name && (
             <Item
               label="Provider"
@@ -91,11 +94,22 @@ const ElectReceipt = () => {
           </View>
         </Card>
       </ViewShot>
+
       <LottieView
         autoPlay
         loop
         source={require("@/assets/json/4.json")}
-        style={styles.lottie}
+        style={[
+          styles.lottie,
+          {
+            width: width * 0.8,
+            height: height * 0.4,
+            transform: [
+              { translateX: -(width * 0.4) },
+              { translateY: -(height * 0.2) },
+            ],
+          },
+        ]}
       />
 
       {/* Share & Close Buttons */}
@@ -112,11 +126,11 @@ const ElectReceipt = () => {
 };
 
 export default ElectReceipt;
-
 const styles = StyleSheet.create({
   root: {
     flex: 1,
     paddingHorizontal: wp(5),
+    backgroundColor: COLORS.white,
   },
   card: {
     paddingHorizontal: wp(5),
@@ -135,10 +149,10 @@ const styles = StyleSheet.create({
   },
   lottie: {
     position: "absolute",
-    top: "50%",
+    top: "40%", // Adjusted for better responsiveness
     left: "50%",
-    width: 500,
-    height: 500,
-    transform: [{ translateX: -100 }, { translateY: -100 }],
+    width: wp(80), // Use percentage for responsiveness
+    height: hp(40),
+    transform: [{ translateX: -wp(40) }, { translateY: -hp(20) }],
   },
 });

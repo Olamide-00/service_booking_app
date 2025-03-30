@@ -1,4 +1,9 @@
-import { StyleSheet, View } from "react-native";
+import {
+  Keyboard,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  View,
+} from "react-native";
 import React, { useState, useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Header from "@/src/component/common/header";
@@ -80,12 +85,15 @@ const DataScreen = () => {
         const increasedAmount =
           cleanAmount + (cleanAmount * dataPercentage) / 100;
 
+        const percentRev = (cleanAmount * dataPercentage) / 100;
+
         return {
           id: modifiedVariationCode,
           label: `${cleanVariationCode} ₦${increasedAmount
             .toFixed(2)
             .replace(/\.00$/, "")}`,
           value: modifiedVariationCode,
+          actualAmount: cleanAmount,
         };
       });
 
@@ -112,73 +120,79 @@ const DataScreen = () => {
       (plan) => plan.value === selectedDataPlan
     );
 
+    const percentRev =
+      (selectedPlanObject?.actualAmount * dataPercentage) / 100;
+
     navigation.navigate("ReviewScreen1", {
       phoneNumber,
-      amount: selectedPlanObject ? selectedPlanObject.label.split("₦")[1] : "",
+      amount: selectedPlanObject?.actualAmount.toFixed(2),
       variation_code: selectedPlanObject?.id,
       serviceID: selectedNetwork,
+      percentRev,
     });
   };
 
   return (
-    <SafeAreaView style={styles.root}>
-      <Header label="Data Subscription" showLogo />
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+      <SafeAreaView style={styles.root}>
+        <Header label="Data Subscription" showLogo />
 
-      <View style={styles.input}>
-        <CustomTextInput
-          placeholder="eg 09036018013"
-          title="Phone Number"
-          keyboardType="numeric"
-          value={phoneNumber}
-          setValue={setPhoneNumber}
-          maxLength={11}
-        />
+        <View style={styles.input}>
+          <CustomTextInput
+            placeholder="eg 09036018013"
+            title="Phone Number"
+            keyboardType="numeric"
+            value={phoneNumber}
+            setValue={setPhoneNumber}
+            maxLength={11}
+          />
 
-        <Selector
-          label="Network"
-          options={networks}
-          selectedValue={selectedNetwork}
-          onSelect={(value) => {
-            setSelectedNetwork(value);
-            setSelectedDataPlan("");
-          }}
-          getOptionLabel={(option) => option.label}
-          getOptionValue={(option) => option.value}
-          loading={isLoading}
-        />
-        <Spacer size={hp(0.2)} />
+          <Selector
+            label="Network"
+            options={networks}
+            selectedValue={selectedNetwork}
+            onSelect={(value) => {
+              setSelectedNetwork(value);
+              setSelectedDataPlan("");
+            }}
+            getOptionLabel={(option) => option.label}
+            getOptionValue={(option) => option.value}
+            loading={isLoading}
+          />
+          <Spacer size={hp(0.2)} />
 
-        <Selector
-          key={selectedDataPlan}
-          label="Data Plan"
-          options={dataPlans}
-          selectedValue={selectedDataPlan}
-          onSelect={(value) => {
-            setSelectedDataPlan(value);
-          }}
-          getOptionLabel={(option) => option.label}
-          getOptionValue={(option) => option.value}
-          disabled={!selectedNetwork || dataPlans.length === 0}
-          loading={dataPackageLoading}
-        />
-      </View>
+          <Selector
+            key={selectedDataPlan}
+            label="Data Plan"
+            options={dataPlans}
+            selectedValue={selectedDataPlan}
+            onSelect={(value) => {
+              setSelectedDataPlan(value);
+            }}
+            getOptionLabel={(option) => option.label}
+            getOptionValue={(option) => option.value}
+            disabled={!selectedNetwork || dataPlans.length === 0}
+            loading={dataPackageLoading}
+          />
+        </View>
 
-      <View style={styles.btn}>
-        <CustomBtn
-          label="Continue"
-          onPress={handleContinue}
-          disabled={
-            isLoading || !phoneNumber || !selectedNetwork || !selectedDataPlan
-          }
+        <View style={styles.btn}>
+          <CustomBtn
+            label="Continue"
+            onPress={handleContinue}
+            disabled={
+              isLoading || !phoneNumber || !selectedNetwork || !selectedDataPlan
+            }
+          />
+        </View>
+        <ToastMessage
+          isVisible={isVisible}
+          message={message}
+          onClose={() => setIsVisible(false)}
+          isSuccessful={success}
         />
-      </View>
-      <ToastMessage
-        isVisible={isVisible}
-        message={message}
-        onClose={() => setIsVisible(false)}
-        isSuccessful={success}
-      />
-    </SafeAreaView>
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -192,12 +206,10 @@ const styles = StyleSheet.create({
   },
   input: {
     marginTop: hp(3.5),
-    gap: hp(3),
+    gap: hp(1.5),
   },
   btn: {
-    position: "absolute",
-    alignSelf: "center",
-    bottom: hp(4),
-    width: wp(92),
+    marginTop: "auto",
+    marginBottom: hp(3),
   },
 });

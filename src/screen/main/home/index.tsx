@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, Pressable } from "react-native";
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import * as ImagePicker from "expo-image-picker";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { styles } from "./style";
@@ -17,11 +17,14 @@ import TransactionAction from "./component/transactionAction";
 import Banner from "@/src/component/common/banner";
 import QuickAction from "./component/quickAction";
 import RecentHistory from "./component/recentHistory";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import {
+  useFocusEffect,
+  useNavigation,
+  useRoute,
+} from "@react-navigation/native";
 import useAuthStore from "@/src/store/userStore";
 import { useWalletDetails } from "@/src/api/hooks/useWallet";
 import { useGetBalance } from "@/src/api/hooks/useAuth";
-import * as SecureStore from "expo-secure-store";
 import { Image } from "expo-image";
 
 const Home = () => {
@@ -31,9 +34,16 @@ const Home = () => {
   const { walletData: walletDetails, isLoading, error } = useWalletDetails();
   const firstAccount = walletDetails?.accounts[0].accountNumber;
   const email = userData?.email;
-  const { balance } = useGetBalance(email);
   const [firstName, lastName] = userData?.name.split(" ") ?? ["", ""];
   const imageLogo = userData?.profilePicture;
+
+  const { balance, refetch } = useGetBalance(email);
+
+  useFocusEffect(
+    useCallback(() => {
+      refetch();
+    }, [refetch])
+  );
 
   const isWalletCreated = useAuthStore.getState().isWalletCreated;
 

@@ -20,17 +20,26 @@ type ReviewScreenParams = {
   phoneNumber: string;
   billersCode: string;
   type: string;
+  percentRev?: number;
 };
 
 const ReviewScreen1: React.FC = () => {
   const navigation = useNavigation<any>();
   const route = useRoute<any>();
-  const { serviceID, variation_code, amount, phoneNumber, billersCode, type } =
-    route.params as ReviewScreenParams;
+  const {
+    serviceID,
+    variation_code,
+    amount,
+    phoneNumber,
+    billersCode,
+    type,
+    percentRev,
+  } = route.params as ReviewScreenParams;
   const electricity =
     variation_code === "prepaid" || variation_code === "postpaid";
 
   const dstv = serviceID === "dstv";
+  console.log(percentRev);
 
   return (
     <SafeAreaView style={styles.root}>
@@ -57,6 +66,7 @@ const ReviewScreen1: React.FC = () => {
               phoneNumber,
               billersCode,
               type,
+              percentRev,
             })
           }
         />

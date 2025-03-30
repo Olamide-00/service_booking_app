@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import {
   StyleSheet,
-  Text,
+  TextInput,
   View,
   TouchableOpacity,
   FlatList,
@@ -13,6 +13,7 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import { MotiView } from "moti";
+import Spacer from "./spacer";
 
 const COLORS = {
   border: "#ccc",
@@ -32,6 +33,7 @@ interface SelectorProps {
   onSelect: (value: string) => void;
   testID?: string;
   loading?: boolean;
+  showSearch?: boolean;
 }
 
 const Selector = ({
@@ -41,8 +43,10 @@ const Selector = ({
   onSelect,
   testID,
   loading = false,
+  showSearch = false,
 }: SelectorProps): JSX.Element => {
   const [isOpen, setIsOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const toggleDropdown = () => {
     setIsOpen((prev) => !prev);
@@ -51,22 +55,27 @@ const Selector = ({
   const handleOptionSelect = (option: Option) => {
     onSelect(option.value);
     setIsOpen(false);
+    setSearchQuery("");
   };
 
   const selectedOption = options.find(
     (option) => option.value === selectedValue
   );
+  const filteredOptions = options.filter((option) =>
+    option.label.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <View style={styles.container} testID={testID}>
       <RegularText size="small">{label}</RegularText>
+      <Spacer size={hp(1)} />
       <TouchableOpacity
         style={styles.selectorContainer}
         onPress={toggleDropdown}
       >
-        <Text style={styles.selectedOption}>
-          {selectedOption ? selectedOption.label : "Select an option"}
-        </Text>
+        <RegularText size="small">
+          {selectedOption ? selectedOption.label : `Select ${label}`}
+        </RegularText>
         <Ionicons
           name={isOpen ? "chevron-up" : "chevron-down"}
           size={24}
@@ -75,6 +84,14 @@ const Selector = ({
       </TouchableOpacity>
       {isOpen && (
         <View style={styles.optionsContainer}>
+          {showSearch && (
+            <TextInput
+              style={styles.searchInput}
+              placeholder="Search..."
+              value={searchQuery}
+              onChangeText={setSearchQuery}
+            />
+          )}
           {loading ? (
             [...Array(3)].map((_, index) => (
               <MotiView
@@ -87,7 +104,7 @@ const Selector = ({
             ))
           ) : (
             <FlatList
-              data={options}
+              data={filteredOptions}
               keyExtractor={(item) => item.value}
               showsVerticalScrollIndicator={false}
               renderItem={({ item }) => (
@@ -110,9 +127,6 @@ const styles = StyleSheet.create({
   container: {
     width: wp(90),
   },
-  label: {
-    marginBottom: hp(1),
-  },
   selectorContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -123,10 +137,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: wp(2),
     height: hp(6),
   },
-  selectedOption: {
-    fontSize: 14,
-    color: COLORS.text,
-  },
   optionsContainer: {
     borderWidth: 1,
     borderColor: COLORS.border,
@@ -136,6 +146,14 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     paddingHorizontal: wp(2),
     paddingVertical: hp(1),
+  },
+  searchInput: {
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    borderRadius: 5,
+    paddingHorizontal: wp(2),
+    height: hp(5),
+    marginBottom: hp(1),
   },
   option: {
     padding: wp(2),

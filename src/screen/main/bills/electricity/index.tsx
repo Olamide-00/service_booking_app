@@ -1,4 +1,10 @@
-import { StyleSheet, View, ScrollView, ActivityIndicator } from "react-native";
+import {
+  StyleSheet,
+  View,
+  ActivityIndicator,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Header from "@/src/component/common/header";
@@ -22,9 +28,10 @@ interface ReviewScreenParams {
   serviceID: string;
   discoName: string;
   variation_code: string;
-  amount: string;
+  amount: string | number;
   billersCode: string;
   phoneNumber: string;
+  percentRev: number;
 }
 
 const ElectricityScreen = () => {
@@ -121,18 +128,17 @@ const ElectricityScreen = () => {
     }
 
     const amountNumber = parseFloat(amount);
-    const extraCharge = (electricityPercentage / 100) * amountNumber;
-    const totalAmount = (amountNumber + extraCharge).toFixed(2);
+    const percentRev = (electricityPercentage / 100) * amountNumber;
 
     const payload: ReviewScreenParams = {
       serviceID: selectedService!,
       discoName: selectedDisco!,
       variation_code: selectedMeterType!,
       billersCode: meterNumber,
-      amount: totalAmount,
+      amount: amountNumber,
+      percentRev,
       phoneNumber: "08011111111",
     };
-
     navigation.navigate("ReviewScreen1", payload);
   };
 
@@ -145,48 +151,54 @@ const ElectricityScreen = () => {
     amount;
 
   return (
-    <SafeAreaView style={styles.root}>
-      <Header label="Electricity" showLogo />
-      <ScrollView
-        contentContainerStyle={styles.scrollContainer}
-        showsVerticalScrollIndicator={false}
-      >
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+      <SafeAreaView style={styles.root}>
+        <Header label="Electricity" showLogo />
         <View style={styles.input}>
-          <CustomTextInput
-            placeholder="Enter meter number"
-            title="Meter Number"
-            keyboardType="numeric"
-            value={meterNumber}
-            setValue={setMeterNumber}
-            error={errors.meterNumber}
-            maxLength={13}
-          />
-          <View style={styles.customerName}>
-            {isVerifying ? (
-              <ActivityIndicator size="small" color={COLORS.primary} />
-            ) : (
-              <RegularText color="primary" size="small">
-                {customerName}
-              </RegularText>
-            )}
+          <View>
+            <CustomTextInput
+              placeholder="Enter meter number"
+              title="Meter Number"
+              keyboardType="numeric"
+              value={meterNumber}
+              setValue={setMeterNumber}
+              error={errors.meterNumber}
+              maxLength={13}
+            />
+            <View style={styles.customerName}>
+              {isVerifying ? (
+                <ActivityIndicator size="small" color={COLORS.primary} />
+              ) : (
+                <RegularText color="primary" size="small">
+                  {customerName}
+                </RegularText>
+              )}
+            </View>
           </View>
-          <Selector
-            label="Disco Type"
-            options={discoOptions}
-            selectedValue={selectedService}
-            onSelect={(val: string) => {
-              setSelectedService(val);
-              const selected = discoOptions.find((item) => item.value === val);
-              setSelectedDisco(selected ? selected.label : null);
-            }}
-            loading={servicesLoading}
-          />
+          <View pointerEvents="box-none">
+            <Selector
+              label="Disco Type"
+              options={discoOptions}
+              selectedValue={selectedService}
+              onSelect={(val: string) => {
+                setSelectedService(val);
+                const selected = discoOptions.find(
+                  (item) => item.value === val
+                );
+                setSelectedDisco(selected ? selected.label : null);
+              }}
+              loading={servicesLoading}
+              showSearch
+            />
+          </View>
+
           <Selector
             label="Meter Type"
             options={meterTypes}
             selectedValue={selectedMeterType}
             onSelect={setSelectedMeterType}
           />
+
           <CustomTextInput
             title="Amount"
             placeholder="Enter amount"
@@ -196,6 +208,7 @@ const ElectricityScreen = () => {
             error={errors.amount}
           />
         </View>
+
         <View style={styles.btn}>
           <CustomBtn
             label="Continue"
@@ -203,14 +216,15 @@ const ElectricityScreen = () => {
             disabled={!isFormValid}
           />
         </View>
+
         <ToastMessage
           isVisible={isVisible}
           onClose={() => setIsVisible(false)}
           message={message}
           isSuccessful={success}
         />
-      </ScrollView>
-    </SafeAreaView>
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -227,16 +241,15 @@ const styles = StyleSheet.create({
     paddingBottom: hp(10),
   },
   input: {
-    marginTop: hp(5),
-    gap: hp(2),
+    marginTop: hp(3.5),
+    gap: hp(3),
   },
   btn: {
-    position: "absolute",
-    alignSelf: "center",
-    bottom: hp(4),
+    marginTop: "auto",
+    marginBottom: hp(3),
   },
   customerName: {
-    marginTop: hp(-4),
+    marginTop: hp(-2.6),
     alignSelf: "flex-end",
   },
 });

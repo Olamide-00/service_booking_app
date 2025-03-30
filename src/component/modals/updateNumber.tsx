@@ -19,6 +19,11 @@ type UpdatePINProps = {
   closeModal: () => void;
 };
 
+const validatePhoneNumber = (number: string) => {
+  const nigerianPhoneRegex = /^(0)(7|8|9)(0|1)\d{8}$/;
+  return nigerianPhoneRegex.test(number);
+};
+
 const UpdateNumber = ({ isVisible, closeModal }: UpdatePINProps) => {
   const userData = useAuthStore((state) => state.userData);
   const email = userData?.email;
@@ -29,13 +34,12 @@ const UpdateNumber = ({ isVisible, closeModal }: UpdatePINProps) => {
   const [success, setSuccess] = useState<boolean>(false);
 
   const updateUserData = useAuthStore((state) => state.setUserData);
-
   const { mutate: updatePhoneNumber, isPending } = useUpdateNumber();
 
   const handleUpdateNumber = () => {
-    if (!email || !phoneNumber) {
+    if (!email || !validatePhoneNumber(phoneNumber)) {
       setOpen(true);
-      setMessage("Phone number are required");
+      setMessage("Valid phone number is required");
       setSuccess(false);
       return;
     }
@@ -47,7 +51,7 @@ const UpdateNumber = ({ isVisible, closeModal }: UpdatePINProps) => {
           setOpen(true);
           setMessage("Phone number updated successfully");
           setSuccess(true);
-          updateUserData({ ...userData, phoneNumber: phoneNumber });
+          updateUserData({ ...userData, phoneNumber });
           closeModal();
         },
         onError: (error: any) => {
@@ -87,8 +91,8 @@ const UpdateNumber = ({ isVisible, closeModal }: UpdatePINProps) => {
             <CustomBtn
               label="Update"
               onPress={handleUpdateNumber}
-              isLoading={isPending || !phoneNumber}
-              disabled={isPending}
+              isLoading={isPending}
+              disabled={isPending || !validatePhoneNumber(phoneNumber)}
             />
           </View>
         </View>

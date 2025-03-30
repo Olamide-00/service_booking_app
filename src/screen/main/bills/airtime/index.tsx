@@ -1,4 +1,11 @@
-import { StyleSheet, Text, View, Alert } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Alert,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Header from "@/src/component/common/header";
@@ -86,65 +93,69 @@ const AirtimeScreen = () => {
   const disable = !selectedNetwork || !phoneNumber || !amount;
 
   return (
-    <SafeAreaView style={styles.root}>
-      {/* Header */}
-      <Header showLogo />
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+      <SafeAreaView style={styles.root}>
+        {/* Header */}
+        <Header showLogo />
+        <Spacer size={hp(5)} />
 
-      <View style={styles.input}>
-        {/* Selector for Network */}
-        <Selector
-          label="Network"
-          options={network}
-          selectedValue={selectedNetwork}
-          onSelect={(value) => setSelectedNetwork(value)}
-        />
-        {errors.selectedNetwork ? (
-          <View style={styles.errorCon}>
-            <RegularText size="small" color="secondaryColor">
-              {errors.selectedNetwork}
-            </RegularText>
+        <View style={styles.input}>
+          {/* Selector for Network */}
+          <View>
+            <Selector
+              label="Network"
+              options={network}
+              selectedValue={selectedNetwork}
+              onSelect={(value) => setSelectedNetwork(value)}
+            />
+            {errors.selectedNetwork ? (
+              <View style={styles.errorCon}>
+                <RegularText size="small" color="secondaryColor">
+                  {errors.selectedNetwork}
+                </RegularText>
+              </View>
+            ) : null}
           </View>
-        ) : null}
 
-        <Spacer size={hp(0.2)} />
+          {/* Phone Number Input */}
+          <Spacer size={hp(1)} />
+          <CustomTextInput
+            placeholder="e.g 09036018013"
+            title="Phone Number"
+            keyboardType="numeric"
+            value={phoneNumber}
+            setValue={setPhoneNumber}
+            maxLength={11}
+            error={errors.phoneNumber}
+          />
 
-        {/* Phone Number Input */}
-        <CustomTextInput
-          placeholder="e.g 09036018013"
-          title="Phone Number"
-          keyboardType="numeric"
-          value={phoneNumber}
-          setValue={setPhoneNumber}
-          maxLength={11}
-          error={errors.phoneNumber}
+          {/* Amount Input */}
+          <CustomTextInput
+            placeholder="Enter amount"
+            title="Amount"
+            keyboardType="numeric"
+            value={amount}
+            setValue={setAmount}
+            error={errors.amount}
+          />
+        </View>
+
+        {/* Continue Button */}
+        <View style={styles.btn}>
+          <CustomBtn
+            label="Continue"
+            onPress={handleContinue}
+            disabled={disable}
+          />
+        </View>
+        <ToastMessage
+          isVisible={isVisible}
+          message={message}
+          onClose={() => setIsVisible(false)}
+          isSuccessful={success}
         />
-
-        {/* Amount Input */}
-        <CustomTextInput
-          placeholder="Enter amount"
-          title="Amount"
-          keyboardType="numeric"
-          value={amount}
-          setValue={setAmount}
-          error={errors.amount}
-        />
-      </View>
-
-      {/* Continue Button */}
-      <View style={styles.btn}>
-        <CustomBtn
-          label="Continue"
-          onPress={handleContinue}
-          disabled={disable}
-        />
-      </View>
-      <ToastMessage
-        isVisible={isVisible}
-        message={message}
-        onClose={() => setIsVisible(false)}
-        isSuccessful={success}
-      />
-    </SafeAreaView>
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -157,13 +168,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: wp(4),
   },
   input: {
-    marginTop: hp(5),
-    gap: hp(3),
+    // marginTop: hp(5),
+    gap: hp(1.5),
   },
   btn: {
-    position: "absolute",
-    alignSelf: "center",
-    bottom: hp(4),
+    marginTop: "auto",
+    marginBottom: hp(4),
   },
   errorCon: {
     marginTop: hp(-2),

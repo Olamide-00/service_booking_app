@@ -139,13 +139,14 @@ const SendBank = () => {
   const handleSubmit = () => {
     if (validateForm()) {
       const amount = Number(formState.amount);
-      const finalAmount = amount * (1 + bankPercentage / 100);
+      const percentRev = (amount * bankPercentage) / 100;
 
       navigation.navigate("SendReview", {
         destinationAccountNumber: formState.accountNumber,
         destinationBankCode: formState.selectedBank,
         destinationBankName: formState.selectedBankName,
-        amount: finalAmount.toFixed(2),
+        amount: amount,
+        percentRev,
         narration: formState.narration,
         customerName,
       });
@@ -192,6 +193,7 @@ const SendBank = () => {
                 }))
               : []
           }
+          showSearch
           onSelect={(bankCode) => {
             const bankName =
               Array.isArray(bankData) && bankData.length > 0

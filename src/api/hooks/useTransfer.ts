@@ -30,7 +30,7 @@ const useTransfer = () => {
       return response.data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(["history"]);
+      queryClient.invalidateQueries(["history", "balance"]);
     },
   });
 };
@@ -78,7 +78,11 @@ const useTransferRemit = () => {
       );
       return response.data;
     },
-    onSuccess: () => {
+    onSuccess: (data, variables) => {
+      // Invalidate SPECIFIC balance query for the affected user
+      queryClient.invalidateQueries(["balance", variables.email]);
+
+      // Also invalidate history if needed
       queryClient.invalidateQueries(["history"]);
     },
   });

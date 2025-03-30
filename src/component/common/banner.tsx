@@ -19,25 +19,21 @@ const Banner = () => {
   return (
     <Card style={styles.container}>
       <View style={styles.itemContainer}>
-        <Ionicons name="pencil-sharp" size={24} color={COLORS.primary} />
-        <View>
-          <BoldText size="medium" color="black">
-            Complete your KYC
-          </BoldText>
-          <RegularText size="small" color="gray">
-            Few more steps to get you started
-          </RegularText>
-        </View>
+        <BoldText size="medium" color="primary">
+          Complete your KYC
+        </BoldText>
+        <RegularText size="small" color="gray">
+          Few more steps to get you started
+        </RegularText>
       </View>
-      <View style={styles.btnContainer}>
-        <CustomBtn
-          color={COLORS.secondaryColor}
-          textStyle={{ color: COLORS.primary }}
-          width={wp(35)}
-          label="Tap to complete"
-          onPress={handleKYC}
-        />
-      </View>
+
+      <CustomBtn
+        color={COLORS.secondaryColor}
+        textStyle={{ color: COLORS.primary }}
+        width={wp(35)}
+        label="Tap to complete"
+        onPress={handleKYC}
+      />
     </Card>
   );
 };
@@ -48,14 +44,12 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 30,
+    gap: wp(5),
     justifyContent: "center",
-    paddingVertical: hp(2.5),
+    paddingVertical: hp(2),
   },
   itemContainer: {
-    flexDirection: "row",
-    alignItems: "center",
     gap: 5,
+    alignItems: "center",
   },
-  btnContainer: {},
 });

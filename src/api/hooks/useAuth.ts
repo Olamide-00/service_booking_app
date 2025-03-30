@@ -1,6 +1,7 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axiosInstance from "../axiosInstance";
 import { API_ENDPOINTS } from "../endpoints";
+import { useEffect } from "react";
 
 // Define types for each request payload and response
 interface RegisterData {
@@ -92,7 +93,7 @@ const useResendOtp = () => {
 };
 
 //get instant wallet ballances
-const useGetBalance = (email) => {
+const useGetBalance = (email: string) => {
   const {
     data: balance,
     isLoading,
@@ -107,8 +108,9 @@ const useGetBalance = (email) => {
       );
       return response.data;
     },
-    refetchOnMount: true,
-    refetchOnWindowFocus: true,
+    // Nuclear option - always refetch on mount
+    staleTime: 0,
+    cacheTime: 0,
   });
 
   return { balance, isLoading, isError, refetch };

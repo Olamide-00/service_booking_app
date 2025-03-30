@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator, Alert, StyleSheet, View } from "react-native";
+import {
+  ActivityIndicator,
+  Alert,
+  Keyboard,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Header from "@/src/component/common/header";
 import { COLORS } from "@/src/constant/COLORS";
@@ -35,7 +42,8 @@ interface NavigationPayload {
   serviceID: string;
   billersCode: string;
   variation_code: string;
-  amount: string;
+  amount: number;
+  percentRev: number;
   phoneNumber: string | null;
   quantity: number;
 }
@@ -143,14 +151,14 @@ const TVScreen: React.FC = () => {
     }
 
     const baseAmount = parseFloat(selectedPackageObj.amount);
-    const percentageIncrease = (tvPercentage / 100) * baseAmount;
-    const totalAmount = (baseAmount + percentageIncrease).toFixed(2);
+    const percentRev = (tvPercentage / 100) * baseAmount;
 
     const payload: NavigationPayload = {
       serviceID: selectedService,
       billersCode: smartcardNumber,
       variation_code: selectedPackage,
-      amount: totalAmount,
+      amount: baseAmount,
+      percentRev,
       phoneNumber: userData?.phoneNumber ?? "08011111111",
       quantity: 1,
     };
@@ -167,62 +175,67 @@ const TVScreen: React.FC = () => {
     isVerifying;
 
   return (
-    <SafeAreaView style={styles.root}>
-      <Header label="TV Subscription" showLogo />
-      <View style={styles.input}>
-        <Selector
-          label="Service Type"
-          options={serviceOptions}
-          onSelect={(value: string) => {
-            setSelectedService(value);
-            setSelectedPackage("");
-          }}
-          selectedValue={selectedService}
-          disabled={servicesLoading || !!servicesError}
-          loading={servicesLoading}
-        />
-        <Spacer size={hp(0.2)} />
-        <CustomTextInput
-          placeholder="Enter smartcard number"
-          title="Smartcard Number"
-          keyboardType="numeric"
-          value={smartcardNumber}
-          setValue={setSmartcardNumber}
-          maxLength={10}
-        />
-        <View style={styles.customerName}>
-          {isVerifying ? (
-            <ActivityIndicator size="small" color={COLORS.primary} />
-          ) : (
-            <RegularText color="secondaryColor" size="small">
-              {customerName}
-            </RegularText>
-          )}
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <SafeAreaView style={styles.root}>
+        <Header label="TV Subscription" showLogo />
+        <View style={styles.input}>
+          <Selector
+            label="Service Type"
+            options={serviceOptions}
+            onSelect={(value: string) => {
+              setSelectedService(value);
+              setSelectedPackage("");
+            }}
+            selectedValue={selectedService}
+            disabled={servicesLoading || !!servicesError}
+            loading={servicesLoading}
+          />
+
+          <Spacer size={hp(0.2)} />
+          <View>
+            <CustomTextInput
+              placeholder="Enter smartcard number"
+              title="Smartcard Number"
+              keyboardType="numeric"
+              value={smartcardNumber}
+              setValue={setSmartcardNumber}
+              maxLength={10}
+            />
+            <View style={styles.customerName}>
+              {isVerifying ? (
+                <ActivityIndicator size="small" color={COLORS.primary} />
+              ) : (
+                <RegularText color="secondaryColor" size="small">
+                  {customerName}
+                </RegularText>
+              )}
+            </View>
+          </View>
+
+          <Selector
+            label="Packages"
+            options={packageOptions}
+            onSelect={(value: string) => setSelectedPackage(value)}
+            selectedValue={selectedPackage}
+            loading={loads}
+          />
         </View>
 
-        <Selector
-          label="Packages"
-          options={packageOptions}
-          onSelect={(value: string) => setSelectedPackage(value)}
-          selectedValue={selectedPackage}
-          loading={loads}
+        <View style={styles.btn}>
+          <CustomBtn
+            label="Continue"
+            onPress={handleContinue}
+            disabled={disable}
+          />
+        </View>
+        <ToastMessage
+          isVisible={isVisible}
+          onClose={() => setIsVisible(false)}
+          message={message}
+          isSuccessful={success}
         />
-      </View>
-
-      <View style={styles.btn}>
-        <CustomBtn
-          label="Continue"
-          onPress={handleContinue}
-          disabled={disable}
-        />
-      </View>
-      <ToastMessage
-        isVisible={isVisible}
-        onClose={() => setIsVisible(false)}
-        message={message}
-        isSuccessful={success}
-      />
-    </SafeAreaView>
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -239,12 +252,11 @@ const styles = StyleSheet.create({
     gap: hp(2),
   },
   btn: {
-    position: "absolute",
-    alignSelf: "center",
-    bottom: hp(4),
+    marginTop: "auto",
+    marginBottom: hp(3),
   },
   customerName: {
-    marginTop: hp(-4),
+    marginTop: hp(-2.6),
     alignSelf: "flex-end",
   },
 });

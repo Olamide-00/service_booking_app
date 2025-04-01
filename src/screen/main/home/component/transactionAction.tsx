@@ -30,10 +30,11 @@ const TransactionAction: React.FC = () => {
               key={index}
               entering={SlideInRight.delay(index * 200).duration(500)}
             >
+              {/* change back the index to 0 */}
               <TouchableOpacity
                 style={styles.item}
                 onPress={() => {
-                  if (index === 0) {
+                  if (index === 8) {
                     setIsVisible(true);
                   } else {
                     navigation.navigate("StackNavigation", {

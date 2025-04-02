@@ -36,7 +36,12 @@ const SignUp = () => {
   });
 
   const handleInputChange = (field, value) => {
-    let formattedValue = field === "name" ? value : value.trim();
+    let formattedValue =
+      field === "name"
+        ? value
+        : field === "email"
+        ? value.trim().toLowerCase()
+        : value.trim();
 
     setFormData((prevData) => ({ ...prevData, [field]: formattedValue }));
     setErrors((prevErrors) => ({ ...prevErrors, [field]: "" }));

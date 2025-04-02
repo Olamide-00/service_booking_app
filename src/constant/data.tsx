@@ -2,14 +2,14 @@ import { Ionicons } from "@expo/vector-icons";
 import { COLORS } from "./COLORS";
 
 export const transactionActionData = [
-  // {
-  //   id: 2,
-  //   label: "Send Money",
-  //   icon: (
-  //     <Ionicons name="remove-circle-outline" size={18} color={COLORS.primary} />
-  //   ),
-  //   screen: "Transfer",
-  // },
+  {
+    id: 2,
+    label: "Send Money",
+    icon: (
+      <Ionicons name="remove-circle-outline" size={18} color={COLORS.primary} />
+    ),
+    screen: "Transfer",
+  },
   {
     id: 1,
     label: "Fund Account",

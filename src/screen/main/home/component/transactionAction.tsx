@@ -34,7 +34,7 @@ const TransactionAction: React.FC = () => {
               <TouchableOpacity
                 style={styles.item}
                 onPress={() => {
-                  if (index === 8) {
+                  if (index === 0) {
                     setIsVisible(true);
                   } else {
                     navigation.navigate("StackNavigation", {

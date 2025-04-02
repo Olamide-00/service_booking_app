@@ -35,7 +35,9 @@ const Login = () => {
   });
 
   const handleInputChange = (field, value) => {
-    let formattedValue = value.trim();
+    let formattedValue =
+      field === "email" ? value.trim().toLowerCase() : value.trim();
+
     setFormData((prev) => ({ ...prev, [field]: formattedValue }));
     setErrors((prev) => ({ ...prev, [field]: "" }));
   };

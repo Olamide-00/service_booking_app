@@ -51,11 +51,11 @@
       [
         "expo-notifications",
         {
-          "icon": "./assets/images/RemitLogo.png",
+          "icon": "./assets/images/pushNoti.png",
           "color": "#ffffff",
           "defaultChannel": "default",
           "sounds": [],
-          "enableBackgroundRemoteNotifications": false
+          "enableBackgroundRemoteNotifications": true
         }
       ],
       [

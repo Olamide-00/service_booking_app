@@ -8,6 +8,7 @@ interface RegisterData {
   name: string;
   email: string;
   password: string;
+  pushToken: string | null;
 }
 
 interface LoginData {

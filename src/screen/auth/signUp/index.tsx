@@ -6,7 +6,7 @@ import {
   Platform,
   ScrollView,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { BoldText, MediumText } from "@/src/component/text/indext";
 import { styles } from "./style";
@@ -16,10 +16,12 @@ import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import CustomBtn from "@/src/component/common/customBtn";
 import { useNavigation } from "@react-navigation/native";
 import { useRegister } from "@/src/api/hooks/useAuth";
+import { usePushNotification } from "@/src/utils/pushToken";
 
 const SignUp = () => {
   const navigation = useNavigation();
   const { mutate: register, isPending } = useRegister();
+  const expoPushToken = usePushNotification();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -73,6 +75,7 @@ const SignUp = () => {
         email: formData.email,
         password: formData.password,
         name: formData.name,
+        pushToken: expoPushToken,
       },
       {
         onSuccess: (data) => {

@@ -43,13 +43,13 @@ const AccountDetails = ({ wallet }: AccountDetailsProps) => {
           navigation.navigate("StackNavigation", { screen: "FundWallet" })
         }
       >
-        <RegularText size="small" color="black">
+        <RegularText size="small" color="primary">
           Account Details
         </RegularText>
       </Pressable>
       <Pressable style={styles.item2} onPress={copyToClipboard}>
-        <RegularText size="small" color="black">
-          {wallet}
+        <RegularText size="small" color="primary">
+          {wallet ?? "0123456789"}
         </RegularText>
         <Ionicons name="copy-outline" size={20} color={COLORS.primary} />
       </Pressable>

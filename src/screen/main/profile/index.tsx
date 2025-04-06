@@ -35,7 +35,6 @@ import useAuthStore from "@/src/store/userStore";
 import Item3 from "./component/item3";
 import { useSetProfilePicture } from "@/src/api/hooks/useAuth";
 import { Image } from "expo-image";
-import Constants from "expo-constants";
 
 const Profile = () => {
   const navigation = useNavigation();

@@ -55,6 +55,7 @@ const ElectricityScreen = () => {
   // check
   const userData = useAuthStore((state) => state.userData);
   const isWalletCreated = userData?.isWalletCreated;
+  const phoneNumber = userData?.phoneNumber || "09036018013";
 
   const { data: percentage, isLoading } = usePercentage();
   const electricityPercentage = percentage?.electricity;
@@ -79,7 +80,11 @@ const ElectricityScreen = () => {
   const { mutate: verify, isPending: isVerifying } = useVerify();
 
   useEffect(() => {
-    if (selectedService && meterNumber.length === 13) {
+    const shouldVerify =
+      (selectedService && meterNumber.length === 12) ||
+      (selectedService && meterNumber.length === 13);
+
+    if (shouldVerify) {
       verify(
         { serviceID: selectedService, billersCode: meterNumber },
         {
@@ -106,8 +111,9 @@ const ElectricityScreen = () => {
 
     let newErrors: { [key: string]: string } = {};
 
-    if (meterNumber.length !== 13)
-      newErrors.meterNumber = "Meter number must be 13 digits";
+    if (meterNumber.length < 12 || meterNumber.length > 13) {
+      newErrors.meterNumber = "Meter number must be 12 or 13 digits";
+    }
     if (!selectedService) newErrors.selectedService = "Disco type is required";
     if (!selectedMeterType)
       newErrors.selectedMeterType = "Meter type is required";
@@ -137,14 +143,14 @@ const ElectricityScreen = () => {
       billersCode: meterNumber,
       amount: amountNumber,
       percentRev,
-      phoneNumber: "08011111111",
+      phoneNumber: phoneNumber,
     };
     navigation.navigate("ReviewScreen1", payload);
   };
 
   // Check if all conditions are met
   const isFormValid =
-    meterNumber.length === 13 &&
+    meterNumber.length > 11 &&
     customerName &&
     selectedService &&
     selectedMeterType &&

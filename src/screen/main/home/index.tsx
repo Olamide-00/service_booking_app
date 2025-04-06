@@ -97,7 +97,7 @@ const Home = () => {
       <Spacer direction="vertical" size={hp(3)} />
 
       {/* Account balance */}
-      <AccountBalance balance={balance?.data} />
+      <AccountBalance balance={balance?.data ?? "0.00"} />
       <Spacer direction="vertical" size={hp(2)} />
 
       {/* Transaction action */}

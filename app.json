@@ -4,7 +4,12 @@
     "slug": "Remit",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/playstore.png",
+    "icon": "./assets/images/playStore.png",
+    "splash": {
+      "image": "./assets/images/REMITBRAND.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -16,7 +21,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/playstore.png",
+        "foregroundImage": "./assets/images/REMITBRAND.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.olamide00.Remit"
@@ -24,7 +29,7 @@
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/playstore.png"
+      "favicon": "./assets/images/playStore.png"
     },
     "plugins": [
       [
@@ -37,7 +42,7 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splash-icon.png",
+          "image": "./assets/images/REMITBRAND.png",
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"

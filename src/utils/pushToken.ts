@@ -3,6 +3,15 @@ import * as Device from "expo-device";
 import { Platform } from "react-native";
 import { useEffect, useState } from "react";
 
+// Add global notification handler
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: true,
+  }),
+});
+
 // Registering for push notifications
 export function usePushNotification() {
   const [pushToken, setPushToken] = useState<string | null>(null);
@@ -13,7 +22,6 @@ export function usePushNotification() {
 
       if (Device.isDevice) {
         try {
-          // Check for existing permissions and request permissions if not granted
           const { status: existingStatus } =
             await Notifications.getPermissionsAsync();
           let finalStatus = existingStatus;
@@ -25,22 +33,27 @@ export function usePushNotification() {
 
           if (finalStatus !== "granted") {
             console.log("Failed to get push token for push notification!");
-            return; // Early return if permission isn't granted
+            return;
           }
 
-          // Get the Expo push token
-          const response = await Notifications.getExpoPushTokenAsync();
-          token = response.data;
-
-          // On Android, set the notification channel
+          // Set up Android notification channel BEFORE getting the token
           if (Platform.OS === "android") {
             await Notifications.setNotificationChannelAsync("default", {
               name: "default",
-              importance: Notifications.AndroidImportance.DEFAULT,
+              importance: Notifications.AndroidImportance.MAX,
+              vibrationPattern: [0, 250, 250, 250],
+              lightColor: "#FF231F7C",
+              sound: "default",
             });
           }
 
-          setPushToken(token); // Store the push token in state
+          const response = await Notifications.getExpoPushTokenAsync({
+            projectId: "fc1576b7-d071-4db6-ba03-d48d3fc3f810",
+          });
+          token = response.data;
+
+          console.log("Expo Push Token:", token);
+          setPushToken(token);
         } catch (error) {
           console.error("Error getting push token:", error);
         }
@@ -52,5 +65,6 @@ export function usePushNotification() {
     registerForPushNotificationsAsync();
   }, []);
 
+  // Return just the token string
   return pushToken;
 }

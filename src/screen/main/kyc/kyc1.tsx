@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import {
   View,
   Text,
   StyleSheet,
   Alert,
-  KeyboardTypeOptions,
   TouchableWithoutFeedback,
   Keyboard,
+  BackHandler,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { BoldText } from "@/src/component/text/indext";
@@ -17,7 +17,7 @@ import {
 } from "react-native-responsive-screen";
 import CustomTextInput from "@/src/component/common/customTextInput";
 import CustomBtn from "@/src/component/common/customBtn";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useCreateWallet } from "@/src/api/hooks/useWallet";
 import useAuthStore from "@/src/store/userStore";
@@ -36,52 +36,55 @@ const KYC1: React.FC = () => {
   const updateUserDate = useAuthStore((state) => state.setUserData);
   const { mutate, isPending } = useCreateWallet();
 
-  // State for inputs
-  const [dob, setDob] = useState<string>("");
-  const [bvn, setBvn] = useState<string>("");
-
   // Constant values for the remaining fields
-  const customerName: string = userData?.name || "";
+  const Name: string = userData?.name || "";
+  const [first_name, last_name = ""] = Name.split(" ");
   const email: string = userData?.email || "";
-  const accountName: string = userData?.name || "";
-  const customerEmail: string = userData?.email || "";
+  const [phone, setPhone] = useState<string>("");
+  const [dob, setDob] = useState<string>("");
 
   // toast message
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [message, setMessage] = useState<string>("");
   const [success, setSuccess] = useState<boolean>(false);
 
-  //update wallet status
+  // update wallet status
   const updateIsWalletCreated = useAuthStore(
     (state) => state.setIsWalletCreated
   );
 
+  // handle back button
+  useFocusEffect(
+    useCallback(() => {
+      const onBackPress = () => {
+        return true;
+      };
+
+      BackHandler.addEventListener("hardwareBackPress", onBackPress);
+
+      return () =>
+        BackHandler.removeEventListener("hardwareBackPress", onBackPress);
+    }, [])
+  );
+
   // Handle form submission
   const handleContinue = () => {
-    if (!bvn || bvn.length !== 11) {
+    if (!phone) {
       setIsVisible(true);
-      setMessage("Enter BVN");
-      setSuccess(false);
-      return;
-    }
-    if (!dob) {
-      setIsVisible(true);
-      setMessage("Select Date of birth");
+      setMessage("Enter your phone number");
       setSuccess(false);
       return;
     }
 
     const requestData = {
-      customerName,
+      first_name,
+      last_name,
+      phone,
       email,
-      bvn,
-      accountName,
-      customerEmail,
-      dob,
     };
 
     mutate(requestData, {
-      onSuccess: () => {
+      onSuccess: (data) => {
         updateUserDate({
           ...userData,
           isWalletCreated: true,
@@ -99,7 +102,7 @@ const KYC1: React.FC = () => {
     });
   };
 
-  const disable = !bvn.length || bvn.length != 11 || !dob || isPending;
+  const disable = !phone || phone.length != 11 || !email || !Name || isPending;
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -112,17 +115,17 @@ const KYC1: React.FC = () => {
         {/* Forms */}
         <View>
           <CustomTextInput
-            title="BVN"
-            placeholder="Enter your BVN"
+            title="Phone Number"
+            placeholder="Enter your Phone Number"
             keyboardType="numeric"
-            value={bvn}
-            setValue={setBvn}
+            value={phone}
+            setValue={setPhone}
             maxLength={11}
           />
           <DateSelector
+            label="Date Of Birth"
             selectedDate={dob}
             onDateChange={setDob}
-            label="Date Of Birth"
           />
         </View>
 

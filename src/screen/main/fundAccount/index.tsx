@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Share, FlatList } from "react-native";
+import { View, Text, TouchableOpacity, Share } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Header from "@/src/component/common/header";
@@ -19,32 +19,26 @@ import { useWalletDetails } from "@/src/api/hooks/useWallet";
 import useAuthStore from "@/src/store/userStore";
 import * as Clipboard from "expo-clipboard";
 
-interface Account {
-  accountNumber: string;
-  accountName: string;
-  bankName: string;
-}
-
 const FundWallet: React.FC = () => {
   const [isVisible, setIsVisible] = React.useState<boolean>(false);
   const [message, setMessage] = React.useState<string>("");
   const [isSuccess, setIsSuccess] = React.useState<boolean>(false);
-  const { walletData, isSuccess: isDataLoaded } = useWalletDetails();
+  const { walletData } = useWalletDetails();
   const userData = useAuthStore((state) => state.userData);
 
-  const accounts: Account[] = walletData?.accounts || [];
+  const account = walletData?.data?.account_number;
 
   const copyToClipboard = (accountNumber: string) => {
-    Clipboard.setStringAsync(accountNumber);
+    Clipboard.setStringAsync(account);
     setIsSuccess(true);
     setIsVisible(true);
     setMessage("Account Details Copied");
   };
 
-  const shareDetails = async (accountNumber: string, accountName: string) => {
+  const shareDetails = async (account: string, accountName: string) => {
     try {
       await Share.share({
-        message: `Remit Account Details: ${accountNumber} ${accountName}`,
+        message: `Remit Account Details: ${walletData?.data.account_number} ${userData?.name}`,
       });
     } catch (error) {
       setIsVisible(true);
@@ -53,57 +47,53 @@ const FundWallet: React.FC = () => {
     }
   };
 
-  const renderAccountCard = ({ item }: { item: Account }) => (
-    <Card style={{ paddingVertical: hp(3), marginBottom: hp(2) }}>
-      <MediumText size="medium">Remit- {userData?.name}</MediumText>
-      <BoldText size="large" color="primary">
-        {item.accountNumber}
-      </BoldText>
-      <MediumText size="small" style={{ marginTop: 5 }} color="secondaryColor">
-        {item.bankName}
-      </MediumText>
-      <View style={styles.btnContainer}>
-        <TouchableOpacity
-          style={styles.btn}
-          onPress={() => copyToClipboard(item.accountNumber)}
-        >
-          <RegularText size="small" color="primary">
-            Copy Number
-          </RegularText>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.btn2}
-          onPress={() => shareDetails(item.accountNumber, item.accountName)}
-        >
-          <RegularText size="small" color="white">
-            Share Details
-          </RegularText>
-        </TouchableOpacity>
-      </View>
-    </Card>
-  );
-
   return (
     <SafeAreaView style={styles.root}>
       <Header label="Fund Wallet" showLogo />
       <Spacer size={hp(3)} direction="vertical" />
       <View style={styles.container}>
-        {accounts.length > 0 ? (
-          <FlatList
-            data={accounts}
-            renderItem={renderAccountCard}
-            keyExtractor={(item, index) =>
-              item.accountNumber || index.toString()
-            }
-            ListFooterComponent={
-              <Card style={styles.card}>
-                <CardAdd size={30} color={COLORS.primary} />
-                <ExtraBoldText size="medium" color="primary">
-                  Fund With Card
-                </ExtraBoldText>
-              </Card>
-            }
-          />
+        {account ? (
+          <>
+            <Card style={{ paddingVertical: hp(3), marginBottom: hp(2) }}>
+              <MediumText size="medium">Remit- {userData?.name}</MediumText>
+              <BoldText size="large" color="primary">
+                {account}
+              </BoldText>
+              <MediumText
+                size="small"
+                style={{ marginTop: 5 }}
+                color="secondaryColor"
+              >
+                {walletData?.data?.bank_name}
+              </MediumText>
+              <View style={styles.btnContainer}>
+                <TouchableOpacity
+                  style={styles.btn}
+                  onPress={() => copyToClipboard(account.accountNumber)}
+                >
+                  <RegularText size="small" color="primary">
+                    Copy Number
+                  </RegularText>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.btn2}
+                  onPress={() =>
+                    shareDetails(account.accountNumber, account.accountName)
+                  }
+                >
+                  <RegularText size="small" color="white">
+                    Share Details
+                  </RegularText>
+                </TouchableOpacity>
+              </View>
+            </Card>
+            <Card style={styles.card}>
+              <CardAdd size={30} color={COLORS.primary} />
+              <ExtraBoldText size="medium" color="primary">
+                Fund With Card
+              </ExtraBoldText>
+            </Card>
+          </>
         ) : (
           <View>
             <Card style={{ paddingVertical: hp(3) }}>

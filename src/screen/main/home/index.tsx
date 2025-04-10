@@ -32,7 +32,7 @@ const Home = () => {
   const userData = useAuthStore((state) => state.userData);
   const route = useRoute();
   const { walletData: walletDetails, isLoading, error } = useWalletDetails();
-  const firstAccount = walletDetails?.accounts[0].accountNumber;
+  const accountNumber = walletDetails?.data?.account_number;
   const email = userData?.email;
   const [firstName, lastName] = userData?.name.split(" ") ?? ["", ""];
   const imageLogo = userData?.profilePicture;
@@ -90,7 +90,7 @@ const Home = () => {
 
       {/* Account status */}
       {userData?.isWalletCreated ? (
-        <AccountDetails wallet={firstAccount} />
+        <AccountDetails wallet={accountNumber} />
       ) : (
         <Banner />
       )}

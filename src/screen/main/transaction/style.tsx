@@ -21,6 +21,7 @@ export const styles = StyleSheet.create({
     backgroundColor: "#F3F3F3",
     padding: hp(1),
     borderRadius: 10,
+    marginBottom: hp(3),
   },
 
   menuItem: {

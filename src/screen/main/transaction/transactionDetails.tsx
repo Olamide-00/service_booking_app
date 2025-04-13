@@ -106,10 +106,20 @@ const TransactionDetails = () => {
         <MediumText size="large" color="primary">
           Transaction Details
         </MediumText>
-        <Item
-          label={transaction.type ? "Recipient Name" : "Account Name"}
-          value={transaction.receipentName || name}
-        />
+        {transaction.service === "BANK_TRANSFER" && (
+          <>
+            <Item label="Receipient Name" value={transaction.name} />
+            <Item label="Bank Name" value={transaction.destinationBankName} />
+            <Item label="Account Number" value={transaction.account_number} />
+          </>
+        )}
+
+        {transaction.service === "REMIT_TRANSFER" && (
+          <Item
+            label={transaction.type ? "Recipient Name" : "Account Name"}
+            value={transaction.receipentName || name}
+          />
+        )}
         {transaction.units && <Item label="Units" value={transaction.units} />}
         {transaction.token && (
           <Item

@@ -12,9 +12,9 @@ import ToastMessage from "@/src/component/common/toastMessage";
 import { StackNavigationProp } from "@react-navigation/stack";
 
 type RouteParams = {
-  destinationBankCode: string;
-  destinationAccountNumber: string;
-  narration: string;
+  bank_code: string;
+  account_number: string;
+  reason: string;
   amount: string;
   senderName: string;
   receipentName: string;
@@ -43,15 +43,15 @@ const TransferPIN = () => {
 
   const route = useRoute();
   const {
-    destinationBankCode,
-    destinationAccountNumber,
-    narration,
+    bank_code,
+    account_number,
+    reason,
     amount,
     receipentName,
     senderName,
+    name,
     destinationBankName,
     tag,
-    name,
     percentRev,
   } = (route.params as RouteParams) || {};
 
@@ -81,7 +81,6 @@ const TransferPIN = () => {
                 },
                 {
                   onSuccess: (response: TransferResponse) => {
-                    console.log(response);
                     setLoading(false);
 
                     if (response?.success) {
@@ -94,7 +93,6 @@ const TransferPIN = () => {
                         });
                       }, 3000);
                     } else {
-                      console.log(response);
                       setIsVisible(true);
                       setMessage(
                         response?.message || "Payment Failed. Try again."
@@ -103,7 +101,6 @@ const TransferPIN = () => {
                     }
                   },
                   onError: (error: any) => {
-                    console.log(error);
                     setLoading(false);
                     setIsVisible(true);
                     setMessage(
@@ -122,10 +119,11 @@ const TransferPIN = () => {
               transfer(
                 {
                   email,
-                  destinationAccountNumber,
+                  account_number,
                   destinationBankName,
-                  destinationBankCode,
-                  narration,
+                  name,
+                  bank_code,
+                  reason,
                   senderName,
                   receipentName,
                   amount: parseInt(amount, 10),
@@ -135,7 +133,12 @@ const TransferPIN = () => {
                   onSuccess: (response: TransferResponse) => {
                     setLoading(false);
 
-                    if (response?.data?.success) {
+                    if (
+                      response?.message?.includes(
+                        "Transfer initiated successfully"
+                      ) ||
+                      response?.transfer.status === "pending"
+                    ) {
                       setSuccess(true);
                       setMessage("Transaction Completed");
                       setIsVisible(true);
@@ -187,9 +190,9 @@ const TransferPIN = () => {
     transfer,
     transferRemit,
     email,
-    destinationAccountNumber,
-    destinationBankCode,
-    narration,
+    account_number,
+    bank_code,
+    reason,
     amount,
     navigation,
     tag,

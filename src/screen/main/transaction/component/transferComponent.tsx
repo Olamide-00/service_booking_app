@@ -1,8 +1,6 @@
 import { FlatList, StyleSheet, View } from "react-native";
 import React, { useState } from "react";
-import { NavigationProp, useNavigation } from "@react-navigation/native";
 import useAuthStore from "@/src/store/userStore";
-// import Item from "./item";
 import { SafeAreaView } from "react-native-safe-area-context";
 import EmptyState from "@/src/component/common/emptyState";
 import {
@@ -10,26 +8,19 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import { COLORS } from "@/src/constant/COLORS";
-import Item from "@/src/component/common/item";
 import { useTransferHistory } from "@/src/api/hooks/useTransfer";
+import Card from "@/src/component/common/card";
+import { BoldText, RegularText } from "@/src/component/text/indext";
+import LottieView from "lottie-react-native";
 
-// Define the navigation type
-type RootStackParamList = {
-  StackNavigation: {
-    screen: string;
-    params: { transaction: TransactionProps };
-  };
-};
-
-type TransactionProps = {
-  label: string;
+type HistoryProps = {
+  sender_name: string;
+  card_type: string;
   amount: string;
-  status: string;
   date: string;
 };
 
-const TransferComponent = () => {
-  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+const TransferComponent = ({ selectedDate }: { selectedDate: string }) => {
   const [date, setDate] = useState<string>("Select Date");
 
   const userData = useAuthStore((state) => state.userData);
@@ -41,23 +32,66 @@ const TransferComponent = () => {
     isError,
   } = useTransferHistory(email);
 
-  const renderItem = ({ item }: { item: TransactionProps }) => (
-    <Item
-      transaction={item}
-      onPress={() => {
-        navigation.navigate("StackNavigation", {
-          screen: "TransactionDetails",
-          params: { transaction: item },
-        });
-      }}
-    />
-  );
+  const formatAmount = (amount: string | number) => {
+    const amt = typeof amount === "string" ? parseFloat(amount) : amount;
+    return `₦${amt.toLocaleString("en-NG", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    })}`;
+  };
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-NG", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  };
+
+  const filteredHistories = selectedDate
+    ? histories.filter((item: HistoryProps) => {
+        const itemDate = new Date(item.date).toISOString().split("T")[0];
+        return itemDate === selectedDate;
+      })
+    : histories;
+
+  const renderItem = ({ item }: { item: HistoryProps }) => {
+    return (
+      <Card style={styles.card}>
+        <View style={[{ flexDirection: "row" }]}>
+          <LottieView
+            autoPlay
+            loop
+            source={require("../../../../../assets/json/5.json")}
+            style={{ width: 50, height: 50 }}
+          />
+          <View style={styles.history}>
+            <RegularText size="small" color="primary">
+              {item.sender_name}
+            </RegularText>
+            <RegularText size="small" color="primary">
+              {formatDate(item.date)}
+            </RegularText>
+          </View>
+        </View>
+        <View style={styles.history}>
+          <RegularText size="small" color="primary">
+            {item.card_type}
+          </RegularText>
+          <BoldText size="medium" color="primary">
+            {formatAmount(item.amount)}
+          </BoldText>
+        </View>
+      </Card>
+    );
+  };
 
   return (
     <SafeAreaView style={styles.root}>
-      {histories.length > 0 ? (
+      {filteredHistories.length > 0 ? (
         <FlatList
-          data={histories}
+          data={filteredHistories}
           keyExtractor={(item, index) => index.toString()}
           showsVerticalScrollIndicator={false}
           renderItem={renderItem}
@@ -73,11 +107,13 @@ const TransferComponent = () => {
 export default TransferComponent;
 
 const styles = StyleSheet.create({
-  root: {},
+  root: {
+    flex: 1,
+    backgroundColor: COLORS.white,
+  },
   title: {
     alignSelf: "center",
   },
-
   input: {
     borderWidth: 0.5,
     borderColor: COLORS.border,
@@ -95,5 +131,13 @@ const styles = StyleSheet.create({
   empty: {
     flex: 1,
     marginTop: hp(20),
+  },
+  card: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    borderRadius: 10,
+  },
+  history: {
+    gap: hp(1),
   },
 });

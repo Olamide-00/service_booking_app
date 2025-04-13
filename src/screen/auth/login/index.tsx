@@ -94,7 +94,9 @@ const Login = () => {
       {
         onSuccess: async (data) => {
           console.log("Login Success:", data);
+          const now = new Date().toISOString();
           await SecureStore.setItemAsync("token", data.token);
+          await SecureStore.setItemAsync("loginDate", now);
 
           const userData = {
             email: data.user.email,

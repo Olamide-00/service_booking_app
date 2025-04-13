@@ -8,7 +8,7 @@ const useAllBanks = () => {
     queryKey: ["banks"],
     queryFn: async () => {
       const response = await axiosInstance.get(API_ENDPOINTS.ALL_BANKS);
-      return response.data?.data?.responseBody || [];
+      return response.data?.data || [];
     },
   });
 };
@@ -41,9 +41,9 @@ const useTransferHistory = (email: string) => {
     queryKey: ["history", email],
     queryFn: async () => {
       const response = await axiosInstance.get(
-        `${API_ENDPOINTS.TRANSFER_HISTORY}/${email}`
+        `${API_ENDPOINTS.FUNDING_HISTORY}/${email}`
       );
-      return response.data?.data?.responseBody || [];
+      return response?.data.data || [];
     },
   });
 };

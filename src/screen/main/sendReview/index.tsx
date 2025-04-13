@@ -10,8 +10,8 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import useAuthStore from "@/src/store/userStore";
 
 type RouteParams = {
-  destinationBankCode: string;
-  destinationAccountNumber: string;
+  bank_code: string;
+  account_number: string;
   amount: string;
   narration: string;
   customerName: string;
@@ -41,48 +41,51 @@ const SendReview = () => {
   const route = useRoute();
 
   const {
-    destinationBankCode,
-    destinationAccountNumber,
+    bank_code,
+    account_number,
     amount,
-    narration,
-    customerName,
-    destinationBankName,
+    reason,
     name,
+    destinationBankName,
     tag,
     percentRev,
   } = route.params as RouteParams;
 
   const userData = useAuthStore((state) => state.userData);
 
+  const formattedAmount = `₦${Number(amount).toLocaleString()}`;
+
   return (
     <SafeAreaView style={styles.root}>
       {/* Header */}
       <Header label="Transfer Review" showLogo />
       <View style={styles.container}>
-        <ReviewItem label={"Account Name"} value={customerName ?? name} />
+        <ReviewItem label={"Account Name"} value={name || "N/A"} />
+        {destinationBankName && (
+          <ReviewItem
+            label={"Bank Name"}
+            value={destinationBankName || "N/A"}
+          />
+        )}
         <ReviewItem
           label={tag ? "Remit Tag" : "Account Number"}
-          value={tag ?? destinationAccountNumber}
+          value={tag || account_number}
         />
-        <ReviewItem
-          label="Amount"
-          value={`₦${parseInt(amount, 10).toLocaleString()}`}
-        />
-        {narration && <ReviewItem label="Narration" value={narration} />}
+        <ReviewItem label="Amount" value={formattedAmount} />
+        {reason && <ReviewItem label="Narration" value={reason} />}
       </View>
       <View style={styles.btn}>
         <CustomBtn
           label="Continue"
           onPress={() =>
             navigation.navigate("TransferPIN", {
-              destinationAccountNumber,
-              destinationBankCode,
-              narration,
-              amount,
+              account_number,
+              bank_code,
+              reason,
+              amount: Number(amount),
               destinationBankName,
-              senderName: userData?.name,
-              receipentName: customerName,
               name,
+              receipentName: name,
               tag,
               percentRev,
             })

@@ -1,8 +1,7 @@
 import axios from "axios";
 import * as SecureStore from "expo-secure-store";
 
-// const API_BASE_URL = "https://remitbackend-production.up.railway.app/api/v1";
-const API_BASE_URL = "https://2ef5-102-89-69-246.ngrok-free.app/api/v1";
+const API_BASE_URL = process.env.EXPO_PUBLIC_BASE_URL;
 
 const axiosInstance = axios.create({
   baseURL: API_BASE_URL,

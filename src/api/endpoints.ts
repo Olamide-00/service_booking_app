@@ -37,9 +37,9 @@ export const API_ENDPOINTS = {
   // banking services
   TRANSFER: "/transfer",
   ALL_BANKS: "/bank/banks",
-  TRANSFER_HISTORY: "/wallet/transactions-history",
   FIND_REMIT_TAG: "/findRemit",
   TRANSFER_REMIT: "/transferRemit",
+  FUNDING_HISTORY: "/bank/funding-history",
 
   // percentage
   PERCENTAGE: "/percentage",

@@ -58,8 +58,8 @@ const SendBank = () => {
   );
 
   useEffect(() => {
-    if (verifyData?.responseBody?.accountName) {
-      setCustomerName(verifyData.responseBody.accountName);
+    if (verifyData?.data?.account_name) {
+      setCustomerName(verifyData.data.account_name);
     }
   }, [verifyData]);
 
@@ -142,13 +142,13 @@ const SendBank = () => {
       const percentRev = (amount * bankPercentage) / 100;
 
       navigation.navigate("SendReview", {
-        destinationAccountNumber: formState.accountNumber,
-        destinationBankCode: formState.selectedBank,
+        account_number: formState.accountNumber,
+        bank_code: formState.selectedBank,
         destinationBankName: formState.selectedBankName,
         amount: amount,
         percentRev,
-        narration: formState.narration,
-        customerName,
+        reason: formState.narration,
+        name: customerName,
       });
     }
   };
@@ -232,9 +232,10 @@ const SendBank = () => {
         />
       </View>
 
-      <Spacer size={hp(10)} direction="vertical" />
+      <View style={styles.btn}>
+        <CustomBtn label="Continue" onPress={handleSubmit} />
+      </View>
 
-      <CustomBtn label="Continue" onPress={handleSubmit} />
       <ToastMessage
         isVisible={isVisible}
         message={message}
@@ -262,6 +263,10 @@ const styles = StyleSheet.create({
   accountNameContainer: {
     alignSelf: "flex-end",
     marginTop: hp(-2),
+  },
+  btn: {
+    marginTop: "auto",
+    marginBottom: hp(3),
   },
 });
 

@@ -38,7 +38,10 @@ const KYC1: React.FC = () => {
 
   // Constant values for the remaining fields
   const Name: string = userData?.name || "";
-  const [first_name, last_name = ""] = Name.split(" ");
+  const nameParts = Name.trim().split(" ");
+  const first_name = nameParts[0] || "";
+  const last_name = nameParts[1] || "Remit";
+
   const email: string = userData?.email || "";
   const [phone, setPhone] = useState<string>("");
   const [dob, setDob] = useState<string>("");
@@ -102,7 +105,8 @@ const KYC1: React.FC = () => {
     });
   };
 
-  const disable = !phone || phone.length != 11 || !email || !Name || isPending;
+  const disable =
+    !phone || phone.length != 11 || !email || !Name || isPending || !dob;
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>

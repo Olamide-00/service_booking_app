@@ -44,9 +44,7 @@ const Service = () => {
               >
                 <BoldText size="medium">{item.label}</BoldText>
                 <RegularText size="small">{item.description}</RegularText>
-                <View style={[styles.icon, { backgroundColor: item.bg2 }]}>
-                  {item.icon}
-                </View>
+                <View style={[styles.icon, {}]}>{item.icon}</View>
               </TouchableOpacity>
             </Animated.View>
           ))}

@@ -1,5 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { COLORS } from "./COLORS";
+import LottieView from "lottie-react-native";
 
 export const transactionActionData = [
   {
@@ -59,7 +60,14 @@ export const service = [
   {
     id: 1,
     label: "Buy Airtime",
-    icon: <Ionicons name="globe" size={20} />,
+    icon: (
+      <LottieView
+        source={require("@/assets/json/19.json")}
+        autoPlay
+        loop
+        style={{ width: 70, height: 70 }}
+      />
+    ),
     screen: "AirtimeScreen",
     bg: "rgba(255, 200, 100, 0.1) ",
     bg2: "rgba(255, 200, 100, 1) ",
@@ -68,7 +76,14 @@ export const service = [
   {
     id: 2,
     label: "Buy Data",
-    icon: <Ionicons name="globe" size={20} />,
+    icon: (
+      <LottieView
+        source={require("@/assets/json/10.json")}
+        autoPlay
+        loop
+        style={{ width: 60, height: 60 }}
+      />
+    ),
     screen: "DataScreen",
     bg: "rgba(10, 37, 39, 0.1)",
     bg2: "rgba(10, 37, 39, 01)",
@@ -77,7 +92,14 @@ export const service = [
   {
     id: 3,
     label: "TV Subscription",
-    icon: <Ionicons name="globe" size={20} />,
+    icon: (
+      <LottieView
+        source={require("@/assets/json/16.json")}
+        autoPlay
+        loop
+        style={{ width: 70, height: 70 }}
+      />
+    ),
     screen: "TVScreen",
     bg: "rgba(135, 206, 235, 0.1)",
     bg2: "rgba(135, 206, 235, 01)",
@@ -86,7 +108,14 @@ export const service = [
   {
     id: 4,
     label: "Electricity",
-    icon: <Ionicons name="globe" size={20} />,
+    icon: (
+      <LottieView
+        source={require("@/assets/json/17.json")}
+        autoPlay
+        loop
+        style={{ width: 60, height: 60 }}
+      />
+    ),
     screen: "ElectricityScreen",
     bg: "rgba(216, 15, 149, 0.1)",
     bg2: "rgba(216, 15, 149, 01)",
@@ -95,7 +124,14 @@ export const service = [
   {
     id: 5,
     label: "Save",
-    icon: <Ionicons name="globe" size={20} />,
+    icon: (
+      <LottieView
+        source={require("@/assets/json/14.json")}
+        autoPlay
+        loop
+        style={{ width: 70, height: 70 }}
+      />
+    ),
     screen: "ComingSoon",
     bg: "rgba(152, 32, 233, 0.1)rgba(255, 200, 100, 0.1) ",
     bg2: "rgba(152, 32, 233, 01) ",
@@ -104,7 +140,14 @@ export const service = [
   {
     id: 6,
     label: "Loan",
-    icon: <Ionicons name="globe" size={20} />,
+    icon: (
+      <LottieView
+        source={require("@/assets/json/15.json")}
+        autoPlay
+        loop
+        style={{ width: 60, height: 60 }}
+      />
+    ),
     screen: "ComingSoon",
     bg: "rgba(7, 231, 7, 0.1) ",
     bg2: "rgba(7, 231, 7, 1) ",
@@ -113,7 +156,14 @@ export const service = [
   {
     id: 7,
     label: "Education",
-    icon: <Ionicons name="globe" size={20} />,
+    icon: (
+      <LottieView
+        source={require("@/assets/json/12.json")}
+        autoPlay
+        loop
+        style={{ width: 60, height: 60 }}
+      />
+    ),
     screen: "ComingSoon",
     bg: "rgba(128, 0, 0, 0.1) ",
     bg2: "rgba(128, 0, 0, 1)",
@@ -122,7 +172,14 @@ export const service = [
   {
     id: 8,
     label: "Government Bills",
-    icon: <Ionicons name="globe" size={20} />,
+    icon: (
+      <LottieView
+        source={require("@/assets/json/11.json")}
+        autoPlay
+        loop
+        style={{ width: 60, height: 60 }}
+      />
+    ),
     screen: "ComingSoon",
     bg: "rgba(75, 0, 130, 0.1) ",
     bg2: "rgba(75, 0, 130, 1) ",

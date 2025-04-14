@@ -31,7 +31,7 @@ const ForgetPassword = () => {
       return;
     }
     otpDAta(
-      { email: email },
+      { email: email.toLowerCase() },
       {
         onSuccess: () => {
           setOpen(true);

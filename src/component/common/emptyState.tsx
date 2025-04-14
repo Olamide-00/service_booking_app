@@ -5,6 +5,7 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import { RegularText } from "../text/indext";
+import LottieView from "lottie-react-native";
 
 type Prop = {
   message: string;
@@ -12,10 +13,11 @@ type Prop = {
 const EmptyState = ({ message }: Prop) => {
   return (
     <View style={styles.container}>
-      <Image
-        source={require("../../../assets/images/oops.png")}
-        resizeMode="contain"
-        style={styles.image}
+      <LottieView
+        source={require("@/assets/json/20.json")}
+        autoPlay
+        loop
+        style={{ width: 120, height: 120 }}
       />
       <RegularText size="medium">{message}</RegularText>
     </View>

@@ -32,11 +32,7 @@ export const styles = StyleSheet.create({
   },
   icon: {
     position: "absolute",
-    bottom: hp(2),
-    right: hp(2),
-    backgroundColor: COLORS.primary,
-    paddingHorizontal: wp(3),
-    paddingVertical: hp(1),
-    borderRadius: 10,
+    bottom: hp(0),
+    right: hp(0),
   },
 });

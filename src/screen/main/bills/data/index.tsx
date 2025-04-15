@@ -26,27 +26,22 @@ const DataScreen = () => {
   const navigation = useNavigation();
   const { data, isLoading } = useGetAllServices("data");
 
-  // check
   const userData = useAuthStore((state) => state.userData);
   const isWalletCreated = userData?.isWalletCreated;
 
-  // toast message
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [message, setMessage] = useState<string>("");
   const [success, setSuccess] = useState<boolean>(false);
 
-  // State variables
   const [phoneNumber, setPhoneNumber] = useState("");
   const [selectedNetwork, setSelectedNetwork] = useState("");
   const [selectedDataPlan, setSelectedDataPlan] = useState("");
   const [networks, setNetworks] = useState([]);
   const [dataPlans, setDataPlans] = useState([]);
 
-  // Fetch percentage from backend (default to 0 if undefined)
   const { data: percentage, isLoading: isPercentageLoading } = usePercentage();
   const dataPercentage = percentage?.data || 0;
 
-  // Parse network providers from API response
   useEffect(() => {
     if (data?.data?.content) {
       const providersData = data.data.content.map((item) => ({
@@ -56,7 +51,6 @@ const DataScreen = () => {
         image: item.image,
       }));
 
-      // Remove duplicates
       const uniqueProviders = providersData.filter(
         (provider, index, self) =>
           index === self.findIndex((p) => p.label === provider.label)
@@ -66,33 +60,22 @@ const DataScreen = () => {
     }
   }, [data]);
 
-  // Fetch data plans based on selected network
   const { data: dataPackage, isLoading: dataPackageLoading } =
     useGetServicePLan(selectedNetwork);
 
-  // Process data plans when new data is fetched
   useEffect(() => {
     if (dataPackage?.data?.content?.variations) {
       const plans = dataPackage.data.content.variations.map((plan) => {
-        // Remove the last numeric part (-3000) from variation_code for display
-        const cleanVariationCode = plan.variation_code.replace(/-\d+$/, "");
-
-        // Modify variation_code to end with "-300" before sending to next screen
-        const modifiedVariationCode = plan.variation_code;
-
-        // Convert price and apply percentage increase
         const cleanAmount = parseFloat(plan.variation_amount) || 0;
         const increasedAmount =
           cleanAmount + (cleanAmount * dataPercentage) / 100;
 
-        const percentRev = (cleanAmount * dataPercentage) / 100;
+        const cleanedName = plan.name; // remove "- N1500" part
 
         return {
-          id: modifiedVariationCode,
-          label: `${cleanVariationCode} ₦${increasedAmount
-            .toFixed(2)
-            .replace(/\.00$/, "")}`,
-          value: modifiedVariationCode,
+          id: plan.variation_code,
+          label: `${cleanedName}`,
+          value: plan.variation_code,
           actualAmount: cleanAmount,
         };
       });
@@ -103,7 +86,6 @@ const DataScreen = () => {
     }
   }, [dataPackage, dataPercentage]);
 
-  // Handle Continue button click
   const handleContinue = () => {
     if (!isWalletCreated) {
       setIsVisible(true);
@@ -120,12 +102,13 @@ const DataScreen = () => {
       (plan) => plan.value === selectedDataPlan
     );
 
-    const percentRev =
-      (selectedPlanObject?.actualAmount * dataPercentage) / 100;
+    const baseAmount = selectedPlanObject?.actualAmount || 0;
+    const percentRev = (baseAmount * dataPercentage) / 100;
+    const totalAmount = baseAmount + percentRev;
 
     navigation.navigate("ReviewScreen1", {
       phoneNumber,
-      amount: selectedPlanObject?.actualAmount.toFixed(2),
+      amount: totalAmount.toFixed(2),
       variation_code: selectedPlanObject?.id,
       serviceID: selectedNetwork,
       percentRev,

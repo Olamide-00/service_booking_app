@@ -3,7 +3,7 @@ import { useFonts } from "expo-font";
 import * as Updates from "expo-updates";
 import RootNavigation from "./src/navigation/rootNavigation";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ActivityIndicator, View } from "react-native";
+import { ActivityIndicator, StatusBar, View } from "react-native";
 import { COLORS } from "./src/constant/COLORS";
 import * as Notifications from "expo-notifications";
 import * as Device from "expo-device";
@@ -81,6 +81,7 @@ const App = () => {
   }
   return (
     <QueryClientProvider client={queryClient}>
+      <StatusBar barStyle={"dark-content"} />
       <RootNavigation />
     </QueryClientProvider>
   );

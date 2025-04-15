@@ -8,6 +8,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
+import Spacer from "@/src/component/common/spacer";
 
 const QuickAction = () => {
   const navigation = useNavigation();
@@ -17,6 +18,7 @@ const QuickAction = () => {
       <BoldText size="large" color="black">
         Quick Actions
       </BoldText>
+      <Spacer size={hp(4)} direction="vertical" />
       <View style={styles.itemContainer}>
         {QuickActionData.map((item, index) => (
           <Animated.View
@@ -55,17 +57,17 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-between",
-    marginTop: hp(4),
+    // marginTop: hp(4),
   },
   itemWrapper: {
     width: "48%",
   },
   item: {
-    padding: 15,
-    marginBottom: 10,
+    paddingVertical: hp(1.5),
+    marginBottom: hp(1.5),
     alignItems: "center",
     borderRadius: 10,
-    borderWidth: 0.5,
+    borderWidth: 0.3,
     borderColor: "#2A2A72",
   },
 });

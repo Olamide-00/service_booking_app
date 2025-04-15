@@ -2,10 +2,10 @@ import React from "react";
 import { Text, StyleSheet, TextProps } from "react-native";
 
 const TEXT_SIZES = {
-  small: 12,
-  medium: 13,
-  large: 20,
-  xlarge: 24,
+  small: 9,
+  medium: 11,
+  large: 15,
+  xlarge: 18,
 } as const;
 
 const TEXT_COLORS = {
@@ -32,6 +32,7 @@ export const RegularText: React.FC<CustomTextProps> = ({
   ...props
 }) => (
   <Text
+    allowFontScaling={false}
     style={[
       styles.regular,
       { fontSize: TEXT_SIZES[size], color: TEXT_COLORS[color] },
@@ -48,6 +49,7 @@ export const MediumText: React.FC<CustomTextProps> = ({
   ...props
 }) => (
   <Text
+    allowFontScaling={false}
     style={[
       styles.medium,
       { fontSize: TEXT_SIZES[size], color: TEXT_COLORS[color] },
@@ -64,6 +66,7 @@ export const BoldText: React.FC<CustomTextProps> = ({
   ...props
 }) => (
   <Text
+    allowFontScaling={false}
     style={[
       styles.bold,
       { fontSize: TEXT_SIZES[size], color: TEXT_COLORS[color] },
@@ -80,6 +83,7 @@ export const ExtraBoldText: React.FC<CustomTextProps> = ({
   ...props
 }) => (
   <Text
+    allowFontScaling={false}
     style={[
       styles.extraBold,
       { fontSize: TEXT_SIZES[size], color: TEXT_COLORS[color] },

@@ -39,7 +39,9 @@ const ReviewScreen1: React.FC = () => {
     variation_code === "prepaid" || variation_code === "postpaid";
 
   const dstv = serviceID === "dstv";
-  console.log(percentRev);
+  const new_amount = Math.round(
+    serviceID.includes("data") ? amount - (percentRev || 0) : amount
+  );
 
   return (
     <SafeAreaView style={styles.root}>
@@ -62,7 +64,7 @@ const ReviewScreen1: React.FC = () => {
             navigation.navigate("PIN", {
               serviceID,
               variation_code,
-              amount,
+              amount: new_amount,
               phoneNumber,
               billersCode,
               type,

@@ -44,6 +44,8 @@ const PIN = () => {
   const [message, setMessage] = useState<string>("");
   const [success, setSuccess] = useState<boolean>(false);
 
+  console.log(percentRev, amount);
+
   useEffect(() => {
     if (pin.length === 4) {
       setLoading(true);

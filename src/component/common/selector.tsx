@@ -96,7 +96,7 @@ const Selector = ({
             [...Array(3)].map((_, index) => (
               <MotiView
                 key={index}
-                from={{ opacity: 0.3 }}
+                from={{ opacity: 0.4 }}
                 animate={{ opacity: 1 }}
                 transition={{ loop: true, type: "timing", duration: 700 }}
                 style={styles.skeletonOption}
@@ -157,6 +157,7 @@ const styles = StyleSheet.create({
   },
   option: {
     padding: wp(2),
+    paddingVertical: hp(2),
     borderBottomWidth: 0.5,
     borderBottomColor: COLORS.border,
   },

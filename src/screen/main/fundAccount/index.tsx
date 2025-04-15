@@ -87,12 +87,12 @@ const FundWallet: React.FC = () => {
                 </TouchableOpacity>
               </View>
             </Card>
-            <Card style={styles.card}>
+            {/* <Card style={styles.card}>
               <CardAdd size={30} color={COLORS.primary} />
               <ExtraBoldText size="medium" color="primary">
                 Fund With Card
               </ExtraBoldText>
-            </Card>
+            </Card> */}
           </>
         ) : (
           <View>
@@ -102,12 +102,13 @@ const FundWallet: React.FC = () => {
               </MediumText>
             </Card>
             <Spacer size={hp(2)} direction="vertical" />
-            <Card style={styles.card}>
+
+            {/* <Card style={styles.card}>
               <CardAdd size={30} color={COLORS.primary} />
               <ExtraBoldText size="medium" color="primary">
                 Fund With Card
               </ExtraBoldText>
-            </Card>
+            </Card> */}
           </View>
         )}
       </View>

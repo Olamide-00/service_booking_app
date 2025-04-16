@@ -23,7 +23,7 @@ import { usePushNotification } from "@/src/utils/pushToken";
 const SignUp = () => {
   const navigation = useNavigation();
   const { mutate: register, isPending } = useRegister();
-  const expoPushToken = usePushNotification();
+  const { pushToken } = usePushNotification();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -77,7 +77,7 @@ const SignUp = () => {
         email: formData.email,
         password: formData.password,
         name: formData.name,
-        pushToken: expoPushToken,
+        pushToken: pushToken,
       },
       {
         onSuccess: (data) => {

@@ -6,8 +6,18 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ActivityIndicator, StatusBar, View } from "react-native";
 import { COLORS } from "./src/constant/COLORS";
 import * as Notifications from "expo-notifications";
-import * as Device from "expo-device";
-import { Platform } from "react-native";
+
+// Set global notification handler once at the app level
+Notifications.setNotificationHandler({
+  handleNotification: async (notification) => {
+    console.log("Handling foreground notification:", notification);
+    return {
+      shouldShowAlert: true,
+      shouldPlaySound: true,
+      shouldSetBadge: true,
+    };
+  },
+});
 
 const queryClient = new QueryClient();
 
@@ -32,20 +42,8 @@ const App = () => {
     checkForUpdates();
   }, []);
 
-  // listening for push notifications
+  // Listening for push notifications
   useEffect(() => {
-    // Set the notification handler to control how notifications are displayed
-    Notifications.setNotificationHandler({
-      handleNotification: async (notification) => {
-        console.log("Handling foreground notification:", notification);
-        return {
-          shouldShowAlert: true,
-          shouldPlaySound: true,
-          shouldSetBadge: true,
-        };
-      },
-    });
-
     // Foreground notification listener
     const foregroundSubscription =
       Notifications.addNotificationReceivedListener((notification) => {
@@ -55,7 +53,9 @@ const App = () => {
     // Notification response (tap on notification)
     const responseSubscription =
       Notifications.addNotificationResponseReceivedListener((response) => {
-        console.log("Notification tapped:", response);
+        // Extract notification data
+        const { notification } = response;
+        const data = notification.request.content.data;
       });
 
     // Cleanup listeners on unmount

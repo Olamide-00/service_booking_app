@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View, Text, TouchableWithoutFeedback, Keyboard } from "react-native";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Header from "@/src/component/common/header";
@@ -75,33 +75,40 @@ const OTPInput = () => {
   const loading = isLoading || isPending;
 
   return (
-    <SafeAreaView style={styles.root}>
-      <Header showIcon showLogo />
-      <View>
-        <View style={styles.title}>
-          <MediumText size="large">Verify OTP code</MediumText>
-          <RegularText size="medium">
-            Enter the 6-digit OTP sent to your email address {"\n"} {email}
-          </RegularText>
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <SafeAreaView style={styles.root}>
+        <Header showIcon showLogo />
+        <View>
+          <View style={styles.title}>
+            <MediumText size="large">Verify OTP code</MediumText>
+            <RegularText size="medium">
+              Enter the 6-digit OTP sent to your email address {"\n"} {email}
+            </RegularText>
+          </View>
+          <Spacer size={hp(5)} />
+          <OTP
+            column={6}
+            value={otp}
+            setValue={setOtp}
+            func={handleResendOtp}
+          />
         </View>
-        <Spacer size={hp(5)} />
-        <OTP column={6} value={otp} setValue={setOtp} func={handleResendOtp} />
-      </View>
-      <View style={styles.btn}>
-        <CustomBtn
-          label="Continue"
-          onPress={handleVerifyOtp}
-          isLoading={loading}
-          disabled={loading}
+        <View style={styles.btn}>
+          <CustomBtn
+            label="Continue"
+            onPress={handleVerifyOtp}
+            isLoading={loading}
+            disabled={loading}
+          />
+        </View>
+        <ToastMessage
+          isVisible={visible}
+          message={message}
+          onClose={() => setVisible(false)}
+          isSuccessful={sucess}
         />
-      </View>
-      <ToastMessage
-        isVisible={visible}
-        message={message}
-        onClose={() => setVisible(false)}
-        isSuccessful={sucess}
-      />
-    </SafeAreaView>
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 };
 

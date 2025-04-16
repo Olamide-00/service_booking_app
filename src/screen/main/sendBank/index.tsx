@@ -1,4 +1,11 @@
-import { ActivityIndicator, Pressable, StyleSheet, View } from "react-native";
+import {
+  ActivityIndicator,
+  Keyboard,
+  Pressable,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  View,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { COLORS } from "@/src/constant/COLORS";
@@ -154,95 +161,97 @@ const SendBank = () => {
   };
 
   return (
-    <SafeAreaView style={styles.root} key={route.key}>
-      <Header label="Bank Transfer" showLogo />
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <SafeAreaView style={styles.root} key={route.key}>
+        <Header label="Bank Transfer" showLogo />
 
-      <View style={styles.input}>
-        <CustomTextInput
-          title="Account Number"
-          placeholder="Enter account number"
-          value={formState.accountNumber}
-          setValue={(value) => handleInputChange("accountNumber", value)}
-          keyboardType="numeric"
-          error={errors.accountNumber}
-          maxLength={10}
-        />
-        <View style={styles.accountNameContainer}>
-          {customerName &&
-          formState.selectedBank &&
-          formState.accountNumber.length === 10 ? (
-            <RegularText size="small" color="secondaryColor">
-              {customerName || "Invalid bank details"}
+        <View style={styles.input}>
+          <CustomTextInput
+            title="Account Number"
+            placeholder="Enter account number"
+            value={formState.accountNumber}
+            setValue={(value) => handleInputChange("accountNumber", value)}
+            keyboardType="numeric"
+            error={errors.accountNumber}
+            maxLength={10}
+          />
+          <View style={styles.accountNameContainer}>
+            {customerName &&
+            formState.selectedBank &&
+            formState.accountNumber.length === 10 ? (
+              <RegularText size="small" color="secondaryColor">
+                {customerName || "Invalid bank details"}
+              </RegularText>
+            ) : (
+              isVerifying && (
+                <ActivityIndicator size="small" color={COLORS.primary} />
+              )
+            )}
+          </View>
+
+          <Spacer size={hp(1.5)} direction="vertical" />
+
+          <Selector
+            label="Select Bank"
+            options={
+              Array.isArray(bankData) && bankData.length > 0
+                ? bankData.map((bank) => ({
+                    label: bank.name,
+                    value: bank.code,
+                  }))
+                : []
+            }
+            showSearch
+            onSelect={(bankCode) => {
+              const bankName =
+                Array.isArray(bankData) && bankData.length > 0
+                  ? bankData.find((bank) => bank.code === bankCode)?.name || ""
+                  : "";
+              handleBankSelect(bankCode, bankName);
+            }}
+            selectedValue={formState.selectedBank}
+            loading={isPending}
+          />
+          {errors.bank ? (
+            <RegularText size="small" style={styles.errorText}>
+              {errors.bank}
             </RegularText>
-          ) : (
-            isVerifying && (
-              <ActivityIndicator size="small" color={COLORS.primary} />
-            )
-          )}
+          ) : null}
+
+          <Spacer size={hp(2)} direction="vertical" />
+
+          <CustomTextInput
+            title="Amount"
+            placeholder="Enter amount"
+            keyboardType="numeric"
+            value={formState.amount}
+            setValue={(value) => handleInputChange("amount", value)}
+            error={errors.amount}
+          />
+
+          <Spacer size={hp(0)} direction="vertical" />
+
+          <CustomTextInput
+            title="Narration"
+            placeholder="Enter narration (optional)"
+            value={formState.narration}
+            setValue={(value) => handleInputChange("narration", value)}
+            error={errors.narration}
+          />
         </View>
 
-        <Spacer size={hp(1.5)} direction="vertical" />
+        <View style={styles.btn}>
+          <CustomBtn label="Continue" onPress={handleSubmit} />
+        </View>
 
-        <Selector
-          label="Select Bank"
-          options={
-            Array.isArray(bankData) && bankData.length > 0
-              ? bankData.map((bank) => ({
-                  label: bank.name,
-                  value: bank.code,
-                }))
-              : []
-          }
-          showSearch
-          onSelect={(bankCode) => {
-            const bankName =
-              Array.isArray(bankData) && bankData.length > 0
-                ? bankData.find((bank) => bank.code === bankCode)?.name || ""
-                : "";
-            handleBankSelect(bankCode, bankName);
-          }}
-          selectedValue={formState.selectedBank}
-          loading={isPending}
+        <ToastMessage
+          isVisible={isVisible}
+          message={message}
+          onClose={() => setIsVisible(false)}
+          isSuccessful={success}
         />
-        {errors.bank ? (
-          <RegularText size="small" style={styles.errorText}>
-            {errors.bank}
-          </RegularText>
-        ) : null}
-
-        <Spacer size={hp(2)} direction="vertical" />
-
-        <CustomTextInput
-          title="Amount"
-          placeholder="Enter amount"
-          keyboardType="numeric"
-          value={formState.amount}
-          setValue={(value) => handleInputChange("amount", value)}
-          error={errors.amount}
-        />
-
-        <Spacer size={hp(0)} direction="vertical" />
-
-        <CustomTextInput
-          title="Narration"
-          placeholder="Enter narration (optional)"
-          value={formState.narration}
-          setValue={(value) => handleInputChange("narration", value)}
-          error={errors.narration}
-        />
-      </View>
-
-      <View style={styles.btn}>
-        <CustomBtn label="Continue" onPress={handleSubmit} />
-      </View>
-
-      <ToastMessage
-        isVisible={isVisible}
-        message={message}
-        onClose={() => setIsVisible(false)}
-        isSuccessful={success}
-      />
-    </SafeAreaView>
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 };
 

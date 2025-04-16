@@ -6,7 +6,10 @@ import { COLORS } from "../../constant/COLORS";
 import Profile from "../../screen/main/profile";
 import Transaction from "../../screen/main/transaction";
 import Service from "../../screen/main/service";
-
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
 const Tab = createBottomTabNavigator();
 
 const BottomTabs = () => {
@@ -33,12 +36,8 @@ const BottomTabs = () => {
         tabBarStyle: {
           backgroundColor: COLORS.primary,
           marginHorizontal: 20,
-          marginBottom: 10,
+          marginBottom: 8,
           borderRadius: 50,
-          height: 60,
-          borderWidth: 2,
-          borderColor: "#E0E0E0",
-          paddingTop: 5,
         },
       })}
     >

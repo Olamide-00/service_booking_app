@@ -60,11 +60,11 @@ const styles = StyleSheet.create({
     // marginTop: hp(4),
   },
   itemWrapper: {
-    width: "48%",
+    width: wp("44%"),
   },
   item: {
-    paddingVertical: hp(1.5),
-    marginBottom: hp(1.5),
+    paddingVertical: hp("1.5%"),
+    marginBottom: hp("1.5%"),
     alignItems: "center",
     borderRadius: 10,
     borderWidth: 0.3,

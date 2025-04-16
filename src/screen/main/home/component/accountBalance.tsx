@@ -58,16 +58,16 @@ const styles = StyleSheet.create({
   balanceContainer: {
     flexDirection: "row",
     alignItems: "center",
-    gap: wp(4),
+    gap: wp("4%"),
   },
   dot: {
-    width: 16,
-    height: 16,
+    width: 14,
+    height: 14,
     borderRadius: 14,
     backgroundColor: COLORS.primary,
-    marginRight: 10,
+    marginRight: 5,
   },
   dotContainer: {
-    paddingHorizontal: wp(2),
+    paddingHorizontal: wp("1.5%"),
   },
 });

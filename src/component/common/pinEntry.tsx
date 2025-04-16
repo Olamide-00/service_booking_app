@@ -173,7 +173,7 @@ const styles = StyleSheet.create({
     transform: [{ scale: 1.1 }],
   },
   keyboardWrapper: {
-    marginTop: hp(10),
+    marginTop: hp("10%"),
   },
   keyboardRow: {
     flexDirection: "row",
@@ -188,13 +188,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 100,
-    marginVertical: hp(2),
+    marginVertical: hp("2%"),
     // iOS shadow properties
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
-    elevation: 5,
+    elevation: 3,
   },
 
   halfButton: {

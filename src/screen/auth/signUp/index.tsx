@@ -5,6 +5,8 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -95,75 +97,77 @@ const SignUp = () => {
     isPending;
 
   return (
-    <SafeAreaView style={styles.root}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={{ flex: 1 }}
-      >
-        <ScrollView
-          contentContainerStyle={{ flexGrow: 1 }}
-          showsVerticalScrollIndicator={false}
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <SafeAreaView style={styles.root}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          style={{ flex: 1 }}
         >
-          <View style={styles.header}>
-            <Spacer size={hp(3)} direction="vertical" />
-            <Image
-              source={require("../../../../assets/images/REMITBRAND.png")}
-              style={styles.image}
-              resizeMode="cover"
-            />
-            <Spacer size={hp(-2)} direction="vertical" />
-            <BoldText size="large">Sign Up to Remit</BoldText>
-          </View>
-          <Spacer size={hp(3)} direction="vertical" />
-          <View style={styles.inputContainer}>
-            <CustomTextInput
-              placeholder="e.g. Olamide Oladele"
-              title="Full Name"
-              value={formData.name}
-              setValue={(val) => handleInputChange("name", val)}
-              error={errors.name}
-            />
-            <CustomTextInput
-              placeholder="Enter your email address"
-              title="Email"
-              value={formData.email}
-              setValue={(val) => handleInputChange("email", val)}
-              error={errors.email}
-            />
-            <CustomTextInput
-              placeholder="Enter your password"
-              title="Password"
-              value={formData.password}
-              setValue={(val) => handleInputChange("password", val)}
-              isPassword
-              error={errors.password}
-            />
-            <CustomTextInput
-              placeholder="Confirm your password"
-              title="Confirm Password"
-              value={formData.confirmPassword}
-              setValue={(val) => handleInputChange("confirmPassword", val)}
-              isConfirmPassword
-              error={errors.confirmPassword}
-            />
-          </View>
-          <Spacer size={hp(3)} direction="vertical" />
-          <CustomBtn
-            label="Sign Up"
-            onPress={handleSubmit}
-            disabled={disable}
-            isLoading={isPending}
-          />
-          <Spacer direction="vertical" size={hp(2)} />
-          <TouchableOpacity
-            style={{ alignSelf: "center" }}
-            onPress={() => navigation.navigate("Login")}
+          <ScrollView
+            contentContainerStyle={{ flexGrow: 1 }}
+            showsVerticalScrollIndicator={false}
           >
-            <MediumText size="medium">I Already Have An Account</MediumText>
-          </TouchableOpacity>
-        </ScrollView>
-      </KeyboardAvoidingView>
-    </SafeAreaView>
+            <View style={styles.header}>
+              <Spacer size={hp(3)} direction="vertical" />
+              <Image
+                source={require("../../../../assets/images/REMITBRAND.png")}
+                style={styles.image}
+                resizeMode="cover"
+              />
+              <Spacer size={hp(-2)} direction="vertical" />
+              <BoldText size="large">Sign Up to Remit</BoldText>
+            </View>
+            <Spacer size={hp(3)} direction="vertical" />
+            <View style={styles.inputContainer}>
+              <CustomTextInput
+                placeholder="e.g. Olamide Oladele"
+                title="Full Name"
+                value={formData.name}
+                setValue={(val) => handleInputChange("name", val)}
+                error={errors.name}
+              />
+              <CustomTextInput
+                placeholder="Enter your email address"
+                title="Email"
+                value={formData.email}
+                setValue={(val) => handleInputChange("email", val)}
+                error={errors.email}
+              />
+              <CustomTextInput
+                placeholder="Enter your password"
+                title="Password"
+                value={formData.password}
+                setValue={(val) => handleInputChange("password", val)}
+                isPassword
+                error={errors.password}
+              />
+              <CustomTextInput
+                placeholder="Confirm your password"
+                title="Confirm Password"
+                value={formData.confirmPassword}
+                setValue={(val) => handleInputChange("confirmPassword", val)}
+                isConfirmPassword
+                error={errors.confirmPassword}
+              />
+            </View>
+            <Spacer size={hp(3)} direction="vertical" />
+            <CustomBtn
+              label="Sign Up"
+              onPress={handleSubmit}
+              disabled={disable}
+              isLoading={isPending}
+            />
+            <Spacer direction="vertical" size={hp(2)} />
+            <TouchableOpacity
+              style={{ alignSelf: "center" }}
+              onPress={() => navigation.navigate("Login")}
+            >
+              <MediumText size="medium">I Already Have An Account</MediumText>
+            </TouchableOpacity>
+          </ScrollView>
+        </KeyboardAvoidingView>
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 };
 

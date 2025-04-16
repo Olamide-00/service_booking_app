@@ -69,15 +69,15 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     alignItems: "center",
-    gap: wp(5),
+    gap: wp("5%"),
   },
   item: {
     borderWidth: 0.8,
     borderColor: COLORS.border,
-    width: wp(43),
+    width: wp("43%"),
     alignItems: "center",
     justifyContent: "center",
-    height: hp(4.5),
+    paddingVertical: hp("0.9%"),
     borderRadius: 10,
   },
   item2: {
@@ -86,9 +86,9 @@ const styles = StyleSheet.create({
     width: wp(43),
     alignItems: "center",
     justifyContent: "center",
-    height: hp(4.5),
+    paddingVertical: hp("0.8%"),
     borderRadius: 10,
     flexDirection: "row",
-    gap: wp(3),
+    gap: wp("3%"),
   },
 });

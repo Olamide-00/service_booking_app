@@ -102,13 +102,13 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     borderColor: COLORS.border,
     borderRadius: 8,
-    paddingHorizontal: wp(5),
-    height: hp(6.5),
-    marginHorizontal: wp(1),
+    paddingHorizontal: wp("5%"),
+    height: hp("6.5%"),
+    marginHorizontal: wp("1%"),
   },
   label: {
-    marginBottom: hp(1.5),
-    marginLeft: wp(1),
+    marginBottom: hp("1.5%"),
+    marginLeft: wp("1%"),
   },
   modalContainer: {
     flex: 1,

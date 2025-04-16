@@ -125,7 +125,7 @@ const Selector = ({
 
 const styles = StyleSheet.create({
   container: {
-    width: wp(90),
+    width: wp("90%"),
   },
   selectorContainer: {
     flexDirection: "row",
@@ -134,39 +134,39 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: COLORS.border,
     borderRadius: 5,
-    paddingHorizontal: wp(2),
-    height: hp(6),
+    paddingHorizontal: wp("2%"),
+    height: hp("6%"),
   },
   optionsContainer: {
     borderWidth: 1,
     borderColor: COLORS.border,
     borderRadius: 5,
-    marginTop: hp(1),
-    maxHeight: hp(35),
+    marginTop: hp("5%"),
+    maxHeight: hp("35%"),
     backgroundColor: "#fff",
-    paddingHorizontal: wp(2),
-    paddingVertical: hp(1),
+    paddingHorizontal: wp("2%"),
+    paddingVertical: hp("1%"),
   },
   searchInput: {
     borderWidth: 1,
     borderColor: COLORS.border,
     borderRadius: 5,
-    paddingHorizontal: wp(2),
-    height: hp(5),
-    marginBottom: hp(1),
+    paddingHorizontal: wp("2%"),
+    height: hp("5%"),
+    marginBottom: hp("1%"),
   },
   option: {
-    padding: wp(2),
-    paddingVertical: hp(2),
+    padding: wp("2%"),
+    paddingVertical: hp("2%"),
     borderBottomWidth: 0.5,
     borderBottomColor: COLORS.border,
   },
   skeletonOption: {
     width: "100%",
-    height: hp(5),
+    height: hp("5%"),
     backgroundColor: "#E0E0E0",
     borderRadius: 5,
-    marginBottom: hp(1),
+    marginBottom: hp("1%"),
   },
 });
 

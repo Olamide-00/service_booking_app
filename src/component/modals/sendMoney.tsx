@@ -8,8 +8,8 @@ import {
 import { COLORS } from "@/src/constant/COLORS";
 import { BoldText, MediumText } from "../text/indext";
 import Divider from "../common/divider";
-import { Bank, EmptyWallet } from "iconsax-react-native";
 import { useNavigation } from "@react-navigation/native";
+import LottieView from "lottie-react-native";
 
 interface SendMoneyProps {
   isVisible: boolean;
@@ -27,12 +27,26 @@ const SendMoney: React.FC<SendMoneyProps> = ({ isVisible, setIsVisible }) => {
 
   const menuOptions: MenuOption[] = [
     {
-      icon: <EmptyWallet size={20} color={COLORS.primary} />,
+      icon: (
+        <LottieView
+          source={require("@/assets/json/b.json")}
+          autoPlay
+          loop
+          style={{ width: 50, height: 40 }}
+        />
+      ),
       title: "Send to Remit wallet",
       navigateTo: "SendRemit",
     },
     {
-      icon: <Bank size={32} color={COLORS.primary} />,
+      icon: (
+        <LottieView
+          source={require("@/assets/json/a.json")}
+          autoPlay
+          loop
+          style={{ width: 50, height: 40 }}
+        />
+      ),
       title: "Send to Bank",
       navigateTo: "SendBank",
     },
@@ -50,7 +64,9 @@ const SendMoney: React.FC<SendMoneyProps> = ({ isVisible, setIsVisible }) => {
         onPress={() => handleNavigation(navigateTo)}
       >
         {icon}
-        <MediumText size="medium">{title}</MediumText>
+        <MediumText size="medium" color="primary">
+          {title}
+        </MediumText>
       </TouchableOpacity>
       <Divider />
     </React.Fragment>
@@ -80,23 +96,25 @@ const SendMoney: React.FC<SendMoneyProps> = ({ isVisible, setIsVisible }) => {
 
 const styles = StyleSheet.create({
   container: {
-    width: wp(75),
-    height: hp(30),
+    width: wp("75%"),
+    height: hp("30%"),
     backgroundColor: COLORS.white,
     alignSelf: "center",
     borderRadius: 20,
   },
   title: {
     alignSelf: "center",
-    marginTop: hp(2),
+    marginTop: hp("1%"),
+    marginVertical: hp("-2%"),
   },
   item: {
     flexDirection: "row",
     alignItems: "center",
-    gap: wp(4),
+    gap: wp("5%"),
+    // backgroundColor: "red",
   },
   itemContainer: {
-    paddingHorizontal: wp(5),
+    paddingHorizontal: wp("7%"),
   },
 });
 

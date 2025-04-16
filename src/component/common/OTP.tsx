@@ -75,22 +75,22 @@ export default OTP;
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    gap: wp(3),
+    gap: wp("3%"),
     justifyContent: "center",
   },
   otp: {
-    width: wp(11),
-    height: hp(5),
+    width: wp("11%"),
+    height: hp("5%"),
     borderWidth: 1,
     textAlign: "center",
-    fontSize: hp(3),
+    fontSize: hp("3%"),
     borderRadius: 5,
     borderColor: COLORS.border,
   },
   resend: {
-    marginLeft: wp(7),
-    marginTop: hp(2),
+    marginLeft: wp("7%"),
+    marginTop: hp("2%"),
     flexDirection: "row",
-    gap: wp(2),
+    gap: wp("2%"),
   },
 });

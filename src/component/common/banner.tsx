@@ -44,9 +44,9 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     alignItems: "center",
-    gap: wp(5),
+    gap: wp("5%"),
     justifyContent: "center",
-    paddingVertical: hp(2),
+    paddingVertical: hp("2%"),
   },
   itemContainer: {
     gap: 5,

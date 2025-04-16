@@ -9,30 +9,28 @@ export const styles = StyleSheet.create({
   root: {
     flex: 1,
     backgroundColor: COLORS.white,
-    paddingHorizontal: wp(4),
+    paddingHorizontal: wp("4%"),
   },
   title: {
     alignSelf: "center",
-    marginTop: hp(2),
+    marginTop: hp("2%"),
   },
   itemContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
-    width: wp(100),
+    justifyContent: "space-between",
   },
   item: {
-    width: wp(45),
-    height: hp(20),
+    width: wp("45%"),
+    height: hp("20%"),
     borderRadius: 8,
-    paddingHorizontal: wp(3),
-    paddingTop: hp(2),
-
-    marginVertical: hp(1),
-    marginRight: hp(1),
+    paddingHorizontal: wp("3%"),
+    paddingTop: hp("2%"),
+    marginVertical: hp("1%"),
   },
   icon: {
     position: "absolute",
-    bottom: hp(0),
-    right: hp(0),
+    bottom: hp("0%"),
+    right: wp("0%"),
   },
 });

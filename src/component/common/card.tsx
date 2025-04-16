@@ -1,5 +1,9 @@
 import React from "react";
 import { Platform, StyleProp, StyleSheet, View, ViewStyle } from "react-native";
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
 
 interface CardProps {
   children: React.ReactNode;
@@ -17,7 +21,8 @@ const Card: React.FC<CardProps> = ({ children, borderOnly = false, style }) => {
 
 const styles = StyleSheet.create({
   card: {
-    padding: 15,
+    paddingVertical: hp("1.1%"),
+    paddingHorizontal: wp("2%"),
     backgroundColor: "#fff",
     borderRadius: 8,
     borderWidth: 0.5,
@@ -25,12 +30,12 @@ const styles = StyleSheet.create({
     ...Platform.select({
       ios: {
         shadowColor: "#000",
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 0.05,
-        shadowRadius: 3,
+        shadowOffset: { width: 0, height: 0.8 },
+        shadowOpacity: 0.03,
+        shadowRadius: 2,
       },
       android: {
-        elevation: 2,
+        elevation: 1,
       },
     }),
   },

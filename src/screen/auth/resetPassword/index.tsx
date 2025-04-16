@@ -1,4 +1,9 @@
-import { StyleSheet, View } from "react-native";
+import {
+  Keyboard,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  View,
+} from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
@@ -71,53 +76,55 @@ const ResetPassword = () => {
   const disable = !OTP || !password || !confirmPassword || otpLoading;
 
   return (
-    <SafeAreaView style={styles.root}>
-      <Header showLogo />
-      <View>
-        <BoldText size="large" color="primary">
-          Change Password
-        </BoldText>
-        <RegularText size="medium">
-          Enter a new password with the received OTP code
-        </RegularText>
-      </View>
-      <Spacer size={hp(8)} direction="vertical" />
-      <CustomTextInput
-        placeholder="Enter new password"
-        title="Password"
-        value={password}
-        setValue={setPassword}
-        secureTextEntry
-      />
-      <CustomTextInput
-        placeholder="Enter password again"
-        title="Confirm Password"
-        value={confirmPassword}
-        setValue={setConfirmPassword}
-        secureTextEntry
-      />
-      <CustomTextInput
-        placeholder="Enter OTP code"
-        title="OTP Code"
-        value={OTP}
-        setValue={setOTP}
-        keyboardType="numeric"
-      />
-      <View style={styles.btn}>
-        <CustomBtn
-          label="Continue"
-          onPress={handleRequestOTP}
-          isLoading={otpLoading}
-          disabled={disable}
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <SafeAreaView style={styles.root}>
+        <Header showLogo />
+        <View>
+          <BoldText size="large" color="primary">
+            Change Password
+          </BoldText>
+          <RegularText size="medium">
+            Enter a new password with the received OTP code
+          </RegularText>
+        </View>
+        <Spacer size={hp(8)} direction="vertical" />
+        <CustomTextInput
+          placeholder="Enter new password"
+          title="Password"
+          value={password}
+          setValue={setPassword}
+          secureTextEntry
         />
-      </View>
-      <ToastMessage
-        isVisible={open}
-        onClose={() => setOpen(false)}
-        message={message}
-        isSuccessful={success}
-      />
-    </SafeAreaView>
+        <CustomTextInput
+          placeholder="Enter password again"
+          title="Confirm Password"
+          value={confirmPassword}
+          setValue={setConfirmPassword}
+          secureTextEntry
+        />
+        <CustomTextInput
+          placeholder="Enter OTP code"
+          title="OTP Code"
+          value={OTP}
+          setValue={setOTP}
+          keyboardType="numeric"
+        />
+        <View style={styles.btn}>
+          <CustomBtn
+            label="Continue"
+            onPress={handleRequestOTP}
+            isLoading={otpLoading}
+            disabled={disable}
+          />
+        </View>
+        <ToastMessage
+          isVisible={open}
+          onClose={() => setOpen(false)}
+          message={message}
+          isSuccessful={success}
+        />
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 };
 

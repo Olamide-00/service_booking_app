@@ -64,14 +64,14 @@ const styles = StyleSheet.create({
   item: {
     flexDirection: "row",
     borderWidth: 0.8,
-    width: wp(40),
-    height: hp(5.5),
+    width: wp("40%"),
+    paddingVertical: hp("1.5%"),
     borderRadius: 20,
     alignItems: "center",
     justifyContent: "center",
     gap: 10,
     borderColor: COLORS.primary,
-    marginRight: wp(3),
+    marginRight: wp("3%"),
     backgroundColor: "rgba(42, 42, 114, 0.3)",
   },
 });

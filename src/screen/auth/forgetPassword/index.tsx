@@ -1,4 +1,10 @@
-import { StyleSheet, Text, View } from "react-native";
+import {
+  Keyboard,
+  StyleSheet,
+  Text,
+  TouchableWithoutFeedback,
+  View,
+} from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
@@ -50,38 +56,40 @@ const ForgetPassword = () => {
   const disable = otpLoading || !email;
 
   return (
-    <SafeAreaView style={styles.root}>
-      <Header showLogo />
-      <View>
-        <BoldText size="large" color="primary">
-          Reset Password
-        </BoldText>
-        <RegularText size="medium">
-          Enter the email linked with your account to proceed
-        </RegularText>
-      </View>
-      <Spacer size={hp(8)} direction="vertical" />
-      <CustomTextInput
-        placeholder="Enter your email"
-        title="Email Address"
-        value={email}
-        setValue={setEmail}
-      />
-      <View style={styles.btn}>
-        <CustomBtn
-          label="Continue"
-          onPress={handleRequestOTP}
-          isLoading={otpLoading}
-          disabled={disable}
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <SafeAreaView style={styles.root}>
+        <Header showLogo />
+        <View>
+          <BoldText size="large" color="primary">
+            Reset Password
+          </BoldText>
+          <RegularText size="medium">
+            Enter the email linked with your account to proceed
+          </RegularText>
+        </View>
+        <Spacer size={hp(8)} direction="vertical" />
+        <CustomTextInput
+          placeholder="Enter your email"
+          title="Email Address"
+          value={email}
+          setValue={setEmail}
         />
-      </View>
-      <ToastMessage
-        isVisible={open}
-        onClose={() => setOpen(false)}
-        message={message}
-        isSuccessful={success}
-      />
-    </SafeAreaView>
+        <View style={styles.btn}>
+          <CustomBtn
+            label="Continue"
+            onPress={handleRequestOTP}
+            isLoading={otpLoading}
+            disabled={disable}
+          />
+        </View>
+        <ToastMessage
+          isVisible={open}
+          onClose={() => setOpen(false)}
+          message={message}
+          isSuccessful={success}
+        />
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 };
 

@@ -43,12 +43,12 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: "row",
     alignItems: "center",
-    gap: wp(4),
+    gap: wp("4%"),
     backgroundColor: COLORS.white,
-    height: hp(8),
+    height: hp("8%"),
   },
   logo: {
-    width: wp(9),
+    width: wp("9%"),
     height: 60,
   },
 });

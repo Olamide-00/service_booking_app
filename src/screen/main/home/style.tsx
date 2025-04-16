@@ -9,13 +9,13 @@ export const styles = StyleSheet.create({
   root: {
     flex: 1,
     backgroundColor: COLORS.white,
-    paddingHorizontal: wp(4),
+    paddingHorizontal: wp("4%"),
   },
   headerContainer: {
     alignItems: "center",
     justifyContent: "space-between",
     flexDirection: "row",
-    paddingTop: hp(2),
+    paddingTop: hp("2%"),
   },
   imageContainer: {
     width: 55,
@@ -30,7 +30,7 @@ export const styles = StyleSheet.create({
   nameContainer: {
     flexDirection: "row",
     alignItems: "center",
-    gap: wp(1),
+    gap: wp("1%"),
   },
   tagContainer: {
     flexDirection: "row",
@@ -39,8 +39,7 @@ export const styles = StyleSheet.create({
   },
   tag: {
     backgroundColor: COLORS.primary,
-    paddingHorizontal: wp(2),
-    // paddingVertical: hp(0.01),
+    paddingHorizontal: wp("2%"),
     borderRadius: 20,
   },
 });

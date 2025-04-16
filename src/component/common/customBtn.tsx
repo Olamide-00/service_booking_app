@@ -44,7 +44,7 @@ const CustomBtn: React.FC<CustomBtnProps> = ({
         {
           backgroundColor:
             disabled || isLoading ? "rgba(42, 42, 114, 0.5)" : color,
-          width: width ? width : wp(90),
+          width: width ? width : wp("90%"),
         },
         style,
       ]}
@@ -52,7 +52,11 @@ const CustomBtn: React.FC<CustomBtnProps> = ({
       <View style={styles.content}>
         {isLoading ? (
           <View
-            style={{ flexDirection: "row", alignItems: "center", gap: wp(3) }}
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              gap: wp("3%"),
+            }}
           >
             <ActivityIndicator size={20} color="white" />
             <MediumText size="small" color="white" style={textStyle}>
@@ -77,14 +81,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 8,
-    paddingVertical: hp(1.5),
-    width: wp(90),
+    paddingVertical: hp("1.5%"),
+    width: wp("90%"),
   },
   content: {
     flexDirection: "row",
     alignItems: "center",
   },
   icon: {
-    marginRight: hp(3),
+    marginRight: hp("3%"),
   },
 });

@@ -171,20 +171,20 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#ccc",
     borderRadius: 8,
-    height: hp(6),
-    width: wp(90),
+    height: hp("6%"),
+    width: wp("90%"),
   },
   input: {
     flex: 1,
     fontSize: 14,
-    paddingLeft: hp(2),
+    paddingLeft: hp("2%"),
   },
   icon: {
     padding: 10,
   },
   errorText: {
     color: "red",
-    fontSize: 12,
+    fontSize: 10,
     marginTop: 5,
   },
   strengthIndicatorContainer: {
@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
   },
   strengthBar: {
     height: 4,
-    width: wp(21),
+    width: wp("21%"),
     marginRight: 5,
     borderRadius: 2,
   },

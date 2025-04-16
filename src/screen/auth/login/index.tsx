@@ -1,4 +1,11 @@
-import { Image, TouchableOpacity, View, Alert } from "react-native";
+import {
+  Image,
+  TouchableOpacity,
+  View,
+  Alert,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { BoldText, MediumText, RegularText } from "@/src/component/text/indext";
@@ -131,54 +138,58 @@ const Login = () => {
   const disable = !formData.email || !formData.password || isPending;
 
   return (
-    <SafeAreaView style={styles.root}>
-      <View style={styles.header}>
-        <Image
-          source={require("../../../../assets/images/REMITBRAND.png")}
-          style={styles.image}
-          resizeMode="cover"
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <SafeAreaView style={styles.root}>
+        <View style={styles.header}>
+          <Image
+            source={require("../../../../assets/images/REMITBRAND.png")}
+            style={styles.image}
+            resizeMode="cover"
+          />
+          <Spacer size={hp(-3)} direction="vertical" />
+          <BoldText size="large">Login To Remit</BoldText>
+        </View>
+        <Spacer size={hp(3)} direction="vertical" />
+        <View style={styles.inputContainer}>
+          <CustomTextInput
+            placeholder="Enter your email address"
+            title="Email"
+            value={formData.email}
+            setValue={(val) => handleInputChange("email", val)}
+            error={errors.email}
+          />
+          <CustomTextInput
+            placeholder="Enter your password"
+            title="Password"
+            value={formData.password}
+            setValue={(val) => handleInputChange("password", val)}
+            isPassword2
+            error={errors.password}
+          />
+        </View>
+        <TouchableOpacity
+          style={styles.forgetPassword}
+          onPress={() => navigation.navigate("ForgetPassword")}
+        >
+          <RegularText size="small" color="secondaryColor">
+            Forget Password
+          </RegularText>
+        </TouchableOpacity>
+        <Spacer size={hp(3)} direction="vertical" />
+        <CustomBtn
+          label="Login"
+          onPress={handleLogin}
+          disabled={disable}
+          isLoading={isPending}
         />
-        <Spacer size={hp(-3)} direction="vertical" />
-        <BoldText size="large">Login To Remit</BoldText>
-      </View>
-      <Spacer size={hp(3)} direction="vertical" />
-      <View style={styles.inputContainer}>
-        <CustomTextInput
-          placeholder="Enter your email address"
-          title="Email"
-          value={formData.email}
-          setValue={(val) => handleInputChange("email", val)}
-          error={errors.email}
-        />
-        <CustomTextInput
-          placeholder="Enter your password"
-          title="Password"
-          value={formData.password}
-          setValue={(val) => handleInputChange("password", val)}
-          isPassword2
-          error={errors.password}
-        />
-      </View>
-      <TouchableOpacity
-        style={styles.forgetPassword}
-        onPress={() => navigation.navigate("ForgetPassword")}
-      >
-        <RegularText size="small" color="secondaryColor">
-          Forget Password
-        </RegularText>
-      </TouchableOpacity>
-      <Spacer size={hp(3)} direction="vertical" />
-      <CustomBtn
-        label="Login"
-        onPress={handleLogin}
-        disabled={disable}
-        isLoading={isPending}
-      />
-      <Spacer direction="vertical" size={hp(2)} />
-      <TouchableOpacity style={{ alignSelf: "center" }} onPress={handleSignUp}>
-        <MediumText size="medium">I Don't Have An Account</MediumText>
-      </TouchableOpacity>
-      {/* <View>
+        <Spacer direction="vertical" size={hp(2)} />
+        <TouchableOpacity
+          style={{ alignSelf: "center" }}
+          onPress={handleSignUp}
+        >
+          <MediumText size="medium">I Don't Have An Account</MediumText>
+        </TouchableOpacity>
+        {/* <View>
         {isBioEnable && (
           <>
             <View style={styles.viewContainer}>
@@ -197,14 +208,15 @@ const Login = () => {
         )}
       </View> */}
 
-      {/* modal */}
-      <ToastMessage
-        message={message}
-        isVisible={isVisible}
-        isSuccessful={success}
-        onClose={() => setIsVisible(false)}
-      />
-    </SafeAreaView>
+        {/* modal */}
+        <ToastMessage
+          message={message}
+          isVisible={isVisible}
+          isSuccessful={success}
+          onClose={() => setIsVisible(false)}
+        />
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 };
 

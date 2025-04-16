@@ -47,6 +47,7 @@ interface AuthState {
   isWalletCreated: boolean;
   isWalletCreatedLocally: boolean;
   accountDetails: Account[];
+  loginDate: string | null;
 
   // Actions
   setIsOnboarded: (value: boolean) => void;
@@ -80,6 +81,7 @@ const useAuthStore = create<AuthState>()(
       accountDetails: [],
       userData: null,
       token: null,
+      loginDate: null,
 
       // Actions
       setIsOnboarded: (value) => set({ isOnboarded: value }),
@@ -100,6 +102,7 @@ const useAuthStore = create<AuthState>()(
           isAuthenticated: true,
           token,
           userData,
+          loginDate: new Date().toISOString(),
         }),
 
       logout: async () => {
@@ -115,6 +118,7 @@ const useAuthStore = create<AuthState>()(
           accountDetails: [],
           userData: null,
           token: null,
+          loginDate: null,
         });
       },
 
@@ -142,6 +146,7 @@ const useAuthStore = create<AuthState>()(
         accountDetails: state.accountDetails,
         userData: state.userData,
         token: state.token,
+        loginDate: state.loginDate,
       }),
     }
   )

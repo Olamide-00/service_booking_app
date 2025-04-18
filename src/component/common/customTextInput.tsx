@@ -6,14 +6,18 @@ import {
   View,
   TouchableOpacity,
   TextInputProps,
+  Modal,
+  FlatList,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import * as Contacts from "expo-contacts";
 import { RegularText } from "../text/indext";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import Spacer from "./spacer";
+import { COLORS } from "@/src/constant/COLORS";
 
 interface CustomTextInputProps extends TextInputProps {
   title?: string;
@@ -29,6 +33,7 @@ interface CustomTextInputProps extends TextInputProps {
   isPassword2?: boolean;
   isConfirmPassword?: boolean;
   error?: string;
+  acceptContact?: boolean;
 }
 
 const CustomTextInput: React.FC<CustomTextInputProps> = ({
@@ -45,6 +50,7 @@ const CustomTextInput: React.FC<CustomTextInputProps> = ({
   isPassword2 = false,
   isConfirmPassword = false,
   error = "",
+  acceptContact = false,
   ...otherProps
 }) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(secureTextEntry);
@@ -52,6 +58,13 @@ const CustomTextInput: React.FC<CustomTextInputProps> = ({
   const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] =
     useState(secureTextEntry);
   const [passwordStrength, setPasswordStrength] = useState(0);
+
+  const [modalVisible, setModalVisible] = useState(false);
+  const [contactList, setContactList] = useState<Contacts.Contact[]>([]);
+  const [filteredContacts, setFilteredContacts] = useState<Contacts.Contact[]>(
+    []
+  );
+  const [searchQuery, setSearchQuery] = useState("");
 
   const togglePasswordVisibility = () => {
     if (isPassword) {
@@ -63,7 +76,6 @@ const CustomTextInput: React.FC<CustomTextInputProps> = ({
     }
   };
 
-  // Password strength function
   const checkPasswordStrength = (password: string) => {
     let strength = 0;
     if (password.length >= 6) strength++;
@@ -88,6 +100,33 @@ const CustomTextInput: React.FC<CustomTextInputProps> = ({
     if (isPassword) {
       setPasswordStrength(checkPasswordStrength(text));
     }
+  };
+
+  const loadContacts = async () => {
+    const { status } = await Contacts.requestPermissionsAsync();
+    if (status === "granted") {
+      const { data } = await Contacts.getContactsAsync({
+        fields: [Contacts.Fields.PhoneNumbers],
+      });
+      if (data.length > 0) {
+        setContactList(data);
+        setFilteredContacts(data);
+      }
+    }
+  };
+
+  const handleContactSelect = (contact: Contacts.Contact) => {
+    const phoneNumber = contact.phoneNumbers?.[0]?.number || "";
+    setValue(phoneNumber);
+    setModalVisible(false);
+  };
+
+  const handleSearch = (text: string) => {
+    setSearchQuery(text);
+    const filtered = contactList.filter((contact) =>
+      contact.name.toLowerCase().includes(text.toLowerCase())
+    );
+    setFilteredContacts(filtered);
   };
 
   return (
@@ -135,12 +174,25 @@ const CustomTextInput: React.FC<CustomTextInputProps> = ({
             />
           </TouchableOpacity>
         )}
+        {acceptContact && (
+          <TouchableOpacity
+            onPress={() => {
+              setModalVisible(true);
+              loadContacts();
+            }}
+            style={styles.icon}
+          >
+            <Ionicons name="person-circle" size={30} color={COLORS.primary} />
+          </TouchableOpacity>
+        )}
       </View>
 
-      {/* Error Message */}
-      {error ? <Text style={styles.errorText}>{error}</Text> : null}
+      {error ? (
+        <RegularText size="small" color="primary">
+          {error}
+        </RegularText>
+      ) : null}
 
-      {/* Password Strength Indicator */}
       {isPassword && value.length > 0 && (
         <View style={styles.strengthIndicatorContainer}>
           {Array.from({ length: 4 }).map((_, index) => (
@@ -157,6 +209,60 @@ const CustomTextInput: React.FC<CustomTextInputProps> = ({
           ))}
         </View>
       )}
+
+      {/* Contact Modal */}
+      <Modal visible={modalVisible} animationType="slide">
+        <View style={{ flex: 1, padding: 20, backgroundColor: "#fff" }}>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              marginBottom: 5,
+            }}
+          >
+            <TextInput
+              placeholder="Search contact..."
+              value={searchQuery}
+              onChangeText={handleSearch}
+              style={{
+                flex: 1,
+                borderWidth: 1,
+                borderColor: "#ccc",
+                borderRadius: 8,
+                padding: 10,
+              }}
+            />
+            <TouchableOpacity
+              onPress={() => setModalVisible(false)}
+              style={{ marginLeft: 10 }}
+            >
+              <Ionicons name="close" size={24} color="#000" />
+            </TouchableOpacity>
+          </View>
+
+          <FlatList
+            data={filteredContacts}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <TouchableOpacity
+                onPress={() => handleContactSelect(item)}
+                style={{
+                  padding: 15,
+                  borderBottomWidth: 1,
+                  borderBottomColor: "#eee",
+                }}
+              >
+                <RegularText size="small" color="primary">
+                  {item.name}
+                </RegularText>
+                <RegularText size="small" color="primary">
+                  {item.phoneNumbers?.[0]?.number}
+                </RegularText>
+              </TouchableOpacity>
+            )}
+          />
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -182,11 +288,7 @@ const styles = StyleSheet.create({
   icon: {
     padding: 10,
   },
-  errorText: {
-    color: "red",
-    fontSize: 10,
-    marginTop: 5,
-  },
+
   strengthIndicatorContainer: {
     flexDirection: "row",
     marginTop: 14,

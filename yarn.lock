@@ -3437,6 +3437,11 @@ expo-constants@~17.0.8:
     "@expo/config" "~10.0.11"
     "@expo/env" "~0.4.2"
 
+expo-contacts@~14.0.5:
+  version "14.0.5"
+  resolved "https://registry.yarnpkg.com/expo-contacts/-/expo-contacts-14.0.5.tgz#00e84fad9da5be3faae6a75026f59dbc5f4b38c4"
+  integrity sha512-PjuwJmXgQLQ5CnuhFvgP+jRdYFFh23ARP3urln9GXwMm1uqR5Y0ZdQC44PgJsKxGlJYVzPQlDxer03mGsoXN8g==
+
 expo-device@~7.0.3:
   version "7.0.3"
   resolved "https://registry.yarnpkg.com/expo-device/-/expo-device-7.0.3.tgz#e8d502ac5ff7644dd617fa38a71fe49e7508856b"

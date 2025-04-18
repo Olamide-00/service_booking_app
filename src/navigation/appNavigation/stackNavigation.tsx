@@ -1,5 +1,8 @@
 import AirtimeScreen from "@/src/screen/main/bills/airtime";
 import DataScreen from "@/src/screen/main/bills/data";
+import Education from "@/src/screen/main/bills/education";
+import Jamb from "@/src/screen/main/bills/education/jamb";
+import Waec from "@/src/screen/main/bills/education/waec";
 import ElectricityScreen from "@/src/screen/main/bills/electricity";
 import ElectReceipt from "@/src/screen/main/bills/receipt/electricity";
 import ReviewScreen1 from "@/src/screen/main/bills/review1";
@@ -45,6 +48,9 @@ export default function StackNavigation() {
       <Stack.Screen name="ElectReceipt" component={ElectReceipt} />
       <Stack.Screen name="TermsAndPolicies" component={TermsAndPolicies} />
       <Stack.Screen name="Notification" component={Notification} />
+      <Stack.Screen name="Education" component={Education} />
+      <Stack.Screen name="Waec" component={Waec} />
+      <Stack.Screen name="Jamb" component={Jamb} />
     </Stack.Navigator>
   );
 }

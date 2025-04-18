@@ -70,7 +70,7 @@ const DataScreen = () => {
         const increasedAmount =
           cleanAmount + (cleanAmount * dataPercentage) / 100;
 
-        const cleanedName = plan.name; // remove "- N1500" part
+        const cleanedName = plan.name;
 
         return {
           id: plan.variation_code,
@@ -127,7 +127,8 @@ const DataScreen = () => {
             keyboardType="numeric"
             value={phoneNumber}
             setValue={setPhoneNumber}
-            maxLength={11}
+            maxLength={14}
+            acceptContact
           />
 
           <Selector

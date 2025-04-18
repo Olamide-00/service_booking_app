@@ -125,7 +125,8 @@ const AirtimeScreen = () => {
             keyboardType="numeric"
             value={phoneNumber}
             setValue={setPhoneNumber}
-            maxLength={11}
+            maxLength={14}
+            acceptContact
             error={errors.phoneNumber}
           />
 

@@ -106,7 +106,7 @@ const KYC1: React.FC = () => {
   };
 
   const disable =
-    !phone || phone.length != 11 || !email || !Name || isPending || !dob;
+    !phone || phone.length > 10 || !email || !Name || isPending || !dob;
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -124,7 +124,8 @@ const KYC1: React.FC = () => {
             keyboardType="numeric"
             value={phone}
             setValue={setPhone}
-            maxLength={11}
+            maxLength={14}
+            acceptContact
           />
           <DateSelector
             label="Date Of Birth"

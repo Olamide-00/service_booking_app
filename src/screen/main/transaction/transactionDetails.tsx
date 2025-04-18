@@ -113,7 +113,6 @@ const TransactionDetails = () => {
             <Item label="Account Number" value={transaction.account_number} />
           </>
         )}
-
         {transaction.service === "REMIT_TRANSFER" && (
           <Item
             label={transaction.type ? "Recipient Name" : "Account Name"}
@@ -127,7 +126,6 @@ const TransactionDetails = () => {
             value={transaction.token.replace("Token : ", "")}
           />
         )}
-
         {transaction.receipentBank && (
           <Item
             label={
@@ -136,12 +134,17 @@ const TransactionDetails = () => {
             value={transaction.receipentBank || transaction.unique_element}
           />
         )}
-
         {(transaction.service === "Bank Transfer" ||
           transaction.service === "REMIT_TRANSFER") && (
           <Item label="Sender Name" value={name} />
         )}
 
+        {transaction.serialNumber && (
+          <Item label="Serial Number" value={transaction.serialNumber} />
+        )}
+        {transaction.jambPin && (
+          <Item label="PIN" value={transaction.jambPin} />
+        )}
         <Item
           label="Transaction Date"
           value={formatDate(transaction.date || transaction.transaction_date)}

@@ -122,6 +122,22 @@ export const service = [
     description: "Top up prepaid meter",
   },
   {
+    id: 7,
+    label: "Education",
+    icon: (
+      <LottieView
+        source={require("@/assets/json/12.json")}
+        autoPlay
+        loop
+        style={{ width: 60, height: 60 }}
+      />
+    ),
+    screen: "Education",
+    bg: "rgba(128, 0, 0, 0.1) ",
+    bg2: "rgba(128, 0, 0, 1)",
+    description: "Buy education pin",
+  },
+  {
     id: 5,
     label: "Save",
     icon: (
@@ -154,22 +170,6 @@ export const service = [
     description: "Apply for loan",
   },
   {
-    id: 7,
-    label: "Education",
-    icon: (
-      <LottieView
-        source={require("@/assets/json/12.json")}
-        autoPlay
-        loop
-        style={{ width: 60, height: 60 }}
-      />
-    ),
-    screen: "ComingSoon",
-    bg: "rgba(128, 0, 0, 0.1) ",
-    bg2: "rgba(128, 0, 0, 1)",
-    description: "Buy education pin",
-  },
-  {
     id: 8,
     label: "Government Bills",
     icon: (
@@ -187,40 +187,17 @@ export const service = [
   },
 ];
 
-export const transactionHistory = [
+export const educationData = [
   {
     id: 1,
-    status: "credit",
-    date: "2025 02 08",
-    label: "Data Purchase",
-    amount: "10,000",
+    logo: require("@/assets/images/waec.png"),
+    label: "Waec Services",
+    screen: "Waec",
   },
   {
     id: 2,
-    status: "debit",
-    date: "2025 02 08",
-    label: "Airtime Purchase",
-    amount: "1,000",
-  },
-  {
-    id: 3,
-    status: "credit",
-    date: "2025 02 08",
-    label: "Data Purchase",
-    amount: "10,000",
-  },
-  {
-    id: 4,
-    status: "debit",
-    date: "2025 02 08",
-    label: "Transfer",
-    amount: "100,000",
-  },
-  {
-    id: 5,
-    status: "credit",
-    date: "2025 02 08",
-    label: "Fund Wallet",
-    amount: "100,000",
+    logo: require("@/assets/images/jamb.png"),
+    label: "Jamb Services",
+    screen: "Jamb",
   },
 ];

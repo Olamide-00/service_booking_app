@@ -233,7 +233,7 @@ const SendBank = () => {
 
           <CustomTextInput
             title="Narration"
-            placeholder="Enter narration (optional)"
+            placeholder="Narration"
             value={formState.narration}
             setValue={(value) => handleInputChange("narration", value)}
             error={errors.narration}

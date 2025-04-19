@@ -19,6 +19,7 @@ import SendBank from "@/src/screen/main/sendBank";
 import SendRemit from "@/src/screen/main/sendRemit";
 import SendReview from "@/src/screen/main/sendReview";
 import Success from "@/src/screen/main/success";
+import Support from "@/src/screen/main/support/indext";
 import TransactionDetails from "@/src/screen/main/transaction/transactionDetails";
 import TransferPIN from "@/src/screen/main/transferPIN";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -51,6 +52,7 @@ export default function StackNavigation() {
       <Stack.Screen name="Education" component={Education} />
       <Stack.Screen name="Waec" component={Waec} />
       <Stack.Screen name="Jamb" component={Jamb} />
+      <Stack.Screen name="Support" component={Support} />
     </Stack.Navigator>
   );
 }

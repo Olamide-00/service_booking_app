@@ -1,4 +1,10 @@
-import { StyleSheet, Text, View, Pressable } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Pressable,
+  TouchableOpacity,
+} from "react-native";
 import React, { useCallback, useEffect, useState } from "react";
 import * as ImagePicker from "expo-image-picker";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -26,6 +32,7 @@ import useAuthStore from "@/src/store/userStore";
 import { useWalletDetails } from "@/src/api/hooks/useWallet";
 import { useGetBalance } from "@/src/api/hooks/useAuth";
 import { Image } from "expo-image";
+import LottieView from "lottie-react-native";
 
 const Home = () => {
   const navigation = useNavigation();
@@ -77,14 +84,28 @@ const Home = () => {
             </View>
           </View>
         </View>
-        <Ionicons
-          name="notifications"
-          size={28}
-          color={COLORS.primary}
-          onPress={() =>
-            navigation.navigate("StackNavigation", { screen: "Notification" })
-          }
-        />
+        <View style={styles.iconContainer}>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("StackNavigation", { screen: "Support" })
+            }
+          >
+            <LottieView
+              autoPlay
+              loop
+              source={require("@/assets/json/support.json")}
+              style={{ width: 60, height: 60 }}
+            />
+          </TouchableOpacity>
+          <Ionicons
+            name="notifications"
+            size={24}
+            color={COLORS.primary}
+            onPress={() =>
+              navigation.navigate("StackNavigation", { screen: "Notification" })
+            }
+          />
+        </View>
       </View>
       <Spacer direction="vertical" size={hp(2.5)} />
 

@@ -42,4 +42,9 @@ export const styles = StyleSheet.create({
     paddingHorizontal: wp("2%"),
     borderRadius: 20,
   },
+  iconContainer: {
+    flexDirection: "row",
+    gap: wp("4%"),
+    alignItems: "center",
+  },
 });

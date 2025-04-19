@@ -3,9 +3,10 @@ import * as SecureStore from "expo-secure-store";
 
 const API_BASE_URL = process.env.EXPO_PUBLIC_BASE;
 
-// const API_BASE_URL = "https://ffa9-102-89-85-166.ngrok-free.app/api/v1";
+const BASE_URL = "https://remitbackend-production.up.railway.app/api/v1";
+
 const axiosInstance = axios.create({
-  baseURL: API_BASE_URL,
+  baseURL: BASE_URL,
   headers: {
     "Content-Type": "application/json",
   },

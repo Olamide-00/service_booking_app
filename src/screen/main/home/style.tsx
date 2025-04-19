@@ -18,8 +18,8 @@ export const styles = StyleSheet.create({
     paddingTop: hp("2%"),
   },
   imageContainer: {
-    width: 55,
-    height: 55,
+    width: 50,
+    height: 50,
     borderRadius: 60,
   },
   image: {
@@ -35,7 +35,7 @@ export const styles = StyleSheet.create({
   tagContainer: {
     flexDirection: "row",
     alignItems: "center",
-    gap: wp(1),
+    gap: wp("1%"),
   },
   tag: {
     backgroundColor: COLORS.primary,

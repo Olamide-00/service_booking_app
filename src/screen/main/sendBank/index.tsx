@@ -134,10 +134,10 @@ const SendBank = () => {
       isValid = false;
     }
 
-    if (!formState.narration.trim()) {
-      newErrors.narration = "Narration is required";
-      isValid = false;
-    }
+    // if (!formState.narration.trim()) {
+    //   newErrors.narration = "Narration is required";
+    //   isValid = false;
+    // }
 
     setErrors(newErrors);
     return isValid;
@@ -231,13 +231,13 @@ const SendBank = () => {
 
           <Spacer size={hp(0)} direction="vertical" />
 
-          <CustomTextInput
+          {/* <CustomTextInput
             title="Narration"
             placeholder="Narration"
             value={formState.narration}
             setValue={(value) => handleInputChange("narration", value)}
             error={errors.narration}
-          />
+          /> */}
         </View>
 
         <View style={styles.btn}>

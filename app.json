@@ -4,7 +4,7 @@
     "slug": "Remit",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/playStore.png",
+    "icon": "./assets/images/appStore.png",
     "splash": {
       "image": "./assets/images/REMITBRAND.png",
       "resizeMode": "contain",
@@ -14,7 +14,9 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "enabled": true,
+      "fallbackToCacheTimeout": 0,
+      "checkAutomatically": "ON_LOAD"
     },
     "ios": {
       "supportsTablet": true

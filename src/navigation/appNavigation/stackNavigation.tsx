@@ -1,27 +1,3 @@
-import AirtimeScreen from "@/src/screen/main/bills/airtime";
-import DataScreen from "@/src/screen/main/bills/data";
-import Education from "@/src/screen/main/bills/education";
-import Jamb from "@/src/screen/main/bills/education/jamb";
-import Waec from "@/src/screen/main/bills/education/waec";
-import ElectricityScreen from "@/src/screen/main/bills/electricity";
-import ElectReceipt from "@/src/screen/main/bills/receipt/electricity";
-import ReviewScreen1 from "@/src/screen/main/bills/review1";
-import TVScreen from "@/src/screen/main/bills/tv";
-import ComingSoon from "@/src/screen/main/comingSoon";
-import FundWallet from "@/src/screen/main/fundAccount";
-import ConfirmPin from "@/src/screen/main/kyc/confirmPin";
-import CreatePin from "@/src/screen/main/kyc/createPin";
-import KYC1 from "@/src/screen/main/kyc/kyc1";
-import Notification from "@/src/screen/main/notification";
-import PIN from "@/src/screen/main/PIN";
-import TermsAndPolicies from "@/src/screen/main/polices";
-import SendBank from "@/src/screen/main/sendBank";
-import SendRemit from "@/src/screen/main/sendRemit";
-import SendReview from "@/src/screen/main/sendReview";
-import Success from "@/src/screen/main/success";
-import Support from "@/src/screen/main/support/indext";
-import TransactionDetails from "@/src/screen/main/transaction/transactionDetails";
-import TransferPIN from "@/src/screen/main/transferPIN";
 import { createStackNavigator } from "@react-navigation/stack";
 
 const Stack = createStackNavigator();
@@ -29,30 +5,114 @@ const Stack = createStackNavigator();
 export default function StackNavigation() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="KYC1" component={KYC1} />
-      <Stack.Screen name="CreatePin" component={CreatePin} />
-      <Stack.Screen name="ConfirmPin" component={ConfirmPin} />
-      <Stack.Screen name="Success" component={Success} />
-      <Stack.Screen name="SendRemit" component={SendRemit} />
-      <Stack.Screen name="SendBank" component={SendBank} />
-      <Stack.Screen name="SendReview" component={SendReview} />
-      <Stack.Screen name="PIN" component={PIN} />
-      <Stack.Screen name="TransferPIN" component={TransferPIN} />
-      <Stack.Screen name="DataScreen" component={DataScreen} />
-      <Stack.Screen name="AirtimeScreen" component={AirtimeScreen} />
-      <Stack.Screen name="ElectricityScreen" component={ElectricityScreen} />
-      <Stack.Screen name="TVScreen" component={TVScreen} />
-      <Stack.Screen name="ReviewScreen1" component={ReviewScreen1} />
-      <Stack.Screen name="ComingSoon" component={ComingSoon} />
-      <Stack.Screen name="FundWallet" component={FundWallet} />
-      <Stack.Screen name="TransactionDetails" component={TransactionDetails} />
-      <Stack.Screen name="ElectReceipt" component={ElectReceipt} />
-      <Stack.Screen name="TermsAndPolicies" component={TermsAndPolicies} />
-      <Stack.Screen name="Notification" component={Notification} />
-      <Stack.Screen name="Education" component={Education} />
-      <Stack.Screen name="Waec" component={Waec} />
-      <Stack.Screen name="Jamb" component={Jamb} />
-      <Stack.Screen name="Support" component={Support} />
+      <Stack.Screen
+        name="KYC1"
+        getComponent={() => require("@/src/screen/main/kyc/kyc1").default}
+      />
+      <Stack.Screen
+        name="CreatePin"
+        getComponent={() => require("@/src/screen/main/kyc/createPin").default}
+      />
+      <Stack.Screen
+        name="ConfirmPin"
+        getComponent={() => require("@/src/screen/main/kyc/confirmPin").default}
+      />
+      <Stack.Screen
+        name="Success"
+        getComponent={() => require("@/src/screen/main/success").default}
+      />
+      <Stack.Screen
+        name="SendRemit"
+        getComponent={() => require("@/src/screen/main/sendRemit").default}
+      />
+      <Stack.Screen
+        name="SendBank"
+        getComponent={() => require("@/src/screen/main/sendBank").default}
+      />
+      <Stack.Screen
+        name="SendReview"
+        getComponent={() => require("@/src/screen/main/sendReview").default}
+      />
+      <Stack.Screen
+        name="PIN"
+        getComponent={() => require("@/src/screen/main/PIN").default}
+      />
+      <Stack.Screen
+        name="TransferPIN"
+        getComponent={() => require("@/src/screen/main/transferPIN").default}
+      />
+      <Stack.Screen
+        name="DataScreen"
+        getComponent={() => require("@/src/screen/main/bills/data").default}
+      />
+      <Stack.Screen
+        name="AirtimeScreen"
+        getComponent={() => require("@/src/screen/main/bills/airtime").default}
+      />
+      <Stack.Screen
+        name="ElectricityScreen"
+        getComponent={() =>
+          require("@/src/screen/main/bills/electricity").default
+        }
+      />
+      <Stack.Screen
+        name="TVScreen"
+        getComponent={() => require("@/src/screen/main/bills/tv").default}
+      />
+      <Stack.Screen
+        name="ReviewScreen1"
+        getComponent={() => require("@/src/screen/main/bills/review1").default}
+      />
+      <Stack.Screen
+        name="ComingSoon"
+        getComponent={() => require("@/src/screen/main/comingSoon").default}
+      />
+      <Stack.Screen
+        name="FundWallet"
+        getComponent={() => require("@/src/screen/main/fundAccount").default}
+      />
+      <Stack.Screen
+        name="TransactionDetails"
+        getComponent={() =>
+          require("@/src/screen/main/transaction/transactionDetails").default
+        }
+      />
+      <Stack.Screen
+        name="ElectReceipt"
+        getComponent={() =>
+          require("@/src/screen/main/bills/receipt/electricity").default
+        }
+      />
+      <Stack.Screen
+        name="TermsAndPolicies"
+        getComponent={() => require("@/src/screen/main/polices").default}
+      />
+      <Stack.Screen
+        name="Notification"
+        getComponent={() => require("@/src/screen/main/notification").default}
+      />
+      <Stack.Screen
+        name="Education"
+        getComponent={() =>
+          require("@/src/screen/main/bills/education").default
+        }
+      />
+      <Stack.Screen
+        name="Waec"
+        getComponent={() =>
+          require("@/src/screen/main/bills/education/waec").default
+        }
+      />
+      <Stack.Screen
+        name="Jamb"
+        getComponent={() =>
+          require("@/src/screen/main/bills/education/jamb").default
+        }
+      />
+      <Stack.Screen
+        name="Support"
+        getComponent={() => require("@/src/screen/main/support/indext").default}
+      />
     </Stack.Navigator>
   );
 }

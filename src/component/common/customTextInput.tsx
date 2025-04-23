@@ -182,7 +182,7 @@ const CustomTextInput: React.FC<CustomTextInputProps> = ({
             }}
             style={styles.icon}
           >
-            <Ionicons name="person-circle" size={30} color={COLORS.primary} />
+            <Ionicons name="person-circle" size={24} color={COLORS.primary} />
           </TouchableOpacity>
         )}
       </View>
@@ -284,9 +284,10 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 14,
     paddingLeft: hp("2%"),
+    width: wp("100%"),
   },
   icon: {
-    padding: 10,
+    paddingRight: 6,
   },
 
   strengthIndicatorContainer: {

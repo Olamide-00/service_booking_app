@@ -3,6 +3,7 @@ export const API_ENDPOINTS = {
 
   REGISTER: "/user/register",
   LOGIN: "/user/login",
+  DELETE_ACCOUNT: "/user/delete",
   VERIFY_OTP: "/user/verify-otp",
   RESEND_OTP: "/user/resend-otp",
   PROFILE_PICTURE: "/user/set-profile-picture",

@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
   },
   onboarding: {
     flex: 1,
-    paddingTop: height * 0.05,
+    paddingTop: height * 0.01,
     width: width,
   },
   image: {
@@ -18,16 +18,16 @@ export const styles = StyleSheet.create({
     height: height * 0.4,
     borderRadius: 20,
     alignSelf: "center",
-    marginTop: height * 0.05,
+    // marginTop: height * 0.01,
     resizeMode: "contain",
   },
   desc: {
     width: width * 0.8,
-    marginTop: height * 0.02,
+    marginTop: height * 0.04,
   },
   footer: {
-    position: "absolute",
-    bottom: height * 0.08,
+    marginTop: "auto",
+    bottom: height * 0.1,
     width: width,
     flexDirection: "row",
     justifyContent: "space-between",

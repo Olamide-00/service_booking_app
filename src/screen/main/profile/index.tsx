@@ -33,8 +33,12 @@ import UpdatePIN from "@/src/component/modals/updatePIN";
 import UpdateNumber from "@/src/component/modals/updateNumber";
 import useAuthStore from "@/src/store/userStore";
 import Item3 from "./component/item3";
-import { useSetProfilePicture } from "@/src/api/hooks/useAuth";
+import {
+  useDeleteAccount,
+  useSetProfilePicture,
+} from "@/src/api/hooks/useAuth";
 import { Image } from "expo-image";
+import DeleteModal from "@/src/component/modals/deleteAccount";
 
 const Profile = () => {
   const navigation = useNavigation();
@@ -122,6 +126,32 @@ const Profile = () => {
   const isBioEnable = useAuthStore((state) => state.isBioEnable);
   const setIsBioEnable = useAuthStore((state) => state.setIsBioEnable);
   const enableNotification = useAuthStore((state) => state.enableNotification);
+
+  // delete account modal
+  const [isOpen, setIsOpen] = useState(false);
+
+  // delete account
+  const {
+    mutate,
+    data,
+    isPending: isDeleting,
+    isError,
+    error,
+  } = useDeleteAccount();
+
+  const handleDelete = () => {
+    if (!userData?.email) return;
+
+    mutate(userData.email, {
+      onSuccess: (res) => {
+        handleLogOut();
+      },
+      onError: (err) => {
+        console.log("Error deleting account:", err);
+      },
+    });
+  };
+
   const setEnableNotification = useAuthStore(
     (state) => state.setEnableNotification
   );
@@ -215,7 +245,15 @@ const Profile = () => {
               <MediumText size="medium">Terms of use</MediumText>
             </Pressable>
             <Divider />
-            <CustomBtn label="Logout" width={wp(85)} onPress={handleLogOut} />
+            <View style={styles.btnContainer}>
+              <CustomBtn label="Logout" width={wp(42)} onPress={handleLogOut} />
+              <CustomBtn
+                label="DELETE ACCOUNT"
+                width={wp(42)}
+                onPress={() => setIsOpen(true)}
+                color={COLORS.secondaryColor}
+              />
+            </View>
           </Card>
         </View>
         <UpdatePIN
@@ -227,6 +265,13 @@ const Profile = () => {
           closeModal={() => setIsVisible2(false)}
         />
       </ScrollView>
+      {
+        <DeleteModal
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          onConfirm={handleDelete}
+        />
+      }
     </SafeAreaView>
   );
 };

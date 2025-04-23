@@ -23,6 +23,7 @@ import { useCreateWallet } from "@/src/api/hooks/useWallet";
 import useAuthStore from "@/src/store/userStore";
 import ToastMessage from "@/src/component/common/toastMessage";
 import DateSelector from "@/src/component/common/dateSelector";
+import Header from "@/src/component/common/header";
 
 // Define navigation type
 type RootStackParamList = {
@@ -92,11 +93,16 @@ const KYC1: React.FC = () => {
           ...userData,
           isWalletCreated: true,
         });
-        navigation.navigate("CreatePin");
+
         setIsVisible(true);
         setMessage("Wallet created successfully!");
         setSuccess(true);
+
+        setTimeout(() => {
+          navigation.navigate("CreatePin");
+        }, 3000);
       },
+
       onError: () => {
         setIsVisible(true);
         setMessage("Unable to create wallet. Please try again.");
@@ -106,13 +112,14 @@ const KYC1: React.FC = () => {
   };
 
   const disable =
-    !phone || phone.length > 10 || !email || !Name || isPending || !dob;
+    !phone || phone.length < 10 || !email || !Name || isPending || !dob;
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <SafeAreaView style={styles.root}>
         {/* Header */}
         <View style={styles.title}>
+          <Header showLogo />
           <BoldText size="large">Complete your KYC</BoldText>
         </View>
 
@@ -164,13 +171,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: wp(4),
   },
   title: {
-    alignSelf: "center",
-    marginTop: hp(3),
-    marginBottom: hp(6),
+    marginTop: hp("3%"),
+    marginBottom: hp("6%"),
+    flexDirection: "row",
+    alignItems: "center",
+    gap: wp("10%"),
   },
   btn: {
-    position: "absolute",
-    bottom: hp(3),
+    marginTop: "auto",
+    bottom: hp("3%"),
     alignSelf: "center",
   },
 });

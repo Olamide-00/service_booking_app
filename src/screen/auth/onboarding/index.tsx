@@ -54,7 +54,7 @@ const OnboardingScreen = () => {
           source={item.lottie}
           style={[styles.image, { width: width * 0.8, height: height * 0.4 }]}
         />
-        <Spacer direction="vertical" size={height * 0.09} />
+        <Spacer direction="vertical" size={height * 0.1} />
         <View style={{ paddingLeft: width * 0.05 }}>
           <BoldText size="xlarge" color="primary">
             {item.title}

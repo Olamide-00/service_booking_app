@@ -63,4 +63,9 @@ export const styles = StyleSheet.create({
   btn: {
     width: wp(70),
   },
+  btnContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
 });

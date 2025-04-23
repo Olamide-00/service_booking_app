@@ -165,7 +165,11 @@ const DataScreen = () => {
             label="Continue"
             onPress={handleContinue}
             disabled={
-              isLoading || !phoneNumber || !selectedNetwork || !selectedDataPlan
+              isLoading ||
+              !phoneNumber ||
+              phoneNumber.length < 10 ||
+              !selectedNetwork ||
+              !selectedDataPlan
             }
           />
         </View>

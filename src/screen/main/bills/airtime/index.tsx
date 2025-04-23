@@ -90,7 +90,8 @@ const AirtimeScreen = () => {
     });
   };
 
-  const disable = !selectedNetwork || !phoneNumber || !amount;
+  const disable =
+    !selectedNetwork || !phoneNumber || phoneNumber.length < 10 || !amount;
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>

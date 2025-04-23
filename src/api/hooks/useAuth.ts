@@ -192,6 +192,18 @@ const useSetProfilePicture = () => {
   });
 };
 
+// delete account
+const useDeleteAccount = () => {
+  return useMutation<ApiResponse<any>, Error, string>({
+    mutationFn: async (email: string) => {
+      const response = await axiosInstance.delete<ApiResponse<any>>(
+        `${API_ENDPOINTS.DELETE_ACCOUNT}/${email}`
+      );
+      return response.data;
+    },
+  });
+};
+
 export {
   useRegister,
   useLogin,
@@ -204,4 +216,5 @@ export {
   useResetOTP,
   useUpdatePassword,
   useSetProfilePicture,
+  useDeleteAccount,
 };

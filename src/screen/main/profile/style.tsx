@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
   root: {
     flex: 1,
     backgroundColor: COLORS.white,
-    paddingHorizontal: wp(4),
+    paddingHorizontal: wp("4%"),
   },
   header: {
     flexDirection: "row",
@@ -34,8 +34,8 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
   },
   image: {
-    width: 120,
-    height: 120,
+    width: 130,
+    height: 130,
     borderRadius: 100,
   },
   editIcon: {
@@ -50,15 +50,15 @@ export const styles = StyleSheet.create({
   card: {
     alignItems: "center",
     justifyContent: "center",
-    paddingTop: hp(3),
-    height: hp(25),
+    paddingTop: hp("2%"),
+    height: hp("25%"),
   },
   infoContainer: {
-    gap: hp(1.5),
+    gap: hp("1.5%"),
   },
   scrollContainer: {
     flexGrow: 1,
-    paddingBottom: hp(0.5),
+    paddingBottom: hp("0.5%"),
   },
   btn: {
     width: wp(70),
@@ -67,5 +67,13 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+  },
+  item3Container: {
+    marginVertical: hp("-3%"),
+  },
+  profileCard: {
+    paddingVertical: hp("2%"),
+    paddingHorizontal: wp("4%"),
+    gap: hp("0.5%"),
   },
 });

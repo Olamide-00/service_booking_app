@@ -176,7 +176,7 @@ const Profile = () => {
         showsVerticalScrollIndicator={false}
       >
         <BoldText size="large">Profile</BoldText>
-        <Spacer size={hp(3.5)} direction="vertical" />
+        <Spacer size={hp(1)} direction="vertical" />
 
         {/* Profile Section */}
         <View>
@@ -193,7 +193,7 @@ const Profile = () => {
               >
                 <Feather name="edit" size={20} />
               </TouchableOpacity>
-              <View>
+              <View style={{ marginTop: hp("0.8%") }}>
                 <RegularText size="medium" color="gray">
                   {userData?.email}
                 </RegularText>
@@ -201,7 +201,7 @@ const Profile = () => {
             </View>
           </Card>
           <Spacer size={hp(2)} direction="vertical" />
-          <Card borderOnly>
+          <Card borderOnly style={styles.profileCard}>
             <BoldText size="large" color="primary">
               Personal Details
             </BoldText>
@@ -226,11 +226,13 @@ const Profile = () => {
               value={isBioEnable}
               onToggle={setIsBioEnable}
             /> */}
-            <Item3
-              name="Push Notification"
-              value={enableNotification}
-              onToggle={setEnableNotification}
-            />
+            <View style={styles.item3Container}>
+              <Item3
+                name="Push Notification"
+                value={enableNotification}
+                onToggle={setEnableNotification}
+              />
+            </View>
             <Divider />
             <Pressable
               onPress={() =>
@@ -246,10 +248,10 @@ const Profile = () => {
             </Pressable>
             <Divider />
             <View style={styles.btnContainer}>
-              <CustomBtn label="Logout" width={wp(42)} onPress={handleLogOut} />
+              <CustomBtn label="Logout" width={wp(40)} onPress={handleLogOut} />
               <CustomBtn
                 label="DELETE ACCOUNT"
-                width={wp(42)}
+                width={wp(40)}
                 onPress={() => setIsOpen(true)}
                 color={COLORS.secondaryColor}
               />

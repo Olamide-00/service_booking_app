@@ -32,7 +32,7 @@ const SendMoney: React.FC<SendMoneyProps> = ({ isVisible, setIsVisible }) => {
           source={require("@/assets/json/b.json")}
           autoPlay
           loop
-          style={{ width: 50, height: 40 }}
+          style={{ width: 55, height: 45 }}
         />
       ),
       title: "Send to Remit wallet",
@@ -44,7 +44,7 @@ const SendMoney: React.FC<SendMoneyProps> = ({ isVisible, setIsVisible }) => {
           source={require("@/assets/json/a.json")}
           autoPlay
           loop
-          style={{ width: 50, height: 40 }}
+          style={{ width: 55, height: 45 }}
         />
       ),
       title: "Send to Bank",
@@ -97,7 +97,7 @@ const SendMoney: React.FC<SendMoneyProps> = ({ isVisible, setIsVisible }) => {
 const styles = StyleSheet.create({
   container: {
     width: wp("75%"),
-    height: hp("30%"),
+    height: hp("28%"),
     backgroundColor: COLORS.white,
     alignSelf: "center",
     borderRadius: 20,
@@ -105,13 +105,13 @@ const styles = StyleSheet.create({
   title: {
     alignSelf: "center",
     marginTop: hp("1%"),
-    marginVertical: hp("-2%"),
+    marginVertical: hp("-3%"),
   },
   item: {
     flexDirection: "row",
     alignItems: "center",
     gap: wp("5%"),
-    // backgroundColor: "red",
+    marginVertical: hp("-1.5%"),
   },
   itemContainer: {
     paddingHorizontal: wp("7%"),

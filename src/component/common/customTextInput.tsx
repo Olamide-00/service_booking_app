@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import {
   StyleSheet,
   TextInput,
-  Text,
   View,
   TouchableOpacity,
   TextInputProps,
@@ -124,7 +123,7 @@ const CustomTextInput: React.FC<CustomTextInputProps> = ({
   const handleSearch = (text: string) => {
     setSearchQuery(text);
     const filtered = contactList.filter((contact) =>
-      contact.name.toLowerCase().includes(text.toLowerCase())
+      (contact.name ?? "").toLowerCase().includes(text.toLowerCase())
     );
     setFilteredContacts(filtered);
   };
@@ -143,6 +142,8 @@ const CustomTextInput: React.FC<CustomTextInputProps> = ({
           placeholder={placeholder}
           keyboardType={keyboardType}
           maxLength={maxLength}
+          placeholderTextColor={"#CCC"}
+          allowFontScaling={false}
           secureTextEntry={
             isPassword
               ? isPasswordVisible
@@ -211,8 +212,15 @@ const CustomTextInput: React.FC<CustomTextInputProps> = ({
       )}
 
       {/* Contact Modal */}
-      <Modal visible={modalVisible} animationType="slide">
-        <View style={{ flex: 1, padding: 20, backgroundColor: "#fff" }}>
+      <Modal visible={modalVisible} animationType="slide" transparent>
+        <View
+          style={{
+            flex: 1,
+            padding: 20,
+            backgroundColor: "#fff",
+            marginTop: hp("10%"),
+          }}
+        >
           <View
             style={{
               flexDirection: "row",

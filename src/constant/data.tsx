@@ -3,14 +3,14 @@ import { COLORS } from "./COLORS";
 import LottieView from "lottie-react-native";
 
 export const transactionActionData = [
-  {
-    id: 2,
-    label: "Send Money",
-    icon: (
-      <Ionicons name="remove-circle-outline" size={18} color={COLORS.primary} />
-    ),
-    screen: "Transfer",
-  },
+  // {
+  //   id: 2,
+  //   label: "Send Money",
+  //   icon: (
+  //     <Ionicons name="remove-circle-outline" size={18} color={COLORS.primary} />
+  //   ),
+  //   screen: "Transfer",
+  // },
   {
     id: 1,
     label: "Fund Account",

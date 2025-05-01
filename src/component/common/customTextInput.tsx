@@ -42,7 +42,7 @@ const CustomTextInput: React.FC<CustomTextInputProps> = ({
   placeholder,
   keyboardType,
   maxLength,
-  secureTextEntry = false,
+  secureTextEntry = true,
   multiline = false,
   numberOfLines = 1,
   isPassword = false,
@@ -167,8 +167,8 @@ const CustomTextInput: React.FC<CustomTextInputProps> = ({
                 (isPassword && isPasswordVisible) ||
                 (isPassword2 && isPassword2Visible) ||
                 (isConfirmPassword && isConfirmPasswordVisible)
-                  ? "eye-off"
-                  : "eye"
+                  ? "eye"
+                  : "eye-off"
               }
               size={24}
               color="#666"

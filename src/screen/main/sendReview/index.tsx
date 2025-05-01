@@ -54,6 +54,9 @@ const SendReview = () => {
   const userData = useAuthStore((state) => state.userData);
 
   const formattedAmount = `₦${Number(amount).toLocaleString()}`;
+  const formattedPercentRev = percentRev
+    ? `₦${Number(percentRev).toLocaleString()}`
+    : null;
 
   return (
     <SafeAreaView style={styles.root}>
@@ -72,6 +75,9 @@ const SendReview = () => {
           value={tag || account_number}
         />
         <ReviewItem label="Amount" value={formattedAmount} />
+        {percentRev && (
+          <ReviewItem label="Charges" value={formattedPercentRev} />
+        )}
         {reason && <ReviewItem label="Narration" value={reason} />}
       </View>
       <View style={styles.btn}>

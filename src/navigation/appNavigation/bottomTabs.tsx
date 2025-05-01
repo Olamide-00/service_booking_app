@@ -10,6 +10,8 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
+import { RegularText } from "@/src/component/text/indext";
+
 const Tab = createBottomTabNavigator();
 
 const BottomTabs = () => {
@@ -30,6 +32,25 @@ const BottomTabs = () => {
           }
 
           return <Ionicons name={iconName} size={size} color={color} />;
+        },
+        tabBarLabel: () => {
+          let labelName;
+
+          if (route.name === "HOME") {
+            labelName = "Home";
+          } else if (route.name === "Service") {
+            labelName = "Service";
+          } else if (route.name === "Transaction") {
+            labelName = "Transaction";
+          } else if (route.name === "PROFILE") {
+            labelName = "Profile";
+          }
+
+          return (
+            <RegularText size="small" color="white">
+              {labelName}
+            </RegularText>
+          );
         },
         tabBarActiveTintColor: COLORS.secondaryColor,
         tabBarInactiveTintColor: COLORS.white,

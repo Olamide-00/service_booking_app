@@ -22,7 +22,7 @@ export const styles = StyleSheet.create({
   },
   item: {
     width: wp("45%"),
-    height: hp("20%"),
+    height: hp("25%"),
     borderRadius: 8,
     paddingHorizontal: wp("3%"),
     paddingTop: hp("2%"),

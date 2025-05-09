@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: COLORS.border,
     borderRadius: 5,
-    marginTop: hp("5%"),
+    marginTop: hp("0.5%"),
     maxHeight: hp("35%"),
     backgroundColor: "#fff",
     paddingHorizontal: wp("2%"),

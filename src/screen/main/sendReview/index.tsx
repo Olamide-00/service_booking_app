@@ -59,46 +59,47 @@ const SendReview = () => {
     : null;
 
   return (
-    <SafeAreaView style={styles.root}>
-      {/* Header */}
+    <>
       <Header label="Transfer Review" showLogo />
-      <View style={styles.container}>
-        <ReviewItem label={"Account Name"} value={name || "N/A"} />
-        {destinationBankName && (
+      <View style={styles.root}>
+        <View style={styles.container}>
+          <ReviewItem label={"Account Name"} value={name || "N/A"} />
+          {destinationBankName && (
+            <ReviewItem
+              label={"Bank Name"}
+              value={destinationBankName || "N/A"}
+            />
+          )}
           <ReviewItem
-            label={"Bank Name"}
-            value={destinationBankName || "N/A"}
+            label={tag ? "Remit Tag" : "Account Number"}
+            value={tag || account_number}
           />
-        )}
-        <ReviewItem
-          label={tag ? "Remit Tag" : "Account Number"}
-          value={tag || account_number}
-        />
-        <ReviewItem label="Amount" value={formattedAmount} />
-        {percentRev && (
-          <ReviewItem label="Charges" value={formattedPercentRev} />
-        )}
-        {reason && <ReviewItem label="Narration" value={reason} />}
+          <ReviewItem label="Amount" value={formattedAmount} />
+          {percentRev && (
+            <ReviewItem label="Charges" value={formattedPercentRev} />
+          )}
+          {reason && <ReviewItem label="Narration" value={reason} />}
+        </View>
+        <View style={styles.btn}>
+          <CustomBtn
+            label="Continue"
+            onPress={() =>
+              navigation.navigate("TransferPIN", {
+                account_number,
+                bank_code,
+                reason,
+                amount: Number(amount),
+                destinationBankName,
+                name,
+                receipentName: name,
+                tag,
+                percentRev,
+              })
+            }
+          />
+        </View>
       </View>
-      <View style={styles.btn}>
-        <CustomBtn
-          label="Continue"
-          onPress={() =>
-            navigation.navigate("TransferPIN", {
-              account_number,
-              bank_code,
-              reason,
-              amount: Number(amount),
-              destinationBankName,
-              name,
-              receipentName: name,
-              tag,
-              percentRev,
-            })
-          }
-        />
-      </View>
-    </SafeAreaView>
+    </>
   );
 };
 

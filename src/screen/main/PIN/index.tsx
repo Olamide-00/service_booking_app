@@ -143,25 +143,27 @@ const PIN = () => {
   }, [pin]);
 
   return (
-    <SafeAreaView style={styles.root}>
-      <Header showIcon label="Transaction PIN" />
-      {loading && (
-        <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color="blue" />
+    <>
+      <Header showIcon label="Transaction PIN" showLogo />
+      <View style={styles.root}>
+        {loading && (
+          <View style={styles.loadingContainer}>
+            <ActivityIndicator size="large" color="blue" />
+          </View>
+        )}
+
+        <View style={styles.input}>
+          <OTPInput columns={4} onChangeOTP={setPin} />
         </View>
-      )}
 
-      <View style={styles.input}>
-        <OTPInput columns={4} onChangeOTP={setPin} />
+        <ToastMessage
+          isVisible={isVisible}
+          onClose={() => setIsVisible(false)}
+          message={message}
+          isSuccessful={success}
+        />
       </View>
-
-      <ToastMessage
-        isVisible={isVisible}
-        onClose={() => setIsVisible(false)}
-        message={message}
-        isSuccessful={success}
-      />
-    </SafeAreaView>
+    </>
   );
 };
 

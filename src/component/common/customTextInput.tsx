@@ -277,7 +277,7 @@ const CustomTextInput: React.FC<CustomTextInputProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 20,
+    marginBottom: 15,
   },
   inputContainer: {
     flexDirection: "row",

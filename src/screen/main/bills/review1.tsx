@@ -44,36 +44,37 @@ const ReviewScreen1: React.FC = () => {
   );
 
   return (
-    <SafeAreaView style={styles.root}>
-      {/* header */}
+    <>
       <Header label="Review" showLogo />
-      <Spacer size={hp(3)} direction="vertical" />
-      <View style={styles.item}>
-        <Item label="Provider" value={serviceID} />
-        {variation_code && <Item label="Package" value={variation_code} />}
-        {electricity && <Item label="Meter Number" value={billersCode} />}
-        {dstv && <Item label="SmartCard Number" value={billersCode} />}
-        <Item label="Phone Number" value={phoneNumber} />
-        <Item label="Amount" value={`₦${amount}`} />
-        <Item label="Total" value={`₦${amount}`} />
+      <View style={styles.root}>
+        <Spacer size={hp(3)} direction="vertical" />
+        <View style={styles.item}>
+          <Item label="Provider" value={serviceID} />
+          {variation_code && <Item label="Package" value={variation_code} />}
+          {electricity && <Item label="Meter Number" value={billersCode} />}
+          {dstv && <Item label="SmartCard Number" value={billersCode} />}
+          <Item label="Phone Number" value={phoneNumber} />
+          <Item label="Amount" value={`₦${amount}`} />
+          <Item label="Total" value={`₦${amount}`} />
+        </View>
+        <View style={styles.btn}>
+          <CustomBtn
+            label="Continue"
+            onPress={() =>
+              navigation.navigate("PIN", {
+                serviceID,
+                variation_code,
+                amount: new_amount,
+                phoneNumber,
+                billersCode,
+                type,
+                percentRev,
+              })
+            }
+          />
+        </View>
       </View>
-      <View style={styles.btn}>
-        <CustomBtn
-          label="Continue"
-          onPress={() =>
-            navigation.navigate("PIN", {
-              serviceID,
-              variation_code,
-              amount: new_amount,
-              phoneNumber,
-              billersCode,
-              type,
-              percentRev,
-            })
-          }
-        />
-      </View>
-    </SafeAreaView>
+    </>
   );
 };
 

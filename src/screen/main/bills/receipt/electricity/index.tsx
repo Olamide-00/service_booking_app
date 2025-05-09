@@ -50,78 +50,79 @@ const ElectReceipt = () => {
   const { width, height } = Dimensions.get("window");
 
   return (
-    <SafeAreaView style={styles.root}>
-      <Header showLogo />
-
-      {/* Capture this entire section as an image */}
-      <ViewShot ref={viewShotRef} options={{ format: "png", quality: 1 }}>
-        <Card style={styles.card}>
-          <View style={styles.container}>
-            <BoldText size="large" color="primary">
-              {formattedAmount}
-            </BoldText>
-            <MediumText size="medium">
-              {data?.response_description === "TRANSACTION SUCCESSFUL"
-                ? "SUCCESS"
-                : "FAILED"}
-            </MediumText>
-            <RegularText size="small">{formattedDate}</RegularText>
-          </View>
-          <Divider />
-          <Item label="Unit" value={data?.units || "N/A"} />
-          <Item label="Token" value={token || "N/A"} showIcon />
-          {/* {data?.content?.transactions?.type === "Electricity Bill" && (
+    <>
+      <Header showLogo label="Electricity" />
+      <View style={styles.root}>
+        {/* Capture this entire section as an image */}
+        <ViewShot ref={viewShotRef} options={{ format: "png", quality: 1 }}>
+          <Card style={styles.card}>
+            <View style={styles.container}>
+              <BoldText size="large" color="primary">
+                {formattedAmount}
+              </BoldText>
+              <MediumText size="medium">
+                {data?.response_description === "TRANSACTION SUCCESSFUL"
+                  ? "SUCCESS"
+                  : "FAILED"}
+              </MediumText>
+              <RegularText size="small">{formattedDate}</RegularText>
+            </View>
+            <Divider />
+            <Item label="Unit" value={data?.units || "N/A"} />
+            <Item label="Token" value={token || "N/A"} showIcon />
+            {/* {data?.content?.transactions?.type === "Electricity Bill" && (
             <Item label="Type" value={data?.content?.transactions?.type} />
           )} */}
-          {data?.content?.transactions?.product_name && (
+            {data?.content?.transactions?.product_name && (
+              <Item
+                label="Provider"
+                value={data?.content?.transactions?.product_name}
+              />
+            )}
             <Item
-              label="Provider"
-              value={data?.content?.transactions?.product_name}
+              label="Meter Number"
+              value={data?.content?.transactions?.unique_element || "N/A"}
             />
-          )}
-          <Item
-            label="Meter Number"
-            value={data?.content?.transactions?.unique_element || "N/A"}
-          />
-          <Item
-            label="Transaction ID"
-            value={data?.content?.transactions?.transactionId || "N/A"}
-          />
-          <View style={{ alignSelf: "center" }}>
-            <RegularText size="medium" color="primary">
-              Remit
-            </RegularText>
-          </View>
-        </Card>
-      </ViewShot>
+            <Item
+              label="Transaction ID"
+              value={data?.content?.transactions?.transactionId || "N/A"}
+            />
+            <View style={{ alignSelf: "center" }}>
+              <RegularText size="medium" color="primary">
+                Remit
+              </RegularText>
+            </View>
+          </Card>
+        </ViewShot>
 
-      <LottieView
-        autoPlay
-        loop
-        source={require("@/assets/json/4.json")}
-        style={[
-          styles.lottie,
-          {
-            width: width * 0.8,
-            height: height * 0.4,
-            transform: [
-              { translateX: -(width * 0.4) },
-              { translateY: -(height * 0.2) },
-            ],
-          },
-        ]}
-      />
-
-      {/* Share & Close Buttons */}
-      <View style={styles.btn}>
-        <CustomBtn width={wp(43)} label="Share" onPress={handleShareImage} />
-        <CustomBtn
-          width={wp(43)}
-          label="Close"
-          onPress={() => navigation.navigate("BottomTabs")}
+        <LottieView
+          autoPlay
+          loop
+          source={require("@/assets/json/4.json")}
+          style={[
+            styles.lottie,
+            {
+              width: width * 0.8,
+              height: height * 0.4,
+              transform: [
+                { translateX: -(width * 0.4) },
+                { translateY: -(height * 0.2) },
+              ],
+            },
+          ]}
         />
+
+        {/* Share & Close Buttons */}
+        <View style={styles.btn}>
+          <CustomBtn width={wp(43)} label="Share" onPress={handleShareImage} />
+          <CustomBtn
+            width={wp(43)}
+            label="Close"
+            onPress={() => navigation.navigate("BottomTabs")}
+          />
+        </View>
       </View>
-    </SafeAreaView>
+    </>
   );
 };
 

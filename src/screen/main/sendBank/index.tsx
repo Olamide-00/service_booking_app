@@ -162,95 +162,97 @@ const SendBank = () => {
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <SafeAreaView style={styles.root} key={route.key}>
+      <>
         <Header label="Bank Transfer" showLogo />
+        <View style={styles.root} key={route.key}>
+          <View style={styles.input}>
+            <CustomTextInput
+              title="Account Number"
+              placeholder="Enter account number"
+              value={formState.accountNumber}
+              setValue={(value) => handleInputChange("accountNumber", value)}
+              keyboardType="numeric"
+              error={errors.accountNumber}
+              maxLength={10}
+            />
+            <View style={styles.accountNameContainer}>
+              {customerName &&
+              formState.selectedBank &&
+              formState.accountNumber.length === 10 ? (
+                <RegularText size="small" color="secondaryColor">
+                  {customerName || "Invalid bank details"}
+                </RegularText>
+              ) : (
+                isVerifying && (
+                  <ActivityIndicator size="small" color={COLORS.primary} />
+                )
+              )}
+            </View>
 
-        <View style={styles.input}>
-          <CustomTextInput
-            title="Account Number"
-            placeholder="Enter account number"
-            value={formState.accountNumber}
-            setValue={(value) => handleInputChange("accountNumber", value)}
-            keyboardType="numeric"
-            error={errors.accountNumber}
-            maxLength={10}
-          />
-          <View style={styles.accountNameContainer}>
-            {customerName &&
-            formState.selectedBank &&
-            formState.accountNumber.length === 10 ? (
-              <RegularText size="small" color="secondaryColor">
-                {customerName || "Invalid bank details"}
-              </RegularText>
-            ) : (
-              isVerifying && (
-                <ActivityIndicator size="small" color={COLORS.primary} />
-              )
-            )}
-          </View>
+            <Spacer size={hp(1.5)} direction="vertical" />
 
-          <Spacer size={hp(1.5)} direction="vertical" />
-
-          <Selector
-            label="Select Bank"
-            options={
-              Array.isArray(bankData) && bankData.length > 0
-                ? bankData.map((bank) => ({
-                    label: bank.name,
-                    value: bank.code,
-                  }))
-                : []
-            }
-            showSearch
-            onSelect={(bankCode) => {
-              const bankName =
+            <Selector
+              label="Select Bank"
+              options={
                 Array.isArray(bankData) && bankData.length > 0
-                  ? bankData.find((bank) => bank.code === bankCode)?.name || ""
-                  : "";
-              handleBankSelect(bankCode, bankName);
-            }}
-            selectedValue={formState.selectedBank}
-            loading={isPending}
-          />
-          {errors.bank ? (
-            <RegularText size="small" style={styles.errorText}>
-              {errors.bank}
-            </RegularText>
-          ) : null}
+                  ? bankData.map((bank) => ({
+                      label: bank.name,
+                      value: bank.code,
+                    }))
+                  : []
+              }
+              showSearch
+              onSelect={(bankCode) => {
+                const bankName =
+                  Array.isArray(bankData) && bankData.length > 0
+                    ? bankData.find((bank) => bank.code === bankCode)?.name ||
+                      ""
+                    : "";
+                handleBankSelect(bankCode, bankName);
+              }}
+              selectedValue={formState.selectedBank}
+              loading={isPending}
+            />
+            {errors.bank ? (
+              <RegularText size="small" style={styles.errorText}>
+                {errors.bank}
+              </RegularText>
+            ) : null}
 
-          <Spacer size={hp(2)} direction="vertical" />
+            <Spacer size={hp(2)} direction="vertical" />
 
-          <CustomTextInput
-            title="Amount"
-            placeholder="Enter amount"
-            keyboardType="numeric"
-            value={formState.amount}
-            setValue={(value) => handleInputChange("amount", value)}
-            error={errors.amount}
-          />
+            <CustomTextInput
+              title="Amount"
+              placeholder="Enter amount"
+              keyboardType="numeric"
+              value={formState.amount}
+              setValue={(value) => handleInputChange("amount", value)}
+              error={errors.amount}
+            />
 
-          <Spacer size={hp(0)} direction="vertical" />
+            <Spacer size={hp(0)} direction="vertical" />
 
-          {/* <CustomTextInput
+            {/* <CustomTextInput
             title="Narration"
             placeholder="Narration"
             value={formState.narration}
             setValue={(value) => handleInputChange("narration", value)}
             error={errors.narration}
           /> */}
-        </View>
+          </View>
 
-        <View style={styles.btn}>
-          <CustomBtn label="Continue" onPress={handleSubmit} />
-        </View>
+          <View style={styles.btn}>
+            <CustomBtn label="Continue" onPress={handleSubmit} />
+          </View>
 
-        <ToastMessage
-          isVisible={isVisible}
-          message={message}
-          onClose={() => setIsVisible(false)}
-          isSuccessful={success}
-        />
-      </SafeAreaView>
+          <ToastMessage
+            isVisible={isVisible}
+            message={message}
+            onClose={() => setIsVisible(false)}
+            isSuccessful={success}
+          />
+        </View>
+      </>
     </TouchableWithoutFeedback>
   );
 };
@@ -262,7 +264,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: wp(4),
   },
   input: {
-    marginTop: hp(6),
+    marginTop: hp(4),
   },
   errorText: {
     marginTop: hp(0.5),

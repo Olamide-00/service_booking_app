@@ -104,63 +104,65 @@ const Jamb = () => {
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <SafeAreaView style={styles.root}>
-        <Header showLogo />
-        <View style={styles.container}>
-          <Selector
-            label="Exam Type"
-            onSelect={setSelectedExamType}
-            selectedValue={selectedExamType}
-            options={options}
-            loading={isLoading}
-          />
-          <Spacer size={hp("0%")} />
-          {!phoneNumber && (
-            <CustomTextInput
-              title="Phone Number"
-              value={number}
-              setValue={setNumber}
-              keyboardType="numeric"
-              error=""
-              maxLength={14}
-              acceptContact
+      <>
+        <Header showLogo label="Jamb" />
+        <View style={styles.root}>
+          <View style={styles.container}>
+            <Selector
+              label="Exam Type"
+              onSelect={setSelectedExamType}
+              selectedValue={selectedExamType}
+              options={options}
+              loading={isLoading}
             />
-          )}
-          <View style={styles.profileContainer}>
-            <CustomTextInput
-              value={profileCode}
-              setValue={setProfileCode}
-              title="Profile Code"
-              error={profileError}
-              maxLength={10}
-            />
-            <View style={styles.error}>
-              {customerName && (
-                <RegularText size="small" color="secondaryColor">
-                  {customerName}
-                </RegularText>
-              )}
+            <Spacer size={hp("0%")} />
+            {!phoneNumber && (
+              <CustomTextInput
+                title="Phone Number"
+                value={number}
+                setValue={setNumber}
+                keyboardType="numeric"
+                error=""
+                maxLength={14}
+                acceptContact
+              />
+            )}
+            <View style={styles.profileContainer}>
+              <CustomTextInput
+                value={profileCode}
+                setValue={setProfileCode}
+                title="Profile Code"
+                error={profileError}
+                maxLength={10}
+              />
+              <View style={styles.error}>
+                {customerName && (
+                  <RegularText size="small" color="secondaryColor">
+                    {customerName}
+                  </RegularText>
+                )}
+              </View>
             </View>
-          </View>
 
-          <CustomTextInput
-            value={amount.toString()}
-            setValue={() => {}}
-            title="Amount"
-            keyboardType="numeric"
-            editable={false}
-            error=""
-          />
+            <CustomTextInput
+              value={amount.toString()}
+              setValue={() => {}}
+              title="Amount"
+              keyboardType="numeric"
+              editable={false}
+              error=""
+            />
+          </View>
+          <View style={styles.btn}>
+            <CustomBtn
+              label={isVerifying ? "Verifying..." : "Continue"}
+              onPress={handleContinue}
+              disabled={!isFormValid || isVerifying}
+              isLoading={isVerifying}
+            />
+          </View>
         </View>
-        <View style={styles.btn}>
-          <CustomBtn
-            label={isVerifying ? "Verifying..." : "Continue"}
-            onPress={handleContinue}
-            disabled={!isFormValid || isVerifying}
-            isLoading={isVerifying}
-          />
-        </View>
-      </SafeAreaView>
+      </>
     </TouchableWithoutFeedback>
   );
 };
@@ -172,6 +174,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: COLORS.white,
     paddingHorizontal: wp("4%"),
+    paddingTop: hp("5%"),
   },
   container: {
     gap: hp("1.5%"),

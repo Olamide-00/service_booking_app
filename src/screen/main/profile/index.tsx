@@ -39,6 +39,7 @@ import {
 } from "@/src/api/hooks/useAuth";
 import { Image } from "expo-image";
 import DeleteModal from "@/src/component/modals/deleteAccount";
+import Header from "@/src/component/common/header";
 
 const Profile = () => {
   const navigation = useNavigation();
@@ -170,111 +171,117 @@ const Profile = () => {
   };
 
   return (
-    <SafeAreaView style={styles.root}>
-      <ScrollView
-        contentContainerStyle={styles.scrollContainer}
-        showsVerticalScrollIndicator={false}
-      >
-        <BoldText size="large">Profile</BoldText>
-        <Spacer size={hp(1)} direction="vertical" />
+    <>
+      <Header label="Profile" height={10} />
+      <View style={styles.root}>
+        <ScrollView
+          contentContainerStyle={styles.scrollContainer}
+          showsVerticalScrollIndicator={false}
+        >
+          <Spacer size={hp("2%")} direction="vertical" />
 
-        {/* Profile Section */}
-        <View>
-          <Card style={styles.card} borderOnly>
-            <View style={styles.imageContainer}>
-              <Image
-                source={{ uri: userData?.profilePicture ?? image }}
-                contentFit="cover"
-                style={styles.image}
-              />
-              <TouchableOpacity
-                style={styles.editIcon}
-                onPress={handleSelectImage}
-              >
-                <Feather name="edit" size={20} />
-              </TouchableOpacity>
-              <View style={{ marginTop: hp("0.8%") }}>
-                <RegularText size="medium" color="gray">
-                  {userData?.email}
-                </RegularText>
+          {/* Profile Section */}
+          <View>
+            <Card style={styles.card} borderOnly>
+              <View style={styles.imageContainer}>
+                <Image
+                  source={{ uri: userData?.profilePicture ?? image }}
+                  contentFit="cover"
+                  style={styles.image}
+                />
+                <TouchableOpacity
+                  style={styles.editIcon}
+                  onPress={handleSelectImage}
+                >
+                  <Feather name="edit" size={20} />
+                </TouchableOpacity>
+                <View style={{ marginTop: hp("0.8%") }}>
+                  <RegularText size="medium" color="gray">
+                    {userData?.email}
+                  </RegularText>
+                </View>
               </View>
-            </View>
-          </Card>
-          <Spacer size={hp(2)} direction="vertical" />
-          <Card borderOnly style={styles.profileCard}>
-            <BoldText size="large" color="primary">
-              Personal Details
-            </BoldText>
-            <View style={styles.infoContainer}>
-              <Item name="First Name" value={firstName} />
-              <Item name="Last Name" value={lastName} />
-              <Item name="Email Address" value={userData?.email} />
-              <Item
-                name="Phone Number"
-                value={userData?.phoneNumber || "---"}
-              />
-            </View>
-            <Divider />
-            <BoldText size="large" color="primary">
-              Account Menu
-            </BoldText>
-            <Item2 name="Forgot PIN" func={onUpdatePIN} />
-            <Item2 name="Update Phone Number" func={onUpdateNumber} />
-            <Divider />
-            {/* <Item3
+            </Card>
+            <Spacer size={hp(2)} direction="vertical" />
+            <Card borderOnly style={styles.profileCard}>
+              <BoldText size="large" color="primary">
+                Personal Details
+              </BoldText>
+              <View style={styles.infoContainer}>
+                <Item name="First Name" value={firstName} />
+                <Item name="Last Name" value={lastName} />
+                <Item name="Email Address" value={userData?.email} />
+                <Item
+                  name="Phone Number"
+                  value={userData?.phoneNumber || "---"}
+                />
+              </View>
+              <Divider />
+              <BoldText size="large" color="primary">
+                Account Menu
+              </BoldText>
+              <Item2 name="Forgot PIN" func={onUpdatePIN} />
+              <Item2 name="Update Phone Number" func={onUpdateNumber} />
+              <Divider />
+              {/* <Item3
               name="Enable Biometric"
               value={isBioEnable}
               onToggle={setIsBioEnable}
             /> */}
-            <View style={styles.item3Container}>
-              <Item3
-                name="Push Notification"
-                value={enableNotification}
-                onToggle={setEnableNotification}
-              />
-            </View>
-            <Divider />
-            <Pressable
-              onPress={() =>
-                navigation.navigate("StackNavigation", {
-                  screen: "TermsAndPolicies",
-                })
-              }
-            >
-              <BoldText size="large" color="primary">
-                Terms & Policies
-              </BoldText>
-              <MediumText size="medium">Terms of use</MediumText>
-            </Pressable>
-            <Divider />
-            <View style={styles.btnContainer}>
-              <CustomBtn label="Logout" width={wp(40)} onPress={handleLogOut} />
-              <CustomBtn
-                label="DELETE ACCOUNT"
-                width={wp(40)}
-                onPress={() => setIsOpen(true)}
-                color={COLORS.secondaryColor}
-              />
-            </View>
-          </Card>
-        </View>
-        <UpdatePIN
-          isVisible={isVisible}
-          closeModal={() => setIsVisible(false)}
-        />
-        <UpdateNumber
-          isVisible={isVisible2}
-          closeModal={() => setIsVisible2(false)}
-        />
-      </ScrollView>
-      {
-        <DeleteModal
-          isOpen={isOpen}
-          setIsOpen={setIsOpen}
-          onConfirm={handleDelete}
-        />
-      }
-    </SafeAreaView>
+              <View style={styles.item3Container}>
+                <Item3
+                  name="Push Notification"
+                  value={enableNotification}
+                  onToggle={setEnableNotification}
+                />
+              </View>
+              <Divider />
+              <Pressable
+                onPress={() =>
+                  navigation.navigate("StackNavigation", {
+                    screen: "TermsAndPolicies",
+                  })
+                }
+              >
+                <BoldText size="large" color="primary">
+                  Terms & Policies
+                </BoldText>
+                <MediumText size="medium">Terms of use</MediumText>
+              </Pressable>
+              <Divider />
+              <View style={styles.btnContainer}>
+                <CustomBtn
+                  label="Logout"
+                  width={wp(40)}
+                  onPress={handleLogOut}
+                />
+                <CustomBtn
+                  label="DELETE ACCOUNT"
+                  width={wp(40)}
+                  onPress={() => setIsOpen(true)}
+                  color={COLORS.secondaryColor}
+                />
+              </View>
+            </Card>
+          </View>
+          <UpdatePIN
+            isVisible={isVisible}
+            closeModal={() => setIsVisible(false)}
+          />
+          <UpdateNumber
+            isVisible={isVisible2}
+            closeModal={() => setIsVisible2(false)}
+          />
+        </ScrollView>
+        {
+          <DeleteModal
+            isOpen={isOpen}
+            setIsOpen={setIsOpen}
+            onConfirm={handleDelete}
+          />
+        }
+      </View>
+    </>
   );
 };
 

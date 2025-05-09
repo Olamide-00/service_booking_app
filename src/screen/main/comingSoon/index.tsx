@@ -8,19 +8,21 @@ import Header from "@/src/component/common/header";
 
 const ComingSoon = () => {
   return (
-    <SafeAreaView style={styles.root}>
-      <Header showLogo />
-      <View style={styles.container}>
-        <Image
-          source={require("../../../../assets/images/oops.png")}
-          style={styles.image}
-          resizeMode="contain"
-        />
-        <ExtraBoldText size="large" color="secondaryColor">
-          Coming soon ...
-        </ExtraBoldText>
-      </View>
-    </SafeAreaView>
+    <>
+      <Header showLogo label="Comming Soon" />
+      <SafeAreaView style={styles.root}>
+        <View style={styles.container}>
+          <Image
+            source={require("../../../../assets/images/oops.png")}
+            style={styles.image}
+            resizeMode="contain"
+          />
+          <ExtraBoldText size="large" color="secondaryColor">
+            Coming soon ...
+          </ExtraBoldText>
+        </View>
+      </SafeAreaView>
+    </>
   );
 };
 

@@ -8,6 +8,7 @@ import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import DateSelector from "@/src/component/common/dateSelector";
 import BillsComponent from "./component/bills";
 import TransferComponent from "./component/transferComponent";
+import Header from "@/src/component/common/header";
 
 const Transaction = () => {
   const [selectedDate, setSelectedDate] = useState<string>("");
@@ -16,48 +17,46 @@ const Transaction = () => {
   const menuData = ["Bills", "Funding"];
 
   return (
-    <SafeAreaView style={styles.root}>
-      <View style={styles.title}>
-        <ExtraBoldText size="large">Transactions</ExtraBoldText>
-      </View>
-      <Spacer size={hp(1)} />
+    <>
+      <Header label="Transactions" height={10} />
+      <SafeAreaView style={styles.root}>
+        {/* Date Selector */}
+        <DateSelector
+          selectedDate={selectedDate}
+          onDateChange={setSelectedDate}
+        />
 
-      {/* Date Selector */}
-      <DateSelector
-        selectedDate={selectedDate}
-        onDateChange={setSelectedDate}
-      />
-
-      {/* Menu Navigation */}
-      <View style={styles.menuContainer}>
-        {menuData.map((menu) => (
-          <TouchableOpacity
-            key={menu}
-            onPress={() => setActiveMenu(menu)}
-            style={[
-              styles.menuItem,
-              activeMenu === menu && styles.activeMenuItem,
-            ]}
-          >
-            <MediumText
-              size="medium"
-              style={
-                activeMenu === menu ? styles.activeMenuText : styles.menuText
-              }
+        {/* Menu Navigation */}
+        <View style={styles.menuContainer}>
+          {menuData.map((menu) => (
+            <TouchableOpacity
+              key={menu}
+              onPress={() => setActiveMenu(menu)}
+              style={[
+                styles.menuItem,
+                activeMenu === menu && styles.activeMenuItem,
+              ]}
             >
-              {menu}
-            </MediumText>
-          </TouchableOpacity>
-        ))}
-      </View>
+              <MediumText
+                size="medium"
+                style={
+                  activeMenu === menu ? styles.activeMenuText : styles.menuText
+                }
+              >
+                {menu}
+              </MediumText>
+            </TouchableOpacity>
+          ))}
+        </View>
 
-      {/* Pass selectedDate to components */}
-      {activeMenu === "Bills" ? (
-        <BillsComponent selectedDate={selectedDate} />
-      ) : (
-        <TransferComponent selectedDate={selectedDate} />
-      )}
-    </SafeAreaView>
+        {/* Pass selectedDate to components */}
+        {activeMenu === "Bills" ? (
+          <BillsComponent selectedDate={selectedDate} />
+        ) : (
+          <TransferComponent selectedDate={selectedDate} />
+        )}
+      </SafeAreaView>
+    </>
   );
 };
 

@@ -158,78 +158,80 @@ const ElectricityScreen = () => {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-      <SafeAreaView style={styles.root}>
+      <>
         <Header label="Electricity" showLogo />
-        <View style={styles.input}>
-          <View>
-            <CustomTextInput
-              placeholder="Enter meter number"
-              title="Meter Number"
-              keyboardType="numeric"
-              value={meterNumber}
-              setValue={setMeterNumber}
-              error={errors.meterNumber}
-              maxLength={13}
-            />
-            <View style={styles.customerName}>
-              {isVerifying ? (
-                <ActivityIndicator size="small" color={COLORS.primary} />
-              ) : (
-                <RegularText color="primary" size="small">
-                  {customerName}
-                </RegularText>
-              )}
+        <View style={styles.root}>
+          <View style={styles.input}>
+            <View>
+              <CustomTextInput
+                placeholder="Enter meter number"
+                title="Meter Number"
+                keyboardType="numeric"
+                value={meterNumber}
+                setValue={setMeterNumber}
+                error={errors.meterNumber}
+                maxLength={13}
+              />
+              <View style={styles.customerName}>
+                {isVerifying ? (
+                  <ActivityIndicator size="small" color={COLORS.primary} />
+                ) : (
+                  <RegularText color="primary" size="small">
+                    {customerName}
+                  </RegularText>
+                )}
+              </View>
             </View>
-          </View>
-          <View pointerEvents="box-none">
+            <View pointerEvents="box-none">
+              <Selector
+                label="Disco Type"
+                options={discoOptions}
+                selectedValue={selectedService}
+                onSelect={(val: string) => {
+                  setSelectedService(val);
+                  const selected = discoOptions.find(
+                    (item) => item.value === val
+                  );
+                  setSelectedDisco(selected ? selected.label : null);
+                }}
+                loading={servicesLoading}
+                showSearch
+              />
+            </View>
+
             <Selector
-              label="Disco Type"
-              options={discoOptions}
-              selectedValue={selectedService}
-              onSelect={(val: string) => {
-                setSelectedService(val);
-                const selected = discoOptions.find(
-                  (item) => item.value === val
-                );
-                setSelectedDisco(selected ? selected.label : null);
-              }}
-              loading={servicesLoading}
-              showSearch
+              label="Meter Type"
+              options={meterTypes}
+              selectedValue={selectedMeterType}
+              onSelect={setSelectedMeterType}
+            />
+
+            <CustomTextInput
+              title="Amount"
+              placeholder="Enter amount"
+              keyboardType="numeric"
+              value={amount}
+              setValue={setAmount}
+              error={errors.amount}
             />
           </View>
 
-          <Selector
-            label="Meter Type"
-            options={meterTypes}
-            selectedValue={selectedMeterType}
-            onSelect={setSelectedMeterType}
-          />
+          <View style={styles.btn}>
+            <CustomBtn
+              label="Continue"
+              onPress={handleContinue}
+              disabled={!isFormValid}
+            />
+          </View>
 
-          <CustomTextInput
-            title="Amount"
-            placeholder="Enter amount"
-            keyboardType="numeric"
-            value={amount}
-            setValue={setAmount}
-            error={errors.amount}
-          />
-        </View>
-
-        <View style={styles.btn}>
-          <CustomBtn
-            label="Continue"
-            onPress={handleContinue}
-            disabled={!isFormValid}
+          <ToastMessage
+            isVisible={isVisible}
+            onClose={() => setIsVisible(false)}
+            message={message}
+            isSuccessful={success}
           />
         </View>
-
-        <ToastMessage
-          isVisible={isVisible}
-          onClose={() => setIsVisible(false)}
-          message={message}
-          isSuccessful={success}
-        />
-      </SafeAreaView>
+      </>
     </TouchableWithoutFeedback>
   );
 };

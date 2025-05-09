@@ -48,77 +48,79 @@ const FundWallet: React.FC = () => {
   };
 
   return (
-    <SafeAreaView style={styles.root}>
+    <>
       <Header label="Fund Wallet" showLogo />
-      <Spacer size={hp(3)} direction="vertical" />
-      <View style={styles.container}>
-        {account ? (
-          <>
-            <Card style={{ paddingVertical: hp(3), marginBottom: hp(2) }}>
-              <MediumText size="medium">Remit- {userData?.name}</MediumText>
-              <BoldText size="large" color="primary">
-                {account}
-              </BoldText>
-              <MediumText
-                size="small"
-                style={{ marginTop: 5 }}
-                color="secondaryColor"
-              >
-                {walletData?.data?.bank_name}
-              </MediumText>
-              <View style={styles.btnContainer}>
-                <TouchableOpacity
-                  style={styles.btn}
-                  onPress={() => copyToClipboard(account.accountNumber)}
+      <View style={styles.root}>
+        <Spacer size={hp(3)} direction="vertical" />
+        <View style={styles.container}>
+          {account ? (
+            <>
+              <Card style={{ paddingVertical: hp(3), marginBottom: hp(2) }}>
+                <MediumText size="medium">Remit- {userData?.name}</MediumText>
+                <BoldText size="large" color="primary">
+                  {account}
+                </BoldText>
+                <MediumText
+                  size="small"
+                  style={{ marginTop: 5 }}
+                  color="secondaryColor"
                 >
-                  <RegularText size="small" color="primary">
-                    Copy Number
-                  </RegularText>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.btn2}
-                  onPress={() =>
-                    shareDetails(account.accountNumber, account.accountName)
-                  }
-                >
-                  <RegularText size="small" color="white">
-                    Share Details
-                  </RegularText>
-                </TouchableOpacity>
-              </View>
-            </Card>
-            {/* <Card style={styles.card}>
+                  {walletData?.data?.bank_name}
+                </MediumText>
+                <View style={styles.btnContainer}>
+                  <TouchableOpacity
+                    style={styles.btn}
+                    onPress={() => copyToClipboard(account.accountNumber)}
+                  >
+                    <RegularText size="small" color="primary">
+                      Copy Number
+                    </RegularText>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.btn2}
+                    onPress={() =>
+                      shareDetails(account.accountNumber, account.accountName)
+                    }
+                  >
+                    <RegularText size="small" color="white">
+                      Share Details
+                    </RegularText>
+                  </TouchableOpacity>
+                </View>
+              </Card>
+              {/* <Card style={styles.card}>
               <CardAdd size={30} color={COLORS.primary} />
               <ExtraBoldText size="medium" color="primary">
                 Fund With Card
               </ExtraBoldText>
             </Card> */}
-          </>
-        ) : (
-          <View>
-            <Card style={{ paddingVertical: hp(3) }}>
-              <MediumText size="medium" style={{ textAlign: "center" }}>
-                No accounts available yet
-              </MediumText>
-            </Card>
-            <Spacer size={hp(2)} direction="vertical" />
+            </>
+          ) : (
+            <View>
+              <Card style={{ paddingVertical: hp(3) }}>
+                <MediumText size="medium" style={{ textAlign: "center" }}>
+                  No accounts available yet
+                </MediumText>
+              </Card>
+              <Spacer size={hp(2)} direction="vertical" />
 
-            {/* <Card style={styles.card}>
+              {/* <Card style={styles.card}>
               <CardAdd size={30} color={COLORS.primary} />
               <ExtraBoldText size="medium" color="primary">
                 Fund With Card
               </ExtraBoldText>
             </Card> */}
-          </View>
-        )}
+            </View>
+          )}
+        </View>
+        <ToastMessage
+          isVisible={isVisible}
+          onClose={() => setIsVisible(false)}
+          message={message}
+          isSuccessful={isSuccess}
+        />
       </View>
-      <ToastMessage
-        isVisible={isVisible}
-        onClose={() => setIsVisible(false)}
-        message={message}
-        isSuccessful={isSuccess}
-      />
-    </SafeAreaView>
+    </>
   );
 };
 

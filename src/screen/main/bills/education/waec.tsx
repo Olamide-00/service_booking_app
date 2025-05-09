@@ -78,52 +78,54 @@ const Waec = () => {
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <SafeAreaView style={styles.root}>
-        <Header showLogo />
-        <View style={styles.container}>
-          <Selector
-            label="Exam Type"
-            onSelect={setSelectedExamType}
-            selectedValue={selectedExamType}
-            options={options}
-            loading={isLoading}
-          />
-          <Spacer size={hp("0%")} />
-          {!phoneNumber && (
+      <>
+        <Header showLogo label="Waec" />
+        <View style={styles.root}>
+          <View style={styles.container}>
+            <Selector
+              label="Exam Type"
+              onSelect={setSelectedExamType}
+              selectedValue={selectedExamType}
+              options={options}
+              loading={isLoading}
+            />
+            <Spacer size={hp("0%")} />
+            {!phoneNumber && (
+              <CustomTextInput
+                title="Phone Number"
+                value={number}
+                setValue={setNumber}
+                keyboardType="numeric"
+                error=""
+                maxLength={14}
+                acceptContact
+              />
+            )}
             <CustomTextInput
-              title="Phone Number"
-              value={number}
-              setValue={setNumber}
+              value={quantity}
+              setValue={setQuantity}
+              title="Quantity"
+              keyboardType="numeric"
+              error={quantityError}
+            />
+            <CustomTextInput
+              value={amount.toString()}
+              setValue={() => {}}
+              title="Amount"
               keyboardType="numeric"
               error=""
-              maxLength={14}
-              acceptContact
+              editable={false}
             />
-          )}
-          <CustomTextInput
-            value={quantity}
-            setValue={setQuantity}
-            title="Quantity"
-            keyboardType="numeric"
-            error={quantityError}
-          />
-          <CustomTextInput
-            value={amount.toString()}
-            setValue={() => {}}
-            title="Amount"
-            keyboardType="numeric"
-            error=""
-            editable={false}
-          />
+          </View>
+          <View style={styles.btn}>
+            <CustomBtn
+              label="Continue"
+              onPress={handleContinue}
+              disabled={!isFormValid}
+            />
+          </View>
         </View>
-        <View style={styles.btn}>
-          <CustomBtn
-            label="Continue"
-            onPress={handleContinue}
-            disabled={!isFormValid}
-          />
-        </View>
-      </SafeAreaView>
+      </>
     </TouchableWithoutFeedback>
   );
 };
@@ -135,6 +137,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: COLORS.white,
     paddingHorizontal: wp("4%"),
+    paddingTop: hp("5%"),
   },
   container: {
     gap: hp("1.5%"),

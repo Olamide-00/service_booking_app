@@ -95,68 +95,70 @@ const AirtimeScreen = () => {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-      <SafeAreaView style={styles.root}>
-        {/* Header */}
-        <Header showLogo />
-        <Spacer size={hp(5)} />
+      <>
+        <Header showLogo label="Airtime" height={15} />
+        <View style={styles.root}>
+          {/* Header */}
+          <Spacer size={hp(5)} />
 
-        <View style={styles.input}>
-          {/* Selector for Network */}
-          <View>
-            <Selector
-              label="Network"
-              options={network}
-              selectedValue={selectedNetwork}
-              onSelect={(value) => setSelectedNetwork(value)}
+          <View style={styles.input}>
+            {/* Selector for Network */}
+            <View>
+              <Selector
+                label="Network"
+                options={network}
+                selectedValue={selectedNetwork}
+                onSelect={(value) => setSelectedNetwork(value)}
+              />
+              {errors.selectedNetwork ? (
+                <View style={styles.errorCon}>
+                  <RegularText size="small" color="secondaryColor">
+                    {errors.selectedNetwork}
+                  </RegularText>
+                </View>
+              ) : null}
+            </View>
+
+            {/* Phone Number Input */}
+            <Spacer size={hp(1)} />
+            <CustomTextInput
+              placeholder="e.g 09036018013"
+              title="Phone Number"
+              keyboardType="numeric"
+              value={phoneNumber}
+              setValue={setPhoneNumber}
+              maxLength={14}
+              acceptContact
+              error={errors.phoneNumber}
             />
-            {errors.selectedNetwork ? (
-              <View style={styles.errorCon}>
-                <RegularText size="small" color="secondaryColor">
-                  {errors.selectedNetwork}
-                </RegularText>
-              </View>
-            ) : null}
+
+            {/* Amount Input */}
+            <CustomTextInput
+              placeholder="Enter amount"
+              title="Amount"
+              keyboardType="numeric"
+              value={amount}
+              setValue={setAmount}
+              error={errors.amount}
+            />
           </View>
 
-          {/* Phone Number Input */}
-          <Spacer size={hp(1)} />
-          <CustomTextInput
-            placeholder="e.g 09036018013"
-            title="Phone Number"
-            keyboardType="numeric"
-            value={phoneNumber}
-            setValue={setPhoneNumber}
-            maxLength={14}
-            acceptContact
-            error={errors.phoneNumber}
-          />
-
-          {/* Amount Input */}
-          <CustomTextInput
-            placeholder="Enter amount"
-            title="Amount"
-            keyboardType="numeric"
-            value={amount}
-            setValue={setAmount}
-            error={errors.amount}
+          {/* Continue Button */}
+          <View style={styles.btn}>
+            <CustomBtn
+              label="Continue"
+              onPress={handleContinue}
+              disabled={disable}
+            />
+          </View>
+          <ToastMessage
+            isVisible={isVisible}
+            message={message}
+            onClose={() => setIsVisible(false)}
+            isSuccessful={success}
           />
         </View>
-
-        {/* Continue Button */}
-        <View style={styles.btn}>
-          <CustomBtn
-            label="Continue"
-            onPress={handleContinue}
-            disabled={disable}
-          />
-        </View>
-        <ToastMessage
-          isVisible={isVisible}
-          message={message}
-          onClose={() => setIsVisible(false)}
-          isSuccessful={success}
-        />
-      </SafeAreaView>
+      </>
     </TouchableWithoutFeedback>
   );
 };

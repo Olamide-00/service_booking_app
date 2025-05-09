@@ -201,26 +201,27 @@ const TransferPIN = () => {
   ]);
 
   return (
-    <SafeAreaView style={styles.root}>
-      <Header showIcon label="Transaction PIN" />
+    <>
+      <Header showLogo label="Transaction PIN" />
+      <View style={styles.root}>
+        {/* Loading Overlay (Only visible when loading) */}
+        {loading && (
+          <View style={styles.loadingContainer}>
+            <ActivityIndicator size="large" color="blue" />
+          </View>
+        )}
 
-      {/* Loading Overlay (Only visible when loading) */}
-      {loading && (
-        <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color="blue" />
+        <View style={styles.input}>
+          <OTPInput columns={4} onChangeOTP={setPin} />
         </View>
-      )}
-
-      <View style={styles.input}>
-        <OTPInput columns={4} onChangeOTP={setPin} />
+        <ToastMessage
+          isVisible={isVisible}
+          onClose={() => setIsVisible(false)}
+          message={message}
+          isSuccessful={success}
+        />
       </View>
-      <ToastMessage
-        isVisible={isVisible}
-        onClose={() => setIsVisible(false)}
-        message={message}
-        isSuccessful={success}
-      />
-    </SafeAreaView>
+    </>
   );
 };
 

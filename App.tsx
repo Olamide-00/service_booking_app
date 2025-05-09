@@ -79,10 +79,15 @@ const App = () => {
       </View>
     );
   }
+
   return (
     <QueryClientProvider client={queryClient}>
-      <StatusBar barStyle={"dark-content"} />
       <RootNavigation />
+      <StatusBar
+        barStyle="light-content"
+        backgroundColor="transparent"
+        translucent
+      />
     </QueryClientProvider>
   );
 };

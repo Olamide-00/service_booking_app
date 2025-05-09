@@ -149,29 +149,31 @@ const Notification = () => {
   );
 
   return (
-    <SafeAreaView style={styles.root}>
-      <Header showLogo />
-      <DateSelector
-        selectedDate={selectedDate}
-        onDateChange={setSelectedDate}
-        label="Notification Date"
-      />
-
-      <Spacer size={hp(4)} />
-
-      {filteredNotifications.length > 0 ? (
-        <FlatList
-          data={filteredNotifications}
-          keyExtractor={(item) => item._id || item.id}
-          renderItem={renderItem}
-          showsVerticalScrollIndicator={false}
+    <>
+      <Header showLogo label="Notification" />
+      <SafeAreaView style={styles.root}>
+        <DateSelector
+          selectedDate={selectedDate}
+          onDateChange={setSelectedDate}
+          label="Select Date"
         />
-      ) : (
-        <View style={{ alignItems: "center", marginTop: 20 }}>
-          <EmptyState message="No records found for the selected date" />
-        </View>
-      )}
-    </SafeAreaView>
+
+        <Spacer size={hp(4)} />
+
+        {filteredNotifications.length > 0 ? (
+          <FlatList
+            data={filteredNotifications}
+            keyExtractor={(item) => item._id || item.id}
+            renderItem={renderItem}
+            showsVerticalScrollIndicator={false}
+          />
+        ) : (
+          <View style={{ alignItems: "center", marginTop: 20 }}>
+            <EmptyState message="No records found for the selected date" />
+          </View>
+        )}
+      </SafeAreaView>
+    </>
   );
 };
 

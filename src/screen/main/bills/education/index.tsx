@@ -7,7 +7,11 @@ import { educationData } from "@/src/constant/data";
 import { RegularText } from "@/src/component/text/indext";
 import Card from "@/src/component/common/card";
 import { useNavigation } from "@react-navigation/native";
-
+import Spacer from "@/src/component/common/spacer";
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
 type Props = {
   id: string;
   logo: ImageProps;
@@ -17,30 +21,33 @@ type Props = {
 const Education = () => {
   const navigation = useNavigation();
   return (
-    <SafeAreaView style={styles.root}>
-      <Header showLogo />
-      {educationData.map((data) => {
-        return (
-          <Pressable
-            onPress={() => navigation.navigate(data.screen)}
-            key={data.id}
-          >
-            <Card style={styles.item}>
-              <View style={styles.imageContainer}>
-                <Image
-                  source={data.logo}
-                  style={styles.image}
-                  resizeMode="cover"
-                />
-              </View>
-              <RegularText size="small" color="primary">
-                {data.label}
-              </RegularText>
-            </Card>
-          </Pressable>
-        );
-      })}
-    </SafeAreaView>
+    <>
+      <Header showLogo label="Education" />
+      <View style={styles.root}>
+        <Spacer size={hp("5%")} />
+        {educationData.map((data) => {
+          return (
+            <Pressable
+              onPress={() => navigation.navigate(data.screen)}
+              key={data.id}
+            >
+              <Card style={styles.item}>
+                <View style={styles.imageContainer}>
+                  <Image
+                    source={data.logo}
+                    style={styles.image}
+                    resizeMode="cover"
+                  />
+                </View>
+                <RegularText size="small" color="primary">
+                  {data.label}
+                </RegularText>
+              </Card>
+            </Pressable>
+          );
+        })}
+      </View>
+    </>
   );
 };
 

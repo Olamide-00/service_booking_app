@@ -10,6 +10,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: COLORS.white,
     paddingHorizontal: wp(4),
+    paddingTop: hp("1%"),
   },
   btnContainer: {
     flexDirection: "row",

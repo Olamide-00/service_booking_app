@@ -70,95 +70,100 @@ const TransactionDetails = () => {
   };
 
   return (
-    <SafeAreaView style={styles.root}>
-      {/* Header */}
-      <Header showLogo />
-      <Spacer size={hp(3)} direction="vertical" />
+    <>
+      <Header showLogo label="Transaction Details" />
+      <SafeAreaView style={styles.root}>
+        <Spacer size={hp(3)} direction="vertical" />
 
-      {/* Transaction Summary Card */}
-      <Card style={styles.card}>
-        {transaction.service ? (
-          <MediumText size="medium">{transaction.service}</MediumText>
-        ) : (
-          <MediumText size="medium">{transaction.type}</MediumText>
-        )}
-
-        <BoldText size="large" color="primary">
-          ₦{formattedBalance}
-        </BoldText>
-        <View style={styles.item2}>
-          {transaction.status === "SUCCESS" ? (
-            <CardReceive size={18} color={COLORS.primary} />
+        {/* Transaction Summary Card */}
+        <Card style={styles.card}>
+          {transaction.service ? (
+            <MediumText size="medium">{transaction.service}</MediumText>
           ) : (
-            <LayoutMaximize size={18} color={COLORS.secondaryColor} />
+            <MediumText size="medium">{transaction.type}</MediumText>
           )}
-          <RegularText
-            size="small"
-            color={transaction.type === "DEBIT" ? "error" : "primary"}
-          >
-            {transaction.type ?? transaction.status}
-          </RegularText>
-        </View>
-      </Card>
-      <Spacer size={hp(2)} />
-      {/* Transaction Details Card */}
-      <Card style={styles.card2}>
-        <MediumText size="large" color="primary">
-          Transaction Details
-        </MediumText>
-        {transaction.service === "BANK_TRANSFER" && (
-          <>
-            <Item label="Receipient Name" value={transaction.name} />
-            <Item label="Bank Name" value={transaction.destinationBankName} />
-            <Item label="Account Number" value={transaction.account_number} />
-          </>
-        )}
-        {transaction.service === "REMIT_TRANSFER" && (
-          <Item
-            label={transaction.type ? "Recipient Name" : "Account Name"}
-            value={transaction.receipentName || name}
-          />
-        )}
-        {transaction.units && <Item label="Units" value={transaction.units} />}
-        {transaction.token && (
-          <Item
-            label="Token"
-            value={transaction.token.replace("Token : ", "")}
-          />
-        )}
-        {transaction.receipentBank && (
-          <Item
-            label={
-              transaction.receipentBank ? "Recipient Bank" : "Recipient Number"
-            }
-            value={transaction.receipentBank || transaction.unique_element}
-          />
-        )}
-        {(transaction.service === "Bank Transfer" ||
-          transaction.service === "REMIT_TRANSFER") && (
-          <Item label="Sender Name" value={name} />
-        )}
 
-        {transaction.serialNumber && (
-          <Item label="Serial Number" value={transaction.serialNumber} />
-        )}
-        {transaction.jambPin && (
-          <Item label="PIN" value={transaction.jambPin} />
-        )}
-        <Item
-          label="Transaction Date"
-          value={formatDate(transaction.date || transaction.transaction_date)}
-        />
-        <Item
-          label="Reference Number"
-          value={transaction.transactionReference}
-        />
-      </Card>
+          <BoldText size="large" color="primary">
+            ₦{formattedBalance}
+          </BoldText>
+          <View style={styles.item2}>
+            {transaction.status === "SUCCESS" ? (
+              <CardReceive size={18} color={COLORS.primary} />
+            ) : (
+              <LayoutMaximize size={18} color={COLORS.secondaryColor} />
+            )}
+            <RegularText
+              size="small"
+              color={transaction.type === "DEBIT" ? "error" : "primary"}
+            >
+              {transaction.type ?? transaction.status}
+            </RegularText>
+          </View>
+        </Card>
+        <Spacer size={hp(2)} />
+        {/* Transaction Details Card */}
+        <Card style={styles.card2}>
+          <MediumText size="large" color="primary">
+            Transaction Details
+          </MediumText>
+          {transaction.service === "BANK_TRANSFER" && (
+            <>
+              <Item label="Receipient Name" value={transaction.name} />
+              <Item label="Bank Name" value={transaction.destinationBankName} />
+              <Item label="Account Number" value={transaction.account_number} />
+            </>
+          )}
+          {transaction.service === "REMIT_TRANSFER" && (
+            <Item
+              label={transaction.type ? "Recipient Name" : "Account Name"}
+              value={transaction.receipentName || name}
+            />
+          )}
+          {transaction.units && (
+            <Item label="Units" value={transaction.units} />
+          )}
+          {transaction.token && (
+            <Item
+              label="Token"
+              value={transaction.token.replace("Token : ", "")}
+            />
+          )}
+          {transaction.receipentBank && (
+            <Item
+              label={
+                transaction.receipentBank
+                  ? "Recipient Bank"
+                  : "Recipient Number"
+              }
+              value={transaction.receipentBank || transaction.unique_element}
+            />
+          )}
+          {(transaction.service === "Bank Transfer" ||
+            transaction.service === "REMIT_TRANSFER") && (
+            <Item label="Sender Name" value={name} />
+          )}
 
-      {/* Share Button */}
-      <Spacer size={hp(10)} />
-      <CustomBtn label="Share" onPress={handleShare} />
-    </SafeAreaView>
+          {transaction.serialNumber && (
+            <Item label="Serial Number" value={transaction.serialNumber} />
+          )}
+          {transaction.jambPin && (
+            <Item label="PIN" value={transaction.jambPin} />
+          )}
+          <Item
+            label="Transaction Date"
+            value={formatDate(transaction.date || transaction.transaction_date)}
+          />
+          <Item
+            label="Reference Number"
+            value={transaction.transactionReference}
+          />
+        </Card>
+
+        {/* Share Button */}
+        <Spacer size={hp(10)} />
+        <CustomBtn label="Share" onPress={handleShare} />
+      </SafeAreaView>
+    </>
   );
 };
 

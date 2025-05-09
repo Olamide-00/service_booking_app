@@ -90,51 +90,53 @@ const SendRemit = () => {
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <SafeAreaView style={styles.root} key={route.key}>
-        <Header showLogo />
-        {/* Input Fields */}
-        <View style={styles.input}>
-          <CustomTextInput
-            title="Remit Tag"
-            placeholder="Enter Your Remit Tag"
-            value={tag}
-            setValue={setTag}
-            error={walletError}
-            maxLength={11}
-          />
-          <View style={styles.name}>
-            {isLoading ? (
-              <ActivityIndicator size="small" color={COLORS.primary} />
-            ) : (
-              data?.name && (
-                <RegularText size="small" color="secondaryColor">
-                  {data.name}
-                </RegularText>
-              )
-            )}
+      <>
+        <Header showLogo label="Remit Transfer" />
+        <View style={styles.root} key={route.key}>
+          {/* Input Fields */}
+          <View style={styles.input}>
+            <CustomTextInput
+              title="Remit Tag"
+              placeholder="Enter Your Remit Tag"
+              value={tag}
+              setValue={setTag}
+              error={walletError}
+              maxLength={11}
+            />
+            <View style={styles.name}>
+              {isLoading ? (
+                <ActivityIndicator size="small" color={COLORS.primary} />
+              ) : (
+                data?.name && (
+                  <RegularText size="small" color="secondaryColor">
+                    {data.name}
+                  </RegularText>
+                )
+              )}
+            </View>
+
+            <CustomTextInput
+              title="Amount"
+              placeholder="Amount"
+              keyboardType="numeric"
+              value={amount}
+              setValue={setAmount}
+              error={amountError}
+            />
           </View>
 
-          <CustomTextInput
-            title="Amount"
-            placeholder="Amount"
-            keyboardType="numeric"
-            value={amount}
-            setValue={setAmount}
-            error={amountError}
+          <Spacer size={hp(10)} direction="vertical" />
+
+          {/* Continue Button */}
+          <CustomBtn label="Continue" onPress={validateAndProceed} />
+          <ToastMessage
+            isVisible={isVisible}
+            message={message}
+            onClose={() => setIsVisible(false)}
+            isSuccessful={success}
           />
         </View>
-
-        <Spacer size={hp(10)} direction="vertical" />
-
-        {/* Continue Button */}
-        <CustomBtn label="Continue" onPress={validateAndProceed} />
-        <ToastMessage
-          isVisible={isVisible}
-          message={message}
-          onClose={() => setIsVisible(false)}
-          isSuccessful={success}
-        />
-      </SafeAreaView>
+      </>
     </TouchableWithoutFeedback>
   );
 };

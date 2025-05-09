@@ -4,6 +4,8 @@ import {
   View,
   Pressable,
   TouchableOpacity,
+  StatusBar,
+  InteractionManager,
 } from "react-native";
 import React, { useCallback, useEffect, useState } from "react";
 import * as ImagePicker from "expo-image-picker";
@@ -33,6 +35,7 @@ import { useWalletDetails } from "@/src/api/hooks/useWallet";
 import { useGetBalance } from "@/src/api/hooks/useAuth";
 import { Image } from "expo-image";
 import LottieView from "lottie-react-native";
+import { io } from "socket.io-client";
 
 const Home = () => {
   const navigation = useNavigation();
@@ -44,12 +47,60 @@ const Home = () => {
   const [firstName, lastName] = userData?.name.split(" ") ?? ["", ""];
   const imageLogo = userData?.profilePicture;
 
+  const socket = io("https://remitbackend-production.up.railway.app");
+  const [currentBalance, setCurrentBalance] = useState(null);
+
+  useEffect(() => {
+    if (email) {
+      // Join the user room after login
+      socket.emit("join", email);
+
+      // Listen for balance updates
+      socket.on("balance_updated", (data) => {
+        setCurrentBalance(data.newBalance);
+      });
+
+      // Handle reconnection
+      socket.on("reconnect", () => {
+        console.log("✅ Reconnected to socket");
+      });
+
+      // Handle disconnection
+      socket.on("disconnect", () => {
+        console.log("❌ Socket disconnected");
+      });
+
+      return () => {
+        socket.off("balance_updated");
+        socket.off("reconnect");
+        socket.off("disconnect");
+        socket.disconnect();
+      };
+    }
+  }, [email]);
   const { balance, refetch } = useGetBalance(email);
 
   useFocusEffect(
     useCallback(() => {
       refetch();
     }, [refetch])
+  );
+
+  useEffect(() => {
+    const task = InteractionManager.runAfterInteractions(() => {
+      StatusBar.setBarStyle("dark-content", true);
+    });
+
+    return () => task.cancel(); // cancel if component unmounts before it runs
+  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      StatusBar.setBarStyle("dark-content", true);
+      return () => {
+        StatusBar.setBarStyle("light-content", true);
+      };
+    }, [])
   );
 
   const isWalletCreated = useAuthStore.getState().isWalletCreated;
@@ -118,7 +169,7 @@ const Home = () => {
       <Spacer direction="vertical" size={hp(3)} />
 
       {/* Account balance */}
-      <AccountBalance balance={balance?.data ?? "0.00"} />
+      <AccountBalance balance={currentBalance ?? balance?.data ?? "0.00"} />
       <Spacer direction="vertical" size={hp(2)} />
 
       {/* Transaction action */}

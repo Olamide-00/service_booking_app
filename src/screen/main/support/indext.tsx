@@ -17,21 +17,23 @@ const Support = () => {
   );
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={{ paddingHorizontal: "3%", marginBottom: "-4%" }}>
-        <Header showLogo />
+    <>
+      <View>
+        <Header showLogo label="Custmer Service" height={12} />
       </View>
-      <WebView
-        source={{
-          uri: "https://tawk.to/chat/680384e1168d7c19107fce2a/1ip6ru7r1",
-        }}
-        javaScriptEnabled={true}
-        domStorageEnabled={true}
-        startInLoadingState={true}
-        renderLoading={renderLoading}
-        style={styles.webview}
-      />
-    </SafeAreaView>
+      <SafeAreaView style={styles.container}>
+        <WebView
+          source={{
+            uri: "https://tawk.to/chat/680384e1168d7c19107fce2a/1ip6ru7r1",
+          }}
+          javaScriptEnabled={true}
+          domStorageEnabled={true}
+          startInLoadingState={true}
+          renderLoading={renderLoading}
+          style={styles.webview}
+        />
+      </SafeAreaView>
+    </>
   );
 };
 

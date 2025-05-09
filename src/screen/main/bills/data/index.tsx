@@ -117,69 +117,70 @@ const DataScreen = () => {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-      <SafeAreaView style={styles.root}>
-        <Header label="Data Subscription" showLogo />
+      <>
+        <Header label="Data Subscription" showLogo height={15} />
+        <View style={styles.root}>
+          <View style={styles.input}>
+            <CustomTextInput
+              placeholder="eg 09036018013"
+              title="Phone Number"
+              keyboardType="numeric"
+              value={phoneNumber}
+              setValue={setPhoneNumber}
+              maxLength={14}
+              acceptContact
+            />
 
-        <View style={styles.input}>
-          <CustomTextInput
-            placeholder="eg 09036018013"
-            title="Phone Number"
-            keyboardType="numeric"
-            value={phoneNumber}
-            setValue={setPhoneNumber}
-            maxLength={14}
-            acceptContact
-          />
+            <Selector
+              label="Network"
+              options={networks}
+              selectedValue={selectedNetwork}
+              onSelect={(value) => {
+                setSelectedNetwork(value);
+                setSelectedDataPlan("");
+              }}
+              getOptionLabel={(option) => option.label}
+              getOptionValue={(option) => option.value}
+              loading={isLoading}
+            />
+            <Spacer size={hp(0.2)} />
 
-          <Selector
-            label="Network"
-            options={networks}
-            selectedValue={selectedNetwork}
-            onSelect={(value) => {
-              setSelectedNetwork(value);
-              setSelectedDataPlan("");
-            }}
-            getOptionLabel={(option) => option.label}
-            getOptionValue={(option) => option.value}
-            loading={isLoading}
-          />
-          <Spacer size={hp(0.2)} />
+            <Selector
+              key={selectedDataPlan}
+              label="Data Plan"
+              options={dataPlans}
+              selectedValue={selectedDataPlan}
+              onSelect={(value) => {
+                setSelectedDataPlan(value);
+              }}
+              getOptionLabel={(option) => option.label}
+              getOptionValue={(option) => option.value}
+              disabled={!selectedNetwork || dataPlans.length === 0}
+              loading={dataPackageLoading}
+            />
+          </View>
 
-          <Selector
-            key={selectedDataPlan}
-            label="Data Plan"
-            options={dataPlans}
-            selectedValue={selectedDataPlan}
-            onSelect={(value) => {
-              setSelectedDataPlan(value);
-            }}
-            getOptionLabel={(option) => option.label}
-            getOptionValue={(option) => option.value}
-            disabled={!selectedNetwork || dataPlans.length === 0}
-            loading={dataPackageLoading}
+          <View style={styles.btn}>
+            <CustomBtn
+              label="Continue"
+              onPress={handleContinue}
+              disabled={
+                isLoading ||
+                !phoneNumber ||
+                phoneNumber.length < 10 ||
+                !selectedNetwork ||
+                !selectedDataPlan
+              }
+            />
+          </View>
+          <ToastMessage
+            isVisible={isVisible}
+            message={message}
+            onClose={() => setIsVisible(false)}
+            isSuccessful={success}
           />
         </View>
-
-        <View style={styles.btn}>
-          <CustomBtn
-            label="Continue"
-            onPress={handleContinue}
-            disabled={
-              isLoading ||
-              !phoneNumber ||
-              phoneNumber.length < 10 ||
-              !selectedNetwork ||
-              !selectedDataPlan
-            }
-          />
-        </View>
-        <ToastMessage
-          isVisible={isVisible}
-          message={message}
-          onClose={() => setIsVisible(false)}
-          isSuccessful={success}
-        />
-      </SafeAreaView>
+      </>
     </TouchableWithoutFeedback>
   );
 };

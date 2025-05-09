@@ -202,7 +202,7 @@ const TransferPIN = () => {
 
   return (
     <>
-      <Header showLogo label="Transaction PIN" />
+      <Header label="Transaction PIN" />
       <View style={styles.root}>
         {/* Loading Overlay (Only visible when loading) */}
         {loading && (

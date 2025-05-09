@@ -144,7 +144,7 @@ const PIN = () => {
 
   return (
     <>
-      <Header showIcon label="Transaction PIN" showLogo />
+      <Header showIcon label="Transaction PIN" />
       <View style={styles.root}>
         {loading && (
           <View style={styles.loadingContainer}>

@@ -1,11 +1,18 @@
 import React from "react";
-import { FlatList, StyleSheet, TouchableOpacity, View } from "react-native";
+import {
+  ActivityIndicator,
+  FlatList,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { BoldText, RegularText } from "@/src/component/text/indext";
 import Item from "@/src/component/common/item";
 import { heightPercentageToDP } from "react-native-responsive-screen";
 import EmptyState from "@/src/component/common/emptyState";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
 import { useGetBillsHistory } from "@/src/api/hooks/useBills";
+import LottieView from "lottie-react-native";
 
 // Define the navigation type
 type RootStackParamList = {
@@ -59,8 +66,19 @@ const RecentHistory = ({ email }: Prop) => {
         </TouchableOpacity>
       </View>
 
-      {/* Scrollable FlatList */}
-      {recentHistories.length > 0 ? (
+      {/* Loading State */}
+      {isLoading ? (
+        <View
+          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+        >
+          <LottieView
+            autoPlay
+            loop
+            source={require("@/assets/json/loading.json")}
+            style={{ width: 250, height: 250 }}
+          />
+        </View>
+      ) : recentHistories.length > 0 ? (
         <FlatList
           data={recentHistories}
           renderItem={renderItem}

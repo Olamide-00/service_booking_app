@@ -12,6 +12,7 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import ToastMessage from "@/src/component/common/toastMessage";
 import useAuthStore from "@/src/store/userStore";
 import { useSetPIN } from "@/src/api/hooks/usePIN";
+import Header from "@/src/component/common/header";
 
 const ConfirmPin = () => {
   const navigation = useNavigation();
@@ -59,34 +60,32 @@ const ConfirmPin = () => {
   }, [otpValue]);
 
   return (
-    <SafeAreaView style={styles.root}>
-      {/* Header */}
-      <View style={styles.title}>
-        <BoldText size="large">Confirm PIN</BoldText>
-      </View>
+    <>
+      <Header showLogo label="Confirm PIN" />
+      <View style={styles.root}>
+        {/* OTPInput component */}
+        <View style={styles.otp}>
+          <OTPInput
+            columns={4}
+            onChangeOTP={(value: any) => setOtpValue(value)}
+          />
+        </View>
 
-      {/* OTPInput component */}
-      <View style={styles.otp}>
-        <OTPInput
-          columns={4}
-          onChangeOTP={(value: any) => setOtpValue(value)}
+        {/* Loading Indicator */}
+        {isPending && (
+          <View style={styles.overlay}>
+            <ActivityIndicator size="large" color={COLORS.primary} />
+          </View>
+        )}
+
+        {/* Toast Message */}
+        <ToastMessage
+          isVisible={isVisible}
+          message={error}
+          onClose={() => setIsVisible(false)}
         />
       </View>
-
-      {/* Loading Indicator */}
-      {isPending && (
-        <View style={styles.overlay}>
-          <ActivityIndicator size="large" color={COLORS.primary} />
-        </View>
-      )}
-
-      {/* Toast Message */}
-      <ToastMessage
-        isVisible={isVisible}
-        message={error}
-        onClose={() => setIsVisible(false)}
-      />
-    </SafeAreaView>
+    </>
   );
 };
 

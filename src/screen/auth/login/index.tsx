@@ -100,7 +100,6 @@ const Login = () => {
       { email: formData.email, password: formData.password },
       {
         onSuccess: async (data) => {
-          console.log("Login Success:", data);
           const now = new Date().toISOString();
           await SecureStore.setItemAsync("token", data.token);
           await SecureStore.setItemAsync("loginDate", now);
@@ -121,8 +120,6 @@ const Login = () => {
         },
         onError: (err) => {
           console.error("Login Failed:", err);
-
-          // Extract API error message
           const errorMessage =
             err?.response?.data?.message ||
             "An error occurred. Please try again.";
@@ -130,6 +127,12 @@ const Login = () => {
           setIsVisible(true);
           setSuccess(false);
           setMessage(errorMessage);
+
+          setTimeout(() => {
+            if (errorMessage.includes("Please verify account first")) {
+              navigation.navigate("OTPInput", { email: formData.email });
+            }
+          }, 2000);
         },
       }
     );

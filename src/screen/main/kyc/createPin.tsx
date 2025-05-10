@@ -9,6 +9,7 @@ import {
 } from "react-native-responsive-screen";
 import OTPInput from "@/src/component/common/pinEntry";
 import { useNavigation } from "@react-navigation/native";
+import Header from "@/src/component/common/header";
 
 const CreatePin = () => {
   const navigation = useNavigation();
@@ -21,16 +22,14 @@ const CreatePin = () => {
   }, [otpValue]);
 
   return (
-    <SafeAreaView style={styles.root}>
-      {/* Header */}
-      <View style={styles.title}>
-        <BoldText size="large">Set Transaction Pin</BoldText>
-        {/* OTPInput component */}
+    <>
+      <Header showLogo label="Set PIN" />
+      <View style={styles.root}>
+        <View style={styles.otp}>
+          <OTPInput columns={4} onChangeOTP={setOtpValue} />
+        </View>
       </View>
-      <View style={styles.otp}>
-        <OTPInput columns={4} onChangeOTP={setOtpValue} />
-      </View>
-    </SafeAreaView>
+    </>
   );
 };
 

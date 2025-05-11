@@ -19,6 +19,7 @@ import CustomBtn from "@/src/component/common/customBtn";
 import { useNavigation } from "@react-navigation/native";
 import { useRegister } from "@/src/api/hooks/useAuth";
 import { usePushNotification } from "@/src/utils/pushToken";
+import ToastMessage from "@/src/component/common/toastMessage";
 
 const SignUp = () => {
   const navigation = useNavigation();
@@ -69,6 +70,11 @@ const SignUp = () => {
     return Object.values(newErrors).every((error) => error === "");
   };
 
+  // handle toast message
+  const [visible, setVisible] = useState(false);
+  const [message, setMessage] = useState("");
+  const [success, setSuccess] = useState(false);
+
   const handleSubmit = () => {
     if (!validate()) return;
 
@@ -84,7 +90,9 @@ const SignUp = () => {
           navigation.navigate("OTPInput", { email: formData.email });
         },
         onError: (err) => {
-          console.error("Registration Failed:", err);
+          setVisible(true);
+          setMessage(err?.response?.data?.message || "An error occurred");
+          setSuccess(false);
         },
       }
     );
@@ -165,6 +173,12 @@ const SignUp = () => {
               <MediumText size="medium">I Already Have An Account</MediumText>
             </TouchableOpacity>
           </ScrollView>
+          <ToastMessage
+            isVisible={visible}
+            onClose={() => setVisible(false)}
+            message={message}
+            isSuccessful={success}
+          />
         </KeyboardAvoidingView>
       </SafeAreaView>
     </TouchableWithoutFeedback>

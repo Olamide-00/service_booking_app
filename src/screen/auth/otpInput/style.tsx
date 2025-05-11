@@ -13,6 +13,8 @@ export const styles = StyleSheet.create({
   },
   title: {
     alignItems: "center",
+    justifyContent: "center",
+    marginTop: hp("3%"),
   },
   btn: {
     position: "absolute",

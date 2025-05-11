@@ -116,48 +116,45 @@ const KYC1: React.FC = () => {
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <SafeAreaView style={styles.root}>
-        {/* Header */}
-        <View style={styles.title}>
-          <Header showLogo />
-          <BoldText size="large">Complete your KYC</BoldText>
-        </View>
+      <>
+        <Header showLogo label="Create Wallet" />
+        <View style={styles.root}>
+          {/* Forms */}
+          <View>
+            <CustomTextInput
+              title="Phone Number"
+              placeholder="Enter your Phone Number"
+              keyboardType="numeric"
+              value={phone}
+              setValue={setPhone}
+              maxLength={14}
+              acceptContact
+            />
+            <DateSelector
+              label="Date Of Birth"
+              selectedDate={dob}
+              onDateChange={setDob}
+            />
+          </View>
 
-        {/* Forms */}
-        <View>
-          <CustomTextInput
-            title="Phone Number"
-            placeholder="Enter your Phone Number"
-            keyboardType="numeric"
-            value={phone}
-            setValue={setPhone}
-            maxLength={14}
-            acceptContact
-          />
-          <DateSelector
-            label="Date Of Birth"
-            selectedDate={dob}
-            onDateChange={setDob}
+          {/* Submit Button */}
+          <View style={styles.btn}>
+            <CustomBtn
+              label="Create Wallet"
+              onPress={handleContinue}
+              disabled={disable}
+              isLoading={isPending}
+            />
+          </View>
+
+          <ToastMessage
+            isVisible={isVisible}
+            onClose={() => setIsVisible(false)}
+            message={message}
+            isSuccessful={success}
           />
         </View>
-
-        {/* Submit Button */}
-        <View style={styles.btn}>
-          <CustomBtn
-            label="Create Wallet"
-            onPress={handleContinue}
-            disabled={disable}
-            isLoading={isPending}
-          />
-        </View>
-
-        <ToastMessage
-          isVisible={isVisible}
-          onClose={() => setIsVisible(false)}
-          message={message}
-          isSuccessful={success}
-        />
-      </SafeAreaView>
+      </>
     </TouchableWithoutFeedback>
   );
 };
@@ -169,6 +166,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: COLORS.white,
     paddingHorizontal: wp(4),
+    paddingTop: hp("3%"),
   },
   title: {
     marginTop: hp("3%"),

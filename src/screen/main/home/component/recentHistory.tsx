@@ -85,6 +85,9 @@ const RecentHistory = ({ email }: Prop) => {
           keyExtractor={(item, index) => index.toString()}
           initialNumToRender={5}
           showsVerticalScrollIndicator={false}
+          maxToRenderPerBatch={20}
+          updateCellsBatchingPeriod={50}
+          windowSize={5}
           ItemSeparatorComponent={() => <View style={styles.item} />}
         />
       ) : (

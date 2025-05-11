@@ -95,6 +95,10 @@ const TransferComponent = ({ selectedDate }: { selectedDate: string }) => {
           keyExtractor={(item, index) => index.toString()}
           showsVerticalScrollIndicator={false}
           renderItem={renderItem}
+          initialNumToRender={20}
+          maxToRenderPerBatch={20}
+          updateCellsBatchingPeriod={50}
+          windowSize={5}
           contentContainerStyle={styles.seperator}
         />
       ) : (

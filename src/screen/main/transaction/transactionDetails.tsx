@@ -248,7 +248,7 @@ const TransactionDetails = () => {
 
           <div class="footer">
             Thank you for using Remit<br>
-            support@remit.com<br>
+            Customer.Remit<br>
             ${new Date().getFullYear()} © Remit
           </div>
         </div>
@@ -370,7 +370,11 @@ const TransactionDetails = () => {
 
         {/* Share Button */}
         <Spacer size={hp(10)} />
-        <CustomBtn disabled={isLoading} label="Share" onPress={generateReceiptPDF} />
+        <CustomBtn
+          disabled={isLoading}
+          label="Share"
+          onPress={generateReceiptPDF}
+        />
       </SafeAreaView>
     </>
   );

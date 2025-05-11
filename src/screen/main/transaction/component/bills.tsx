@@ -74,8 +74,12 @@ const BillsComponent = ({ selectedDate }: { selectedDate: string }) => {
         <FlatList
           data={filteredHistories}
           keyExtractor={(item, index) => index.toString()}
-          showsVerticalScrollIndicator={false}
           renderItem={renderItem}
+          initialNumToRender={20}
+          maxToRenderPerBatch={20}
+          updateCellsBatchingPeriod={50}
+          windowSize={5}
+          showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.separator}
         />
       ) : (

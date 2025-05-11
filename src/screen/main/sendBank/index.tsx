@@ -143,10 +143,20 @@ const SendBank = () => {
     return isValid;
   };
 
+  // charges
+  const [revenue, setRevenue] = useState<number>(0);
+
+  useEffect(() => {
+    const amount = Number(formState.amount);
+    if (!isNaN(amount)) {
+      setRevenue(amount <= 5000 ? 30 : 60);
+    }
+  }, [formState.amount]);
+
   const handleSubmit = () => {
     if (validateForm()) {
       const amount = Number(formState.amount);
-      const percentRev = (amount * bankPercentage) / 100;
+      const percentRev = revenue;
 
       navigation.navigate("SendReview", {
         account_number: formState.accountNumber,

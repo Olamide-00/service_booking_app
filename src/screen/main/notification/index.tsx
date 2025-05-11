@@ -165,6 +165,10 @@ const Notification = () => {
             data={filteredNotifications}
             keyExtractor={(item) => item._id || item.id}
             renderItem={renderItem}
+            initialNumToRender={20}
+            maxToRenderPerBatch={20}
+            updateCellsBatchingPeriod={50}
+            windowSize={5}
             showsVerticalScrollIndicator={false}
           />
         ) : (

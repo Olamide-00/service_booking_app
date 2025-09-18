@@ -57,7 +57,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-between",
-    // marginTop: hp(4),
   },
   itemWrapper: {
     width: wp("44%"),

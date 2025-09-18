@@ -19,14 +19,14 @@ export const transactionActionData = [
     ),
     screen: "FundWallet",
   },
-  // {
-  //   id: 3,
-  //   label: "Save",
-  //   icon: (
-  //     <Ionicons name="add-circle-outline" size={18} color={COLORS.primary} />
-  //   ),
-  //   screen: "ComingSoon",
-  // },
+  {
+    id: 3,
+    label: "Save",
+    icon: (
+      <Ionicons name="add-circle-outline" size={18} color={COLORS.primary} />
+    ),
+    screen: "ComingSoon",
+  },
 ];
 
 export const QuickActionData = [
@@ -137,38 +137,38 @@ export const service = [
     bg2: "rgba(128, 0, 0, 1)",
     description: "Buy education pin",
   },
-  // {
-  //   id: 5,
-  //   label: "Save",
-  //   icon: (
-  //     <LottieView
-  //       source={require("@/assets/json/14.json")}
-  //       autoPlay
-  //       loop
-  //       style={{ width: 70, height: 70 }}
-  //     />
-  //   ),
-  //   screen: "ComingSoon",
-  //   bg: "rgba(152, 32, 233, 0.1)rgba(255, 200, 100, 0.1) ",
-  //   bg2: "rgba(152, 32, 233, 01) ",
-  //   description: "Save",
-  // },
-  // {
-  //   id: 6,
-  //   label: "Loan",
-  //   icon: (
-  //     <LottieView
-  //       source={require("@/assets/json/15.json")}
-  //       autoPlay
-  //       loop
-  //       style={{ width: 60, height: 60 }}
-  //     />
-  //   ),
-  //   screen: "ComingSoon",
-  //   bg: "rgba(7, 231, 7, 0.1) ",
-  //   bg2: "rgba(7, 231, 7, 1) ",
-  //   description: "Apply for loan",
-  // },
+  {
+    id: 5,
+    label: "Save",
+    icon: (
+      <LottieView
+        source={require("@/assets/json/14.json")}
+        autoPlay
+        loop
+        style={{ width: 70, height: 70 }}
+      />
+    ),
+    screen: "ComingSoon",
+    bg: "rgba(152, 32, 233, 0.1)rgba(255, 200, 100, 0.1) ",
+    bg2: "rgba(152, 32, 233, 01) ",
+    description: "Save",
+  },
+  {
+    id: 6,
+    label: "Loan",
+    icon: (
+      <LottieView
+        source={require("@/assets/json/15.json")}
+        autoPlay
+        loop
+        style={{ width: 60, height: 60 }}
+      />
+    ),
+    screen: "ComingSoon",
+    bg: "rgba(7, 231, 7, 0.1) ",
+    bg2: "rgba(7, 231, 7, 1) ",
+    description: "Apply for loan",
+  },
   {
     id: 8,
     label: "Government Bills",

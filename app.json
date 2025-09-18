@@ -4,7 +4,7 @@
     "slug": "Remit",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/appStore.png",
+     "icon": "./assets/images/REMITBRAND.png",
     "splash": {
       "image": "./assets/images/REMITBRAND.png",
       "resizeMode": "contain",

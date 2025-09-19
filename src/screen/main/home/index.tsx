@@ -14,7 +14,7 @@ import { styles } from "./style";
 import { BoldText, RegularText } from "@/src/component/text/indext";
 import { Ionicons } from "@expo/vector-icons";
 import { COLORS } from "@/src/constant/COLORS";
-import AccountDetails from "./component/accountDetails";
+// import AccountDetails from "./component/accountDetails";
 import Spacer from "@/src/component/common/spacer";
 import {
   widthPercentageToDP as wp,
@@ -91,7 +91,7 @@ const Home = () => {
       StatusBar.setBarStyle("dark-content", true);
     });
 
-    return () => task.cancel(); // cancel if component unmounts before it runs
+    return () => task.cancel();
   }, []);
 
   useFocusEffect(
@@ -158,19 +158,18 @@ const Home = () => {
           />
         </View>
       </View>
-      <Spacer direction="vertical" size={hp(2.5)} />
 
       {/* Account status */}
-      {userData?.isWalletCreated ? (
+      {/* {userData?.isWalletCreated ? (
         <AccountDetails wallet={accountNumber} />
       ) : (
         <Banner />
-      )}
-      <Spacer direction="vertical" size={hp(3)} />
+      )} */}
+      {/* <Spacer direction="vertical" size={hp(3)} /> */}
 
       {/* Account balance */}
-      <AccountBalance balance={currentBalance ?? balance?.data ?? "0.00"} />
-      <Spacer direction="vertical" size={hp(2)} />
+      <AccountBalance balance={currentBalance ?? balance?.data ?? "0.00"} wallet={accountNumber} />
+      <Spacer direction="vertical" size={hp(0.5)} />
 
       {/* Transaction action */}
       <TransactionAction />

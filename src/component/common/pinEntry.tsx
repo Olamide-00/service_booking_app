@@ -31,8 +31,6 @@ const OTPInput = ({ columns, onChangeOTP }: Props) => {
       setFocusIndex(currentIndex);
     }
   }, [currentIndex]);
-
-  // Called when a keypad number is pressed
   const handleKeyPress = (value) => {
     if (currentIndex < columns) {
       const updatedOtp = [...otp];
@@ -60,7 +58,6 @@ const OTPInput = ({ columns, onChangeOTP }: Props) => {
 
   return (
     <View style={styles.container}>
-      {/* OTP input fields with stars */}
       <View style={styles.inputContainer}>
         {otp.map((digit, index) => (
           <View

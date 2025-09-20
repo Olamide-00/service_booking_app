@@ -110,6 +110,6 @@ const styles = StyleSheet.create({
     marginBottom: heightPercentageToDP(2),
   },
   item: {
-    marginVertical: 5,
+    marginVertical: 0,
   },
 });

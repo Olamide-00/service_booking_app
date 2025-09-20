@@ -28,7 +28,7 @@ const QuickAction = () => {
       <BoldText size="large" color="black">
         Quick Actions
       </BoldText>
-      <Spacer size={hp(4)} direction="vertical" />
+      <Spacer size={hp(1)} direction="vertical" />
       <View style={styles.itemContainer}>
         {QuickActionData.map((item, index) => {
           const style = cardStyles[index % cardStyles.length];
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
     width: wp("44%"),
   },
   item: {
-    height: hp("8%"), // Fixed height as requested
+    height: hp("7%"),
     marginBottom: hp("1.5%"),
     alignItems: "center",
     justifyContent: "center",

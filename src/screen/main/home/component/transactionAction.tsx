@@ -1,7 +1,7 @@
 import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
 import React from "react";
 import { transactionActionData } from "@/src/constant/data";
-import { RegularText } from "@/src/component/text/indext";
+import { BoldText, RegularText } from "@/src/component/text/indext";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -83,7 +83,7 @@ const TransactionAction: React.FC = () => {
                 {/* Subtle pattern background */}
                 <MaterialIcons 
                   name={patternIcons[index % patternIcons.length]}
-                  size={40}
+                  size={80}
                   color={accentColors[index % accentColors.length] + '15'}
                   style={styles.patternIcon}
                 />
@@ -104,12 +104,12 @@ const TransactionAction: React.FC = () => {
                   ]}>
                     {item.icon}
                   </View>
-                  <RegularText size="small" style={[
+                  <BoldText size="medium" style={[
                     styles.labelText,
                     { color: accentColors[index % accentColors.length] }
                   ]}>
                     {item.label}
-                  </RegularText>
+                  </BoldText>
                 </View>
                 
                 {/* Subtle inner shadow effect */}

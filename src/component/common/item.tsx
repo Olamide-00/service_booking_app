@@ -6,7 +6,7 @@ import {
   View,
 } from "react-native";
 import React from "react";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -46,68 +46,93 @@ const Item = ({ transaction, onPress }: { transaction: historyProps }) => {
     minimumFractionDigits: 2,
   }).format(transaction.amount);
 
+  // Determine transaction colors and status
+  const isSuccess = transaction.status === "SUCCESS";
+  const isCredit = transaction.type === "CREDIT";
+  
+  const getStatusColor = () => {
+    if (transaction.type) {
+      return isCredit ? "#10b981" : "#ef4444"; // Green for credit, red for debit
+    }
+    return isSuccess ? "#10b981" : "#f59e0b"; // Green for success, amber for pending
+  };
+
+  const getIconBackgroundColor = () => {
+    if (transaction.type) {
+      return isCredit ? "rgba(16, 185, 129, 0.1)" : "rgba(239, 68, 68, 0.1)";
+    }
+    return isSuccess ? "rgba(16, 185, 129, 0.1)" : "rgba(245, 158, 11, 0.1)";
+  };
+
+  const getStatusText = () => {
+    if (transaction.type) return transaction.type;
+    return transaction.status || "PENDING";
+  };
+
   return (
-    <Pressable onPress={onPress}>
-      <Card style={styles.container}>
-        <View style={styles.details}>
-          <View
-            style={[
-              styles.iconContainer,
-              {
-                borderColor:
-                  transaction.status === "SUCCESS"
-                    ? COLORS.primary
-                    : COLORS.secondaryColor,
-              },
-            ]}
-          >
-            {transaction.status === "SUCCESS" ? (
-              <CardReceive size="18" color={COLORS.primary} />
+    <Pressable onPress={onPress} style={styles.pressableContainer}>
+      <View style={styles.container}>
+        {/* Left Section - Icon and Details */}
+        <View style={styles.leftSection}>
+          <View style={[
+            styles.iconContainer,
+            { backgroundColor: getIconBackgroundColor() }
+          ]}>
+            {isSuccess || isCredit ? (
+              <MaterialIcons 
+                name="trending-up" 
+                size={18} 
+                color={getStatusColor()} 
+              />
             ) : (
-              <LayoutMaximize size="18" color={COLORS.secondaryColor} />
+              <MaterialIcons 
+                name="schedule" 
+                size={18} 
+                color={getStatusColor()} 
+              />
             )}
           </View>
-          <View>
-            {transaction.service ? (
-              <MediumText size="medium">{transaction.service}</MediumText>
-            ) : (
-              <MediumText size="medium">{transaction.type}</MediumText>
-            )}
-
-            <RegularText size="small">
+          
+          <View style={styles.detailsContainer}>
+            <MediumText size="medium" style={styles.serviceText}>
+              {transaction.service || transaction.type || "Transaction"}
+            </MediumText>
+            <RegularText size="small" style={styles.dateText}>
               {formatDate(transaction.date || transaction.transaction_date)}
             </RegularText>
           </View>
         </View>
-        <View>
-          <BoldText
-            size="medium"
-            color={
-              transaction.status === "SUCCESS" ? "primary" : "secondaryColor"
-            }
-          >
-            ₦{formattedBalance}
+
+        {/* Right Section - Amount and Status */}
+        <View style={styles.rightSection}>
+          <BoldText size="medium" style={[
+            styles.amountText,
+            { color: getStatusColor() }
+          ]}>
+            {isCredit ? "+" : "-"}₦{formattedBalance}
           </BoldText>
-          {transaction.status && !transaction.type && (
-            <RegularText
-              size="small"
-              color={
-                transaction.status === "SUCCESS" ? "primary" : "secondaryColor"
-              }
-            >
-              {transaction.status}
+          
+          <View style={[
+            styles.statusBadge,
+            { backgroundColor: getStatusColor() + "15" }
+          ]}>
+            <RegularText size="small" style={[
+              styles.statusText,
+              { color: getStatusColor() }
+            ]}>
+              {getStatusText()}
             </RegularText>
-          )}
-          {transaction.type && (
-            <RegularText
-              size="small"
-              color={transaction.type === "CREDIT" ? "primary" : "error"}
-            >
-              {transaction.type}
-            </RegularText>
-          )}
+          </View>
         </View>
-      </Card>
+
+        {/* Subtle arrow indicator */}
+        <MaterialIcons 
+          name="chevron-right" 
+          size={20} 
+          color="rgba(107, 114, 128, 0.4)"
+          style={styles.arrowIcon}
+        />
+      </View>
     </Pressable>
   );
 };
@@ -115,23 +140,80 @@ const Item = ({ transaction, onPress }: { transaction: historyProps }) => {
 export default Item;
 
 const styles = StyleSheet.create({
+  pressableContainer: {
+    marginVertical: hp("0.5%"),
+  },
   container: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    backgroundColor: "#ffffff",
+    paddingHorizontal: wp("4%"),
+    paddingVertical: hp("1.8%"),
+    marginHorizontal: wp("1%"),
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: "rgba(102, 126, 234, 0.08)",
+    elevation: 2,
+    shadowColor: '#667eea',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.08,
+    shadowRadius: 4,
   },
-  iconContainer: {
-    borderWidth: 0.5,
-    borderRadius: 20,
-    width: 35,
-    height: 35,
-    alignItems: "center",
-    justifyContent: "center",
-    borderColor: COLORS.primary,
-  },
-  details: {
+  leftSection: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 15,
+    flex: 1,
+    gap: wp("3.5%"),
+  },
+  iconContainer: {
+    width: hp("5%"),
+    height: hp("5%"),
+    borderRadius: hp("2.5%"),
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: 1.5,
+    borderColor: "rgba(102, 126, 234, 0.15)",
+  },
+  detailsContainer: {
+    flex: 1,
+    justifyContent: "center",
+  },
+  serviceText: {
+    color: "#374151",
+    fontWeight: "600",
+    marginBottom: hp("0.3%"),
+  },
+  dateText: {
+    color: "#6b7280",
+    fontWeight: "400",
+  },
+  rightSection: {
+    alignItems: "flex-end",
+    justifyContent: "center",
+    gap: hp("0.4%"),
+  },
+  amountText: {
+    fontWeight: "700",
+    textAlign: "right",
+  },
+  statusBadge: {
+    paddingHorizontal: wp("2.5%"),
+    paddingVertical: hp("0.3%"),
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: "rgba(102, 126, 234, 0.1)",
+  },
+  statusText: {
+    fontSize: 11,
+    fontWeight: "600",
+    textTransform: "uppercase",
+    letterSpacing: 0.5,
+  },
+  arrowIcon: {
+    marginLeft: wp("2%"),
   },
 });

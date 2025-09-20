@@ -117,7 +117,7 @@ const KYC1: React.FC = () => {
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <>
-        <Header showLogo label="Create Wallet" />
+        <Header  label="Create Wallet" />
         <View style={styles.root}>
           {/* Forms */}
           <View>

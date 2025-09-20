@@ -8,8 +8,8 @@ import {
 } from "react-native";
 import { BoldText, RegularText } from "@/src/component/text/indext";
 import Item from "@/src/component/common/item";
-import { heightPercentageToDP } from "react-native-responsive-screen";
-import EmptyState from "@/src/component/common/emptyState";
+import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen";
+import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
 import { useGetBillsHistory } from "@/src/api/hooks/useBills";
 import LottieView from "lottie-react-native";
@@ -54,6 +54,20 @@ const RecentHistory = ({ email }: Prop) => {
     />
   );
 
+  // Compact empty state component
+  const CompactEmptyState = () => (
+    <View style={styles.emptyContainer}>
+      <MaterialIcons 
+        name="receipt-long" 
+        size={32} 
+        color="rgba(102, 126, 234, 0.4)" 
+      />
+      <RegularText size="small" style={styles.emptyText}>
+        No recent transactions
+      </RegularText>
+    </View>
+  );
+
   return (
     <View style={styles.container}>
       {/* Fixed Header */}
@@ -68,14 +82,12 @@ const RecentHistory = ({ email }: Prop) => {
 
       {/* Loading State */}
       {isLoading ? (
-        <View
-          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-        >
+        <View style={styles.loadingContainer}>
           <LottieView
             autoPlay
             loop
             source={require("@/assets/json/loading.json")}
-            style={{ width: 250, height: 250 }}
+            style={{ width: 150, height: 150 }}
           />
         </View>
       ) : recentHistories.length > 0 ? (
@@ -91,7 +103,7 @@ const RecentHistory = ({ email }: Prop) => {
           ItemSeparatorComponent={() => <View style={styles.item} />}
         />
       ) : (
-        <EmptyState message="No Recent Transactions" />
+        <CompactEmptyState />
       )}
     </View>
   );
@@ -107,9 +119,23 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: heightPercentageToDP(2),
+    marginBottom: hp(0.5),
   },
   item: {
     marginVertical: 0,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  emptyContainer: {
+    alignItems: "center",
+    paddingTop: hp(4),
+    gap: hp(1),
+  },
+  emptyText: {
+    color: '#9ca3af',
+    textAlign: 'center',
   },
 });

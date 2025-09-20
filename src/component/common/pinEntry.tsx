@@ -7,6 +7,8 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from "react-native";
+import { LinearGradient } from 'expo-linear-gradient';
+import { MaterialIcons } from "@expo/vector-icons";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -14,7 +16,7 @@ import {
 
 type Props = {
   columns: number;
-  onChangeOTP: number;
+  onChangeOTP: (otp: string) => void;
 };
 
 const OTPInput = ({ columns, onChangeOTP }: Props) => {
@@ -57,95 +59,133 @@ const OTPInput = ({ columns, onChangeOTP }: Props) => {
   };
 
   return (
-    <View>
-      {/* OTP input fields */}
+    <View style={styles.container}>
+      {/* OTP input fields with stars */}
       <View style={styles.inputContainer}>
         {otp.map((digit, index) => (
-          <TextInput
+          <View
             key={index}
-            ref={(ref) => (inputRefs.current[index] = ref)}
-            style={[styles.input, focusIndex === index && styles.focusedInput]}
-            value={digit}
-            showSoftInputOnFocus={false}
-            caretHidden={true}
-          />
+            style={[
+              styles.inputBox,
+              focusIndex === index && styles.focusedBox
+            ]}
+          >
+            <LinearGradient
+              colors={
+                focusIndex === index
+                  ? ['#667eea', '#764ba2']
+                  : digit !== ""
+                  ? ['#f0f9ff', '#e0f2fe']
+                  : ['#f8fafc', '#f1f5f9']
+              }
+              style={styles.inputGradient}
+            >
+              <TextInput
+                ref={(ref) => (inputRefs.current[index] = ref)}
+                style={styles.hiddenInput}
+                value={digit}
+                showSoftInputOnFocus={false}
+                caretHidden={true}
+              />
+              
+              {/* Display star instead of number */}
+              <View style={styles.starContainer}>
+                {digit !== "" ? (
+                  <MaterialIcons 
+                    name="star" 
+                    size={24} 
+                    color={focusIndex === index ? "#fff" : "#667eea"} 
+                  />
+                ) : (
+                  <View style={styles.emptyDot} />
+                )}
+              </View>
+            </LinearGradient>
+          </View>
         ))}
       </View>
 
       {/* Custom keypad */}
       <View style={styles.keyboardWrapper}>
         <View style={styles.keyboardRow}>
-          <TouchableOpacity
-            style={styles.keyButton}
-            onPress={() => handleKeyPress("1")}
-          >
-            <Text style={styles.keyButtonText}>1</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.keyButton}
-            onPress={() => handleKeyPress("2")}
-          >
-            <Text style={styles.keyButtonText}>2</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.keyButton}
-            onPress={() => handleKeyPress("3")}
-          >
-            <Text style={styles.keyButtonText}>3</Text>
-          </TouchableOpacity>
+          {[1, 2, 3].map((num) => (
+            <TouchableOpacity
+              key={num}
+              style={styles.keyButton}
+              onPress={() => handleKeyPress(num.toString())}
+              activeOpacity={0.8}
+            >
+              <LinearGradient
+                colors={['#ffffff', '#f8fafc']}
+                style={styles.keyGradient}
+              >
+                <Text style={styles.keyButtonText}>{num}</Text>
+              </LinearGradient>
+            </TouchableOpacity>
+          ))}
         </View>
+        
         <View style={styles.keyboardRow}>
-          <TouchableOpacity
-            style={styles.keyButton}
-            onPress={() => handleKeyPress("4")}
-          >
-            <Text style={styles.keyButtonText}>4</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.keyButton}
-            onPress={() => handleKeyPress("5")}
-          >
-            <Text style={styles.keyButtonText}>5</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.keyButton}
-            onPress={() => handleKeyPress("6")}
-          >
-            <Text style={styles.keyButtonText}>6</Text>
-          </TouchableOpacity>
+          {[4, 5, 6].map((num) => (
+            <TouchableOpacity
+              key={num}
+              style={styles.keyButton}
+              onPress={() => handleKeyPress(num.toString())}
+              activeOpacity={0.8}
+            >
+              <LinearGradient
+                colors={['#ffffff', '#f8fafc']}
+                style={styles.keyGradient}
+              >
+                <Text style={styles.keyButtonText}>{num}</Text>
+              </LinearGradient>
+            </TouchableOpacity>
+          ))}
         </View>
+        
         <View style={styles.keyboardRow}>
-          <TouchableOpacity
-            style={styles.keyButton}
-            onPress={() => handleKeyPress("7")}
-          >
-            <Text style={styles.keyButtonText}>7</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.keyButton}
-            onPress={() => handleKeyPress("8")}
-          >
-            <Text style={styles.keyButtonText}>8</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.keyButton}
-            onPress={() => handleKeyPress("9")}
-          >
-            <Text style={styles.keyButtonText}>9</Text>
-          </TouchableOpacity>
+          {[7, 8, 9].map((num) => (
+            <TouchableOpacity
+              key={num}
+              style={styles.keyButton}
+              onPress={() => handleKeyPress(num.toString())}
+              activeOpacity={0.8}
+            >
+              <LinearGradient
+                colors={['#ffffff', '#f8fafc']}
+                style={styles.keyGradient}
+              >
+                <Text style={styles.keyButtonText}>{num}</Text>
+              </LinearGradient>
+            </TouchableOpacity>
+          ))}
         </View>
+        
         <View style={styles.keyboardRow}>
+          <View style={styles.emptySpace} />
           <TouchableOpacity
-            style={[styles.keyButton, styles.halfButton2]}
+            style={styles.keyButton}
             onPress={() => handleKeyPress("0")}
+            activeOpacity={0.8}
           >
-            <Text style={styles.keyButtonText}>0</Text>
+            <LinearGradient
+              colors={['#ffffff', '#f8fafc']}
+              style={styles.keyGradient}
+            >
+              <Text style={styles.keyButtonText}>0</Text>
+            </LinearGradient>
           </TouchableOpacity>
           <TouchableOpacity
-            style={[styles.keyButton, styles.halfButton]}
+            style={styles.keyButton}
             onPress={handleDeletePress}
+            activeOpacity={0.8}
           >
-            <Text style={styles.keyButtonText}>←</Text>
+            <LinearGradient
+              colors={['#fef2f2', '#fee2e2']}
+              style={styles.keyGradient}
+            >
+              <MaterialIcons name="backspace" size={20} color="#ef4444" />
+            </LinearGradient>
           </TouchableOpacity>
         </View>
       </View>
@@ -154,58 +194,96 @@ const OTPInput = ({ columns, onChangeOTP }: Props) => {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    alignItems: 'center',
+  },
   inputContainer: {
     flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: 20,
+    justifyContent: "center",
+    gap: wp("4%"),
+    marginBottom: hp("4%"),
+    paddingHorizontal: wp("6%"),
   },
-  input: {
-    width: 50,
-    height: 50,
+  inputBox: {
+    width: wp("14%"),
+    height: wp("14%"),
+    borderRadius: 16,
+    elevation: 4,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+  },
+  focusedBox: {
+    transform: [{ scale: 1.05 }],
+    elevation: 6,
+    shadowOpacity: 0.15,
+  },
+  inputGradient: {
+    flex: 1,
+    borderRadius: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
     borderWidth: 2,
-    borderColor: "#ccc",
-    textAlign: "center",
-    fontSize: 24,
-    borderRadius: 8,
+    borderColor: 'rgba(102, 126, 234, 0.1)',
   },
-  focusedInput: {
-    borderColor: "#4CAF50",
-    transform: [{ scale: 1.1 }],
+  hiddenInput: {
+    position: 'absolute',
+    opacity: 0,
+    width: '100%',
+    height: '100%',
+  },
+  starContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  emptyDot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: 'rgba(102, 126, 234, 0.3)',
   },
   keyboardWrapper: {
-    marginTop: hp("10%"),
+    marginTop: hp("3%"),
   },
   keyboardRow: {
     flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: 10,
+    justifyContent: "center",
+    gap: wp("8%"),
+    marginBottom: hp("2.5%"),
   },
   keyButton: {
-    height: hp(8),
-    width: hp(8),
-    marginHorizontal: wp(3),
-    backgroundColor: "#f0f0f0",
+    width: hp("7.5%"),
+    height: hp("7.5%"),
+    borderRadius: hp("3.75%"),
+    elevation: 3,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.08,
+    shadowRadius: 3,
+  },
+  keyGradient: {
+    flex: 1,
+    borderRadius: hp("3.75%"),
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 100,
-    marginVertical: hp("2%"),
-    // iOS shadow properties
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-
-  halfButton: {
-    flex: 0.8,
-    marginHorizontal: 5,
+    borderWidth: 1,
+    borderColor: 'rgba(102, 126, 234, 0.08)',
   },
   keyButtonText: {
-    fontSize: 24,
-    fontWeight: "bold",
-    color: COLORS.primary,
+    fontSize: 20,
+    fontWeight: "600",
+    color: '#374151',
+  },
+  emptySpace: {
+    width: hp("7.5%"),
+    height: hp("7.5%"),
   },
 });
-
 export default OTPInput;

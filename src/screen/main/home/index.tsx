@@ -113,7 +113,7 @@ const Home = () => {
 
   return (
     <SafeAreaView style={styles.root}>
-      {/* Redesigned Header Section */}
+      {/*Header Section */}
       <View style={styles.headerContainer} key={route.key}>
         {/* Top Row */}
         <View style={styles.topRow}>
@@ -207,8 +207,15 @@ const Home = () => {
       <AccountBalance balance={currentBalance ?? balance?.data ?? "0.00"} wallet={accountNumber} />
       <Spacer direction="vertical" size={hp(0.5)} />
 
+      {/* Banner */}
+      {
+       userData?.isWalletCreated ? (
+           <TransactionAction />
+        ) : <Banner />
+      }
+       <Spacer direction="vertical" size={hp(1.5)} />
       {/* Transaction action */}
-      <TransactionAction />
+     
       <Spacer direction="vertical" size={hp(1)} />
 
       {/* Quick action */}

@@ -49,7 +49,7 @@ const FundWallet: React.FC = () => {
 
   return (
     <>
-      <Header label="Fund Wallet" showLogo />
+      <Header label="Fund Wallet" showBackButton />
       <View style={styles.root}>
         <Spacer size={hp(3)} direction="vertical" />
         <View style={styles.container}>

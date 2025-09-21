@@ -27,18 +27,20 @@ const Success = () => {
     return () => clearTimeout(timer);
   }, [navigation]);
 
-  useFocusEffect(
-    useCallback(() => {
-      const handleBackPress = () => true;
+      // handle back button
+    useFocusEffect(
+      useCallback(() => {
+        const onBackPress = () => {
+          return true;
+        };
 
-      BackHandler.addEventListener("hardwareBackPress", handleBackPress);
-      navigation.addListener("beforeRemove", (e) => e.preventDefault());
-
-      return () => {
-        BackHandler.removeEventListener("hardwareBackPress", handleBackPress);
-      };
-    }, [navigation])
-  );
+        const backHandler = BackHandler.addEventListener(
+          'hardwareBackPress',
+          onBackPress
+        );
+        return () => backHandler.remove();
+      }, [])
+    );
 
   return (
     <View style={styles.root}>

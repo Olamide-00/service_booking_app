@@ -77,7 +77,7 @@ const OTPInput = () => {
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <>
-        <Header showLogo label="Verification" />
+        <Header showBackButton label="Verification" />
         <View style={styles.root}>
           <View>
             <View style={styles.title}>

@@ -9,7 +9,7 @@ import Header from "@/src/component/common/header";
 const ComingSoon = () => {
   return (
     <>
-      <Header showLogo label="Comming Soon" />
+      <Header showBackButton label="Comming Soon" />
       <SafeAreaView style={styles.root}>
         <View style={styles.container}>
           <Image

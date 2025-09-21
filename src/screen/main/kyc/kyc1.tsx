@@ -57,20 +57,23 @@ const KYC1: React.FC = () => {
     (state) => state.setIsWalletCreated
   );
 
-  // handle back button
-  useFocusEffect(
-    useCallback(() => {
-      const onBackPress = () => {
-        return true;
-      };
+    // handle back button
+    useFocusEffect(
+      useCallback(() => {
+        const onBackPress = () => {
+          return true; // Prevent default back behavior
+        };
 
-      BackHandler.addEventListener("hardwareBackPress", onBackPress);
+        // Add event listener and get the subscription
+        const backHandler = BackHandler.addEventListener(
+          'hardwareBackPress',
+          onBackPress
+        );
 
-      return () =>
-        BackHandler.removeEventListener("hardwareBackPress", onBackPress);
-    }, [])
-  );
-
+        // Cleanup: remove the subscription
+        return () => backHandler.remove();
+      }, [])
+    );
   // Handle form submission
   const handleContinue = () => {
     if (!phone) {

@@ -96,7 +96,7 @@ const AirtimeScreen = () => {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <>
-        <Header showLogo label="Airtime" height={15} />
+        <Header showBackButton label="Airtime" height={15} />
         <View style={styles.root}>
           {/* Header */}
           <Spacer size={hp(5)} />

@@ -60,7 +60,7 @@ const SendReview = () => {
 
   return (
     <>
-      <Header label="Transfer Review" showLogo />
+      <Header label="Transfer Review" showBackButton />
       <View style={styles.root}>
         <View style={styles.container}>
           <ReviewItem label={"Account Name"} value={name || "N/A"} />

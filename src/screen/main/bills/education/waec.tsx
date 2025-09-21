@@ -79,7 +79,7 @@ const Waec = () => {
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <>
-        <Header showLogo label="Waec" />
+        <Header showBackButton label="Waec" />
         <View style={styles.root}>
           <View style={styles.container}>
             <Selector

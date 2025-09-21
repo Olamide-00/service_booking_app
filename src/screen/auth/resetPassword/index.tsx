@@ -78,7 +78,7 @@ const ResetPassword = () => {
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <SafeAreaView style={styles.root}>
-        <Header showLogo />
+        <Header showBackButton />
         <View>
           <BoldText size="large" color="primary">
             Change Password

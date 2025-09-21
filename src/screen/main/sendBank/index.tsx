@@ -173,7 +173,7 @@ const SendBank = () => {
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <>
-        <Header label="Bank Transfer" showLogo />
+        <Header label="Bank Transfer" showBackButton />
         <View style={styles.root} key={route.key}>
           <View style={styles.input}>
             <CustomTextInput

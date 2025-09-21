@@ -45,7 +45,7 @@ const ReviewScreen1: React.FC = () => {
 
   return (
     <>
-      <Header label="Review" showLogo />
+      <Header label="Review" showBackButton />
       <View style={styles.root}>
         <Spacer size={hp(3)} direction="vertical" />
         <View style={styles.item}>

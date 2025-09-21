@@ -10,7 +10,7 @@ import CustomBtn from "@/src/component/common/customBtn";
 const TermsAndPolicies = () => {
   return (
     <>
-      <Header showLogo label="TERMS & POLICIES" />
+      <Header showBackButton label="TERMS & POLICIES" />
       <View style={styles.root}>
         <Spacer size={20} direction="vertical" />
         <ScrollView

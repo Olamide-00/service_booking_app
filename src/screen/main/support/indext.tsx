@@ -19,7 +19,7 @@ const Support = () => {
   return (
     <>
       <View>
-        <Header showLogo label="Custmer Service" height={12} />
+        <Header showBackButton label="Custmer Service" height={12} />
       </View>
       <SafeAreaView style={styles.container}>
         <WebView

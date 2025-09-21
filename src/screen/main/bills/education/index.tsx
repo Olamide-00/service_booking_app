@@ -22,7 +22,7 @@ const Education = () => {
   const navigation = useNavigation();
   return (
     <>
-      <Header showLogo label="Education" />
+      <Header showBackButton label="Education" />
       <View style={styles.root}>
         <Spacer size={hp("5%")} />
         {educationData.map((data) => {

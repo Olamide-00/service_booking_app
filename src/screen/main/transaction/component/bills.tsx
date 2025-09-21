@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   separator: {
-    gap: hp(3),
+    gap: hp(0.1),
   },
   empty: {
     flex: 1,

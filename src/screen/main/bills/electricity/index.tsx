@@ -159,7 +159,7 @@ const ElectricityScreen = () => {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <>
-        <Header label="Electricity" showLogo />
+        <Header label="Electricity" showBackButton />
         <View style={styles.root}>
           <View style={styles.input}>
             <View>

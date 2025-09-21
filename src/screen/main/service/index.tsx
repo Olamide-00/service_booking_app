@@ -23,7 +23,7 @@ const Service = () => {
 
   return (
     <>
-      <Header label="Services" showBackButton={true} height={10} />
+      <Header label="Services"  height={10} />
       <View style={styles.root}>
         {/* Background decorative elements */}
         <View style={styles.backgroundContainer}>
@@ -42,14 +42,14 @@ const Service = () => {
           />
           
           {/* Scattered dots */}
-          <View style={styles.dot1} />
+          {/* <View style={styles.dot1} />
           <View style={styles.dot2} />
           <View style={styles.dot3} />
           <View style={styles.dot4} />
           <View style={styles.dot5} />
           <View style={styles.dot6} />
           <View style={styles.dot7} />
-          <View style={styles.dot8} />
+          <View style={styles.dot8} /> */}
         </View>
 
         <ScrollView

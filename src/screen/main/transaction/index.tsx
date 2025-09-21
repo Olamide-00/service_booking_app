@@ -26,7 +26,7 @@ const Transaction = () => {
 
   return (
     <>
-      <Header label="Transactions" showBackButton={true} height={10} />
+      <Header label="Transactions" height={10} />
       <SafeAreaView style={styles.root}>
         {/* Background decorative dots */}
         <View style={styles.backgroundDots}>

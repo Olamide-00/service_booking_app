@@ -177,7 +177,7 @@ const TVScreen: React.FC = () => {
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <>
-        <Header label="TV Subscription" showLogo />
+        <Header label="TV Subscription" showBackButton />
         <View style={styles.root}>
           <View style={styles.input}>
             <Selector

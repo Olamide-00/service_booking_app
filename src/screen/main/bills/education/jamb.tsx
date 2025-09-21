@@ -105,7 +105,7 @@ const Jamb = () => {
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <>
-        <Header showLogo label="Jamb" />
+        <Header showBackButton label="Jamb" />
         <View style={styles.root}>
           <View style={styles.container}>
             <Selector

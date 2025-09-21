@@ -91,7 +91,7 @@ const SendRemit = () => {
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <>
-        <Header showLogo label="Remit Transfer" />
+        <Header showBackButton label="Remit Transfer" />
         <View style={styles.root} key={route.key}>
           {/* Input Fields */}
           <View style={styles.input}>

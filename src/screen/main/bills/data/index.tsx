@@ -118,7 +118,7 @@ const DataScreen = () => {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <>
-        <Header label="Data Subscription" showLogo height={15} />
+        <Header label="Data Subscription" showBackButton height={15} />
         <View style={styles.root}>
           <View style={styles.input}>
             <CustomTextInput

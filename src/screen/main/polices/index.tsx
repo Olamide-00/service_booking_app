@@ -17,9 +17,9 @@ const TermsAndPolicies = () => {
           contentContainerStyle={styles.content}
           showsVerticalScrollIndicator={false}
         >
-          <BoldText size="large">Welcome to Remit Technologies Ltd.</BoldText>
+          <BoldText size="large">Welcome to Payverve Technologies Ltd.</BoldText>
           <RegularText size="small">
-            Remit Technologies Ltd. was founded by Olamide Oladele and
+            Payverve Technologies Ltd. was founded by Olamide Oladele and
             co-founded by Igbalaye Gabriel. Our company is committed to
             providing seamless digital payment solutions while ensuring user
             privacy and security. We are dedicated to maintaining a transparent
@@ -69,7 +69,7 @@ const TermsAndPolicies = () => {
           <RegularText size="small">
             While we strive to provide a reliable and uninterrupted service, we
             cannot guarantee that our platform will be free from errors or
-            downtime. Remit Technologies Ltd. shall not be liable for any losses
+            downtime. Payverve Technologies Ltd. shall not be liable for any losses
             resulting from service interruptions, cyber threats, or external
             circumstances beyond our control.
           </RegularText>
@@ -78,7 +78,7 @@ const TermsAndPolicies = () => {
           <BoldText size="medium">Contact Us</BoldText>
           <RegularText size="small">
             If you have any questions regarding these terms, please contact our
-            support team at Customer.Remit@gmail.com We are here to assist you
+            support team at Customer.Payverve@gmail.com We are here to assist you
             and ensure a smooth experience while using our services.
           </RegularText>
         </ScrollView>

@@ -150,7 +150,7 @@ const Login = () => {
             resizeMode="cover"
           />
           <Spacer size={hp(-3)} direction="vertical" />
-          <BoldText size="large">Login To Remit</BoldText>
+          <BoldText size="large">Login To Payverve</BoldText>
         </View>
         <Spacer size={hp(3)} direction="vertical" />
         <View style={styles.inputContainer}>

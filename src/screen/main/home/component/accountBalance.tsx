@@ -166,7 +166,7 @@ export default AccountBalance;
 
 const styles = StyleSheet.create({
   container: {
-    marginVertical: hp("1%"),
+    marginBottom: hp("1%"),
   },
   cardContainer: {
     borderRadius: 20,

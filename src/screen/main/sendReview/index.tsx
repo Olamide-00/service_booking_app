@@ -71,7 +71,7 @@ const SendReview = () => {
             />
           )}
           <ReviewItem
-            label={tag ? "Remit Tag" : "Account Number"}
+            label={tag ? "Payverve Tag" : "Account Number"}
             value={tag || account_number}
           />
           <ReviewItem label="Amount" value={formattedAmount} />

@@ -38,7 +38,7 @@ const FundWallet: React.FC = () => {
   const shareDetails = async (account: string, accountName: string) => {
     try {
       await Share.share({
-        message: `Remit Account Details: ${walletData?.data.account_number} ${userData?.name}`,
+        message: `Payverve Account Details: ${walletData?.data.account_number} ${userData?.name}`,
       });
     } catch (error) {
       setIsVisible(true);

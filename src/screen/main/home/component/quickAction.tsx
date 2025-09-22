@@ -18,9 +18,9 @@ const QuickAction = () => {
   // Simple gradient and icon mapping
   const cardStyles = [
     { gradient: ['#667eea', '#764ba2'], icon: 'dashboard' },
-    { gradient: ['#f093fb', '#f5576c'], icon: 'payment' },
-    { gradient: ['#4facfe', '#00f2fe'], icon: 'analytics' },
-    { gradient: ['#43e97b', '#38f9d7'], icon: 'settings' },
+    { gradient: ['#f093fb', '#9c2f3dff'], icon: 'payment' },
+    { gradient: ['#4facfe', '#105a5eff'], icon: 'analytics' },
+    { gradient: ['#2d884bff', '#615624ff'], icon: 'settings' },
   ];
 
   return (

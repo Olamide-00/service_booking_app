@@ -186,9 +186,6 @@ const Home = () => {
               size={16} 
               color="rgba(102, 126, 234, 0.7)" 
             />
-            <RegularText size="medium" style={styles.tagLabel}>
-              Remit Tag
-            </RegularText>
             <View style={styles.modernTag}>
               <RegularText size="small" style={styles.tagText}>
                 @{userData?.tag}

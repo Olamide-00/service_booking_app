@@ -123,7 +123,7 @@ const SignUp = () => {
                 resizeMode="cover"
               />
               <Spacer size={hp(-2)} direction="vertical" />
-              <BoldText size="large">Sign Up to Remit</BoldText>
+              <BoldText size="large">Sign Up to Payverve</BoldText>
             </View>
             <Spacer size={hp(3)} direction="vertical" />
             <View style={styles.inputContainer}>

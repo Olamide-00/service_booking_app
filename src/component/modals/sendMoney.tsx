@@ -39,8 +39,8 @@ const SendMoney: React.FC<SendMoneyProps> = ({ isVisible, setIsVisible }) => {
           style={styles.lottieIcon}
         />
       ),
-      title: "Send to Remit wallet",
-      subtitle: "Transfer to other Remit users",
+      title: "Send to Payverve",
+      subtitle: "Transfer to other Payverve users",
       navigateTo: "SendRemit",
       gradient: ['#667eea', '#764ba2'],
       iconBg: 'rgba(102, 126, 234, 0.15)',
@@ -57,7 +57,7 @@ const SendMoney: React.FC<SendMoneyProps> = ({ isVisible, setIsVisible }) => {
       title: "Send to Bank",
       subtitle: "Transfer to any bank account",
       navigateTo: "SendBank",
-      gradient: ['#4facfe', '#00f2fe'],
+      gradient: ['#4facfe', '#205a5eff'],
       iconBg: 'rgba(79, 172, 254, 0.15)',
     },
   ];
@@ -95,7 +95,7 @@ const SendMoney: React.FC<SendMoneyProps> = ({ isVisible, setIsVisible }) => {
           </View>
           
           <View style={styles.textContainer}>
-            <BoldText size="medium" style={styles.menuTitle}>
+            <BoldText size="large" style={styles.menuTitle}>
               {title}
             </BoldText>
             <RegularText size="small" style={styles.menuSubtitle}>
@@ -224,8 +224,8 @@ const styles = StyleSheet.create({
   menuContainer: {
     flex: 1,
     paddingHorizontal: wp("5%"),
-    gap: hp("1%"),
-    paddingBottom: hp("0.5%"),
+    gap: hp("2%"),
+    // paddingBottom: hp("0.5%"),
   },
   menuItem: {
     borderRadius: 16,
@@ -243,8 +243,9 @@ const styles = StyleSheet.create({
     padding: wp("3.5%"),
     position: 'relative',
     overflow: 'hidden',
-    minHeight: hp("6%"),
+    minHeight: hp("5%"),
     justifyContent: 'center',
+    height: hp("7%"),
   },
   backgroundArrow: {
     position: 'absolute',

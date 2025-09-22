@@ -89,7 +89,7 @@ const ElectReceipt = () => {
             />
             <View style={{ alignSelf: "center" }}>
               <RegularText size="medium" color="primary">
-                Remit
+                Payverve
               </RegularText>
             </View>
           </Card>

@@ -118,7 +118,7 @@ const DataScreen = () => {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <>
-        <Header label="Data Subscription" showBackButton height={15} />
+        <Header label="Data Subscription" showBackButton height={15}/>
         <View style={styles.root}>
           <View style={styles.input}>
             <CustomTextInput
@@ -139,8 +139,8 @@ const DataScreen = () => {
                 setSelectedNetwork(value);
                 setSelectedDataPlan("");
               }}
-              getOptionLabel={(option) => option.label}
-              getOptionValue={(option) => option.value}
+              // getOptionLabel={(option) => option.label}
+              // getOptionValue={(option) => option.value}
               loading={isLoading}
             />
             <Spacer size={hp(0.2)} />
@@ -153,9 +153,9 @@ const DataScreen = () => {
               onSelect={(value) => {
                 setSelectedDataPlan(value);
               }}
-              getOptionLabel={(option) => option.label}
-              getOptionValue={(option) => option.value}
-              disabled={!selectedNetwork || dataPlans.length === 0}
+              // getOptionLabel={(option) => option.label}
+              // getOptionValue={(option) => option.value}
+              // disabled={!selectedNetwork || dataPlans.length === 0}
               loading={dataPackageLoading}
             />
           </View>

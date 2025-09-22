@@ -134,6 +134,7 @@ const UpdatePIN: React.FC<UpdatePINProps> = ({ isVisible, closeModal }) => {
               onPress={handleUpdatePIN}
               disabled={pinLoading || !newPIN || !confirmPIN || !otp}
               isLoading={pinLoading}
+              width={wp(85)}
             />
           </View>
         </View>
@@ -158,7 +159,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     padding: 20,
     borderRadius: 10,
-    width: "93%",
+    width: "90%",
   },
   header: {
     flexDirection: "row",
@@ -168,7 +169,7 @@ const styles = StyleSheet.create({
   inputContainer: {
     alignItems: "center",
     justifyContent: "center",
-    width: wp(60),
+    width: wp(85),
     alignSelf: "center",
     paddingHorizontal: wp(2),
   },

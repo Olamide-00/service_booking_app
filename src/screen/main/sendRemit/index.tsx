@@ -47,7 +47,7 @@ const SendRemit = () => {
 
     if (!data?.name) {
       setIsVisible(true);
-      setMessage("Invalid Remit Tag");
+      setMessage("Invalid Payverve Tag");
       setSuccess(false);
       return;
     }
@@ -60,10 +60,10 @@ const SendRemit = () => {
     }
 
     if (!tag.trim()) {
-      setWalletError("Remit Tag is required");
+      setWalletError("Payverve Tag is required");
       isValid = false;
     } else if (tag.length < 3) {
-      setWalletError("Invalid Remit Tag");
+      setWalletError("Invalid Payverve Tag");
       isValid = false;
     } else {
       setWalletError("");
@@ -91,13 +91,13 @@ const SendRemit = () => {
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <>
-        <Header showBackButton label="Remit Transfer" />
+        <Header showBackButton label="Payverve Transfer" />
         <View style={styles.root} key={route.key}>
           {/* Input Fields */}
           <View style={styles.input}>
             <CustomTextInput
-              title="Remit Tag"
-              placeholder="Enter Your Remit Tag"
+              title="Payverve Tag"
+              placeholder="Enter Your Payverve Tag"
               value={tag}
               setValue={setTag}
               error={walletError}

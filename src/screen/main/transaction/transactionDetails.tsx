@@ -157,7 +157,7 @@ const TransactionDetails = () => {
         <div class="watermark">R</div>
         <div class="content">
           <div class="header">
-            <div class="logo">Remit</div>
+            <div class="logo">Payverve</div>
             <div class="title">Transaction Receipt</div>
             <div class="subtitle">${formatDate(
               transaction.date || transaction.transaction_date
@@ -247,9 +247,9 @@ const TransactionDetails = () => {
           <div class="divider"></div>
 
           <div class="footer">
-            Thank you for using Remit<br>
-            Customer.Remit<br>
-            ${new Date().getFullYear()} © Remit
+            Thank you for using Payverve<br>
+            Customer.payverve<br>
+            ${new Date().getFullYear()} © Payverve
           </div>
         </div>
       </div>
@@ -280,7 +280,7 @@ const TransactionDetails = () => {
 
   return (
     <>
-      <Header showLogo label="Transaction Details" />
+      <Header showBackButton label="Transaction Details" />
       <SafeAreaView style={styles.root}>
         <Spacer size={hp(3)} direction="vertical" />
 

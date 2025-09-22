@@ -93,6 +93,7 @@ const UpdateNumber = ({ isVisible, closeModal }: UpdatePINProps) => {
               onPress={handleUpdateNumber}
               isLoading={isPending}
               disabled={isPending || !validatePhoneNumber(phoneNumber)}
+              width={wp(85)}
             />
           </View>
         </View>
@@ -129,7 +130,7 @@ const styles = StyleSheet.create({
   inputContainer: {
     alignItems: "center",
     justifyContent: "center",
-    width: wp(60),
+    width: wp(85),
     alignSelf: "center",
     paddingHorizontal: wp(2),
   },

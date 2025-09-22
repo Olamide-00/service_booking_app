@@ -41,7 +41,7 @@ const KYC1: React.FC = () => {
   const Name: string = userData?.name || "";
   const nameParts = Name.trim().split(" ");
   const first_name = nameParts[0] || "";
-  const last_name = nameParts[1] || "Remit";
+  const last_name = nameParts[1] || "Payverve";
 
   const email: string = userData?.email || "";
   const [phone, setPhone] = useState<string>("");

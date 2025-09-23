@@ -109,7 +109,7 @@ const Item = ({ transaction, onPress }: { transaction: historyProps }) => {
             styles.amountText,
             { color: getStatusColor() }
           ]}>
-            {isCredit ? "+" : "-"}₦{formattedBalance}
+            ₦{formattedBalance}
           </BoldText>
           
           <View style={[

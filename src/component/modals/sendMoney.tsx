@@ -90,9 +90,9 @@ const SendMoney: React.FC<SendMoneyProps> = ({ isVisible, setIsVisible }) => {
         
         {/* Content */}
         <View style={styles.menuItemContent}>
-          <View style={[styles.iconContainer, { backgroundColor: iconBg }]}>
+          {/* <View style={[styles.iconContainer, { backgroundColor: iconBg }]}>
             {icon}
-          </View>
+          </View> */}
           
           <View style={styles.textContainer}>
             <BoldText size="large" style={styles.menuTitle}>

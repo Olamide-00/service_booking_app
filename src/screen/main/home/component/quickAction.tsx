@@ -36,10 +36,8 @@ const QuickAction = () => {
           return (
             <Animated.View
               key={item.id}
-              entering={SlideInLeft.delay(
-                (index % 2) * 200 + Math.floor(index / 2) * 200
-              ).duration(600)}
-              exiting={SlideOutLeft.duration(300)}
+              entering={SlideInLeft}
+  
               style={styles.itemWrapper}
             >
               <TouchableOpacity
@@ -93,11 +91,11 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   itemWrapper: {
-    width: wp("44%"),
+    width: wp("46%"),
   },
   item: {
-    height: hp("7%"),
-    marginBottom: hp("1.5%"),
+    height: hp("6.5%"),
+    marginBottom: hp("1%"),
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 12,

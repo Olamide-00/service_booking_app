@@ -193,9 +193,9 @@ const Home = () => {
             </View>
           </View>
           
-          <View style={styles.statusIndicator}>
-            <MaterialIcons name="verified" size={16} color="#10b981" />
-            <RegularText size="small" style={styles.statusText}>Verified</RegularText>
+          <View style={[styles.statusIndicator,{backgroundColor: userData?.isWalletCreated ? 'rgba(16, 185, 129, 0.1)' : 'rgba(239, 68, 68, 0.1)', borderColor: userData?.isWalletCreated ? 'rgba(16, 185, 129, 0.2)' : 'rgba(239, 68, 68, 0.2)'}]}>
+            <MaterialIcons name={userData?.isWalletCreated ? "verified" : "cancel"} size={16} color={userData?.isWalletCreated ? "#10b981" : "#ef4444"} />
+            <RegularText size="small" style={[styles.statusText, {color: userData?.isWalletCreated ? "#10b981" : "#ef4444"}]}>{userData?.isWalletCreated ? "Verified" : "Unverified"}</RegularText>
           </View>
         </View>
       </View>
@@ -210,10 +210,8 @@ const Home = () => {
            <TransactionAction />
         ) : <Banner />
       }
-       <Spacer direction="vertical" size={hp(1.5)} />
-      {/* Transaction action */}
      
-      <Spacer direction="vertical" size={hp(1)} />
+      <Spacer direction="vertical" size={hp(0.6)} />
 
       {/* Quick action */}
       <QuickAction />

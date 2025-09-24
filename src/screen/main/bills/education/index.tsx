@@ -21,7 +21,7 @@ type Props = {
 const Education = () => {
   const navigation = useNavigation();
   return (
-    <>
+    <View style={{ flex: 1 }}>
       <Header showBackButton label="Education" />
       <View style={styles.root}>
         <Spacer size={hp("5%")} />
@@ -47,7 +47,7 @@ const Education = () => {
           );
         })}
       </View>
-    </>
+    </View>
   );
 };
 

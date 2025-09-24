@@ -104,7 +104,7 @@ const Jamb = () => {
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <>
+      <View style={{ flex: 1 }}>
         <Header showBackButton label="Jamb" />
         <View style={styles.root}>
           <View style={styles.container}>
@@ -162,7 +162,7 @@ const Jamb = () => {
             />
           </View>
         </View>
-      </>
+      </View>
     </TouchableWithoutFeedback>
   );
 };
@@ -185,6 +185,6 @@ const styles = StyleSheet.create({
   },
   error: {
     alignItems: "flex-end",
-    marginTop: hp("-1.5%"),
+    // marginTop: hp("-1.5%"),
   },
 });

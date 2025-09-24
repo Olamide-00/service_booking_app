@@ -176,7 +176,7 @@ const TVScreen: React.FC = () => {
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <>
+      <View style={{ flex: 1 }}>
         <Header label="TV Subscription" showBackButton />
         <View style={styles.root}>
           <View style={styles.input}>
@@ -236,7 +236,7 @@ const TVScreen: React.FC = () => {
             isSuccessful={success}
           />
         </View>
-      </>
+      </View>
     </TouchableWithoutFeedback>
   );
 };
@@ -258,7 +258,7 @@ const styles = StyleSheet.create({
     marginBottom: hp(3),
   },
   customerName: {
-    marginTop: hp(-2.6),
+    // marginTop: hp(-2.6),
     alignSelf: "flex-end",
   },
 });

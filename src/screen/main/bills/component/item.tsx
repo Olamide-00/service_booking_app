@@ -27,20 +27,24 @@ const Item = ({ label, value, showIcon }: Props) => {
     await Clipboard.setStringAsync(String(value));
     setIsVisible(true);
     setSuccess(true);
-    setMessage("Copied");
+    setMessage("Copied to clipboard");
   };
 
   return (
     <View>
       <View style={styles.container}>
-        <BoldText size="medium">{label}</BoldText>
+        <BoldText size="medium" color="primary">{label}</BoldText>
         <View style={styles.item}>
-          <RegularText size="small" color="primary">
+          <RegularText size="small" color="secondaryColor" style={styles.value}>
             {value}
           </RegularText>
           {showIcon && (
-            <TouchableOpacity onPress={copyToClipboard}>
-              <Copy size={20} color={COLORS.primary} />
+            <TouchableOpacity 
+              onPress={copyToClipboard}
+              style={styles.copyButton}
+              hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+            >
+              <Copy size={18} color={COLORS.primary} />
             </TouchableOpacity>
           )}
         </View>
@@ -60,12 +64,23 @@ export default Item;
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: hp(-1.5),
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    // paddingVertical: hp(2),
+    paddingHorizontal: wp(4),
   },
   item: {
-    alignSelf: "flex-end",
-    paddingRight: wp(6),
     flexDirection: "row",
-    gap: wp(2),
+    alignItems: "center",
+    gap: wp(3),
+  },
+  value: {
+    fontWeight: '500',
+  },
+  copyButton: {
+    padding: wp(1),
+    borderRadius: 6,
+    backgroundColor: 'rgba(42, 42, 114, 0.08)',
   },
 });

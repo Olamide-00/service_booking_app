@@ -95,7 +95,7 @@ const AirtimeScreen = () => {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-      <>
+      <View style={{ flex: 1 }}>
         <Header showBackButton label="Airtime" height={15} />
         <View style={styles.root}>
           {/* Header */}
@@ -158,7 +158,7 @@ const AirtimeScreen = () => {
             isSuccessful={success}
           />
         </View>
-      </>
+      </View>
     </TouchableWithoutFeedback>
   );
 };

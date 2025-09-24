@@ -50,7 +50,7 @@ const ElectReceipt = () => {
   const { width, height } = Dimensions.get("window");
 
   return (
-    <>
+    <View style={{ flex: 1 }}>
       <Header showLogo label="Electricity" />
       <View style={styles.root}>
         {/* Capture this entire section as an image */}
@@ -122,7 +122,7 @@ const ElectReceipt = () => {
           />
         </View>
       </View>
-    </>
+    </View>
   );
 };
 

@@ -44,7 +44,7 @@ const ReviewScreen1: React.FC = () => {
   );
 
   return (
-    <>
+    <View style={{ flex: 1 }}>
       <Header label="Review" showBackButton />
       <View style={styles.root}>
         <Spacer size={hp(3)} direction="vertical" />
@@ -74,7 +74,7 @@ const ReviewScreen1: React.FC = () => {
           />
         </View>
       </View>
-    </>
+    </View>
   );
 };
 

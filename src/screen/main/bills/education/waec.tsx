@@ -78,7 +78,7 @@ const Waec = () => {
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <>
+      <View style={{ flex: 1 }}>
         <Header showBackButton label="Waec" />
         <View style={styles.root}>
           <View style={styles.container}>
@@ -125,7 +125,7 @@ const Waec = () => {
             />
           </View>
         </View>
-      </>
+      </View>
     </TouchableWithoutFeedback>
   );
 };

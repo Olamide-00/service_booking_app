@@ -158,7 +158,7 @@ const ElectricityScreen = () => {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-      <>
+      <View style={{ flex: 1 }}>
         <Header label="Electricity" showBackButton />
         <View style={styles.root}>
           <View style={styles.input}>
@@ -231,7 +231,7 @@ const ElectricityScreen = () => {
             isSuccessful={success}
           />
         </View>
-      </>
+      </View>
     </TouchableWithoutFeedback>
   );
 };
@@ -257,7 +257,7 @@ const styles = StyleSheet.create({
     marginBottom: hp(3),
   },
   customerName: {
-    marginTop: hp(-2.6),
+    // marginTop: hp(-2.6),
     alignSelf: "flex-end",
   },
 });

@@ -283,7 +283,7 @@ const styles = StyleSheet.create({
   },
   accountNameContainer: {
     alignSelf: "flex-end",
-    marginTop: hp(-2),
+    // marginTop: hp(-2),
   },
   btn: {
     marginTop: "auto",

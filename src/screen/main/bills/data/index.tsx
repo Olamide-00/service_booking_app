@@ -117,7 +117,7 @@ const DataScreen = () => {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-      <>
+      <View style={{ flex: 1 }}>
         <Header label="Data Subscription" showBackButton height={15}/>
         <View style={styles.root}>
           <View style={styles.input}>
@@ -180,7 +180,7 @@ const DataScreen = () => {
             isSuccessful={success}
           />
         </View>
-      </>
+      </View>
     </TouchableWithoutFeedback>
   );
 };

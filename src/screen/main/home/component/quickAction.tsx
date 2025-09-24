@@ -1,9 +1,9 @@
 import { StyleSheet, TouchableOpacity, View } from "react-native";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { BoldText, RegularText } from "@/src/component/text/indext";
 import { QuickActionData } from "@/src/constant/data";
 import { useNavigation } from "@react-navigation/native";
-import Animated, { SlideInLeft, SlideOutLeft } from "react-native-reanimated";
+import Animated, { SlideInLeft, SlideOutLeft, FadeInUp } from "react-native-reanimated";
 import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialIcons } from '@expo/vector-icons';
 import {
@@ -14,6 +14,16 @@ import Spacer from "@/src/component/common/spacer";
 
 const QuickAction = () => {
   const navigation = useNavigation();
+  const [isReady, setIsReady] = useState(false);
+
+  // Force layout calculation after component mounts
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsReady(true);
+    }, 100);
+    
+    return () => clearTimeout(timer);
+  }, []);
 
   // Simple gradient and icon mapping
   const cardStyles = [
@@ -24,11 +34,12 @@ const QuickAction = () => {
   ];
 
   return (
-    <View>
+    <View style={styles.container}>
       <BoldText size="large" color="black">
         Quick Actions
       </BoldText>
       <Spacer size={hp(1)} direction="vertical" />
+      
       <View style={styles.itemContainer}>
         {QuickActionData.map((item, index) => {
           const style = cardStyles[index % cardStyles.length];
@@ -36,8 +47,7 @@ const QuickAction = () => {
           return (
             <Animated.View
               key={item.id}
-              entering={SlideInLeft}
-  
+              entering={FadeInUp.delay(index * 100).duration(500)}
               style={styles.itemWrapper}
             >
               <TouchableOpacity
@@ -51,6 +61,7 @@ const QuickAction = () => {
                   }
                 }}
                 activeOpacity={0.85}
+                style={styles.touchable}
               >
                 <LinearGradient
                   colors={style.gradient}
@@ -85,17 +96,25 @@ const QuickAction = () => {
 export default QuickAction;
 
 const styles = StyleSheet.create({
+  container: {
+    width: '100%',
+  },
   itemContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-between",
+    width: '100%',
   },
   itemWrapper: {
     width: wp("46%"),
+    marginBottom: hp("1%"),
+  },
+  touchable: {
+    width: '100%',
   },
   item: {
     height: hp("6.5%"),
-    marginBottom: hp("1%"),
+    width: '100%',
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 12,
@@ -107,18 +126,20 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.15,
     shadowRadius: 4,
-    position: 'relative',
+    overflow: 'hidden',
   },
   backgroundIcon: {
     position: 'absolute',
     top: 8,
     right: 10,
+    zIndex: 0,
   },
   textContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     zIndex: 1,
+    paddingHorizontal: wp(2),
   },
   itemText: {
     color: '#FFFFFF',

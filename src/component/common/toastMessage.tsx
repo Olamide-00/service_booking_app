@@ -48,7 +48,7 @@ const ToastMessage = ({
   const getColors = () => {
     if (isSuccessful) {
       return {
-        gradient: ['#10B981', '#059669', '#071b16ff'],
+        gradient: ['#10B981', '#0a976bff', '#071b16ff'],
         solid: '#10B981',
         glass: 'rgba(16, 185, 129, 0.9)',
         icon: 'checkmark-circle',
@@ -121,65 +121,7 @@ const ToastMessage = ({
     }
   }, [isVisible, message, onClose, opacity, translateY, scale, position]);
 
-  // Enhanced swipe to dismiss
-  const panResponder = useRef(
-    PanResponder.create({
-      onMoveShouldSetPanResponder: (_, { dy, dx }) => 
-        Math.abs(dy) > 5 || Math.abs(dx) > 5,
-      onPanResponderMove: (_, { dy, dx }) => {
-        if (position === 'top') {
-          translateY.setValue(dy < 0 ? dy : dy * 0.3);
-        } else {
-          translateY.setValue(dy > 0 ? dy : dy * 0.3);
-        }
-        // Add horizontal swipe
-        if (Math.abs(dx) > Math.abs(dy)) {
-          opacity.setValue(1 - Math.abs(dx) / wp('50%'));
-        }
-      },
-      onPanResponderRelease: (_, { dy, dx, vy }) => {
-        const dismissThreshold = 50;
-        const velocityThreshold = 0.5;
-        
-        const shouldDismiss = 
-          Math.abs(dy) > dismissThreshold || 
-          Math.abs(dx) > dismissThreshold ||
-          Math.abs(vy) > velocityThreshold;
-
-        if (shouldDismiss) {
-          // Quick dismiss animation
-          Animated.parallel([
-            Animated.timing(opacity, {
-              toValue: 0,
-              duration: 200,
-              useNativeDriver: true,
-            }),
-            Animated.timing(translateY, {
-              toValue: position === 'top' ? -hp("15%") : hp("15%"),
-              duration: 200,
-              useNativeDriver: true,
-            }),
-          ]).start(onClose);
-        } else {
-          // Snap back
-          Animated.parallel([
-            Animated.spring(translateY, {
-              toValue: 0,
-              tension: 100,
-              friction: 8,
-              useNativeDriver: true,
-            }),
-            Animated.spring(opacity, {
-              toValue: 1,
-              tension: 100,
-              friction: 8,
-              useNativeDriver: true,
-            }),
-          ]).start();
-        }
-      },
-    })
-  ).current;
+  
 
   const renderContent = () => (
     <>
@@ -213,24 +155,18 @@ const ToastMessage = ({
     </>
   );
 
-  const containerStyle = [
-    styles.container,
-    position === 'top' ? styles.topContainer : styles.bottomContainer,
-    {
-      transform: [{ translateY }, { scale }],
-      opacity,
-    },
-  ];
-
+  // Fixed: Use Animated.View instead of regular View for the container
   return (
     <Modal visible={isVisible} transparent animationType="none">
       <Animated.View 
-        style={containerStyle}
-        onStartShouldSetResponder={panResponder.panHandlers.onStartShouldSetResponder}
-        onMoveShouldSetResponder={panResponder.panHandlers.onMoveShouldSetResponder}
-        onResponderMove={panResponder.panHandlers.onResponderMove}
-        onResponderRelease={panResponder.panHandlers.onResponderRelease}
-        onResponderTerminate={panResponder.panHandlers.onResponderTerminate}
+        style={[
+          styles.container,
+          position === 'top' ? styles.topContainer : styles.bottomContainer,
+          {
+            transform: [{ translateY }, { scale }],
+            opacity,
+          },
+        ]}
       >
         {variant === 'gradient' && (
           <LinearGradient

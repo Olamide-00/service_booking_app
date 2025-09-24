@@ -4,7 +4,7 @@
     "slug": "Payverve",
     "version": "1.0.0",
     "orientation": "portrait",
-     "icon": "./assets/images/REMITBRAND.png",
+    "icon": "./assets/images/REMITBRAND.png",
     "splash": {
       "image": "./assets/images/REMITBRAND.png",
       "resizeMode": "contain",
@@ -83,6 +83,9 @@
     "extra": {
       "router": {
         "origin": false
+      },
+      "eas": {
+        "projectId": "bb609444-7573-4355-98d5-b3bea302a502"
       }
     },
     "runtimeVersion": {

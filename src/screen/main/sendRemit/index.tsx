@@ -90,8 +90,8 @@ const SendRemit = () => {
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <>
-        <Header showBackButton label="Payverve Transfer" />
+      <View style={{ flex: 1}}>
+         <Header showBackButton label="Payverve Transfer" />
         <View style={styles.root} key={route.key}>
           {/* Input Fields */}
           <View style={styles.input}>
@@ -136,7 +136,7 @@ const SendRemit = () => {
             isSuccessful={success}
           />
         </View>
-      </>
+      </View>
     </TouchableWithoutFeedback>
   );
 };

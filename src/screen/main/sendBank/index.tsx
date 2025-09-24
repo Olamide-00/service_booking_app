@@ -172,7 +172,7 @@ const SendBank = () => {
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <>
+      <View style={{ flex: 1 }}>
         <Header label="Bank Transfer" showBackButton />
         <View style={styles.root} key={route.key}>
           <View style={styles.input}>
@@ -262,7 +262,7 @@ const SendBank = () => {
             isSuccessful={success}
           />
         </View>
-      </>
+      </View>
     </TouchableWithoutFeedback>
   );
 };

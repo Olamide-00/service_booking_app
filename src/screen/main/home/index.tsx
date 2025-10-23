@@ -59,68 +59,6 @@ const Home = () => {
             <SearchFilterBar />
           </View>
 
-          {/* Quick Actions Card */}
-          <View style={styles.quickActionsContainer}>
-            <LinearGradient
-              colors={['rgba(124, 82, 255, 0.08)', 'rgba(139, 92, 246, 0.05)']}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 1 }}
-              style={styles.quickActionsCard}
-            >
-              <View style={styles.quickActionsHeader}>
-                <View style={styles.quickActionsIconBox}>
-                  <Ionicons name="flash" size={16} color="#FFD700" />
-                </View>
-                <View style={{ flex: 1 }}>
-                  <BoldText size={14} color={COLORS.textDark}>
-                    Quick Actions
-                  </BoldText>
-                  <RegularText size={11} color={COLORS.gray}>
-                    Book instantly
-                  </RegularText>
-                </View>
-              </View>
-
-              <View style={styles.quickActionsGrid}>
-                <TouchableOpacity style={styles.quickActionBtn} activeOpacity={0.7}>
-                  <View style={[styles.actionIconCircle, { backgroundColor: '#E3F2FD' }]}>
-                    <Ionicons name="repeat" size={18} color="#2196F3" />
-                  </View>
-                  <RegularText size={11} color={COLORS.textDark} style={{ marginTop: 6 }}>
-                    Repeat
-                  </RegularText>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.quickActionBtn} activeOpacity={0.7}>
-                  <View style={[styles.actionIconCircle, { backgroundColor: '#FFF3E0' }]}>
-                    <Ionicons name="heart" size={18} color="#FF9800" />
-                  </View>
-                  <RegularText size={11} color={COLORS.textDark} style={{ marginTop: 6 }}>
-                    Favorites
-                  </RegularText>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.quickActionBtn} activeOpacity={0.7}>
-                  <View style={[styles.actionIconCircle, { backgroundColor: '#F3E5F5' }]}>
-                    <Ionicons name="time" size={18} color="#9C27B0" />
-                  </View>
-                  <RegularText size={11} color={COLORS.textDark} style={{ marginTop: 6 }}>
-                    Schedule
-                  </RegularText>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.quickActionBtn} activeOpacity={0.7}>
-                  <View style={[styles.actionIconCircle, { backgroundColor: '#E8F5E9' }]}>
-                    <Ionicons name="gift" size={18} color="#4CAF50" />
-                  </View>
-                  <RegularText size={11} color={COLORS.textDark} style={{ marginTop: 6 }}>
-                    Offers
-                  </RegularText>
-                </TouchableOpacity>
-              </View>
-            </LinearGradient>
-          </View>
-
           {/* Categories Section */}
           <CategoryList />
 
@@ -145,18 +83,18 @@ const Home = () => {
               <View style={styles.bannerContent}>
                 <View style={styles.bannerBadge}>
                   <Ionicons name="trophy" size={12} color="#FFD700" />
-                  <RegularText size={10} color={COLORS.white} style={{ marginLeft: 4 }}>
+                  <RegularText size={'sm'} color={COLORS.white} style={{ marginLeft: 4 }}>
                     PREMIUM
                   </RegularText>
                 </View>
-                <BoldText size={16} color={COLORS.white} style={{ marginTop: 8 }}>
+                <BoldText size={'xs'} color={COLORS.white} style={{ marginTop: 8 }}>
                   Get 20% Off
                 </BoldText>
-                <RegularText size={12} color="rgba(255,255,255,0.9)" style={{ marginTop: 4 }}>
+                <RegularText size={'xs'} color="rgba(255,255,255,0.9)" style={{ marginTop: 4 }}>
                   First booking with top providers
                 </RegularText>
                 <TouchableOpacity style={styles.bannerBtn} activeOpacity={0.8}>
-                  <RegularText size={12} color="#667EEA" style={{ fontWeight: '600' }}>
+                  <RegularText size={'xs'} color="#667EEA" style={{ fontWeight: '600' }}>
                     Claim Now
                   </RegularText>
                   <Ionicons name="arrow-forward" size={14} color="#667EEA" />
@@ -164,7 +102,7 @@ const Home = () => {
               </View>
             </LinearGradient>
           </View>
-
+  
           {/* Top Providers Section Header */}
           <View style={styles.sectionHeader}>
             <View style={styles.sectionTitleContainer}>
@@ -313,7 +251,7 @@ const styles = StyleSheet.create({
   },
   featuredBanner: {
     marginHorizontal: 16,
-    marginBottom: 24,
+    marginBottom: 10,
     borderRadius: 20,
     overflow: 'hidden',
     elevation: 5,

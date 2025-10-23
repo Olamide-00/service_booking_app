@@ -96,22 +96,7 @@ const Header: React.FC<HeaderProps> = ({
             </View>
           </View>
 
-          {/* Quick stats row */}
-          <View style={styles.statsRow}>
-            <View style={styles.statItem}>
-              <Ionicons name="briefcase-outline" size={14} color="rgba(255,255,255,0.8)" />
-              <RegularText color="rgba(255,255,255,0.85)" size={11} style={{ marginLeft: 4 }}>
-                12 Active
-              </RegularText>
-            </View>
-            <View style={styles.statDivider} />
-            <View style={styles.statItem}>
-              <Ionicons name="time-outline" size={14} color="rgba(255,255,255,0.8)" />
-              <RegularText color="rgba(255,255,255,0.85)" size={11} style={{ marginLeft: 4 }}>
-                3 Pending
-              </RegularText>
-            </View>
-          </View>
+        
         </View>
 
         {/* Right section - Avatar and notification */}

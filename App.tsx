@@ -8,7 +8,7 @@ import ServiceDetails from './src/screen/main/serviceDetails';
 export default function App() {
   return (
     <View style={styles.container}>
-      <ServiceDetails/>
+      <Home/>
     </View>
   );
 }

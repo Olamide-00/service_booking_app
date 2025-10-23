@@ -139,7 +139,7 @@ const CategoryItem: React.FC<{
           {/* Category info */}
           <View style={styles.categoryInfo}>
             <BoldText
-              size={11}
+              size={"xs"}
               color={isSelected ? COLORS.white : COLORS.textDark}
               numberOfLines={1}
               style={styles.categoryName}
@@ -157,7 +157,7 @@ const CategoryItem: React.FC<{
               }
             ]}>
               <RegularText
-                size={9}
+                size={"sm"}
                 color={isSelected ? COLORS.white : item.color}
               >
                 {item.count}
@@ -210,17 +210,17 @@ const CategoryList: React.FC<CategoryListProps> = ({ onSelectCategory }) => {
             </LinearGradient>
           </View>
           <View>
-            <BoldText size={17} color={COLORS.textDark}>
+            <BoldText size={"md"} color={COLORS.textDark}>
               Categories
             </BoldText>
-            <RegularText size={11} color={COLORS.gray} style={{ marginTop: 1 }}>
+            <RegularText size={"sm"} color={COLORS.gray} style={{ marginTop: 1 }}>
               {categories.length} services available
             </RegularText>
           </View>
         </View>
         
         <TouchableOpacity style={styles.seeAllBtn} activeOpacity={0.7}>
-          <RegularText size={11} color={COLORS.primary} style={{ fontWeight: '600' }}>
+          <RegularText size={"sm"} color={COLORS.primary} style={{ fontWeight: '600' }}>
             View All
           </RegularText>
           <Ionicons name="chevron-forward" size={13} color={COLORS.primary} />
@@ -250,7 +250,7 @@ export default CategoryList;
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 20,
+    marginTop: 5,
     marginBottom: 12,
   },
   header: {
@@ -299,9 +299,9 @@ const styles = StyleSheet.create({
     marginRight: 2,
   },
   categoryCard: {
-    width: 75,
-    height: 85,
-    borderRadius: 16,
+    width: 100,
+    height: 78,
+    borderRadius: 20,
     overflow: 'hidden',
     position: 'relative',
   },

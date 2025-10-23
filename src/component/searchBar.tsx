@@ -112,16 +112,6 @@ const SearchFilterBar: React.FC<SearchFilterBarProps> = ({
           style={styles.searchCard}
         >
           <View style={styles.searchWrapper}>
-            {/* Search icon with animated background */}
-            <View style={styles.searchIconWrapper}>
-              <LinearGradient
-                colors={['rgba(124, 82, 255, 0.1)', 'rgba(139, 92, 246, 0.05)']}
-                style={styles.searchIconBg}
-              >
-                <Ionicons name="search" size={20} color={COLORS.primary} />
-              </LinearGradient>
-            </View>
-
             {/* Search input */}
             <CustomTextInput
               placeholder={placeholder}
@@ -169,40 +159,6 @@ const SearchFilterBar: React.FC<SearchFilterBarProps> = ({
             </TouchableOpacity>
           </View>
         </LinearGradient>
-
-        {/* Quick filter chips below search */}
-        <View style={styles.quickFiltersRow}>
-          <ScrollView 
-            horizontal 
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.quickFiltersContent}
-          >
-            <TouchableOpacity style={styles.quickFilterChip} activeOpacity={0.7}>
-              <Ionicons name="location" size={12} color="#3498DB" />
-              <RegularText size={11} color={COLORS.textDark} style={{ marginLeft: 4 }}>
-                Near Me
-              </RegularText>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.quickFilterChip} activeOpacity={0.7}>
-              <Ionicons name="time" size={12} color="#27AE60" />
-              <RegularText size={11} color={COLORS.textDark} style={{ marginLeft: 4 }}>
-                Available Now
-              </RegularText>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.quickFilterChip} activeOpacity={0.7}>
-              <Ionicons name="star" size={12} color="#F39C12" />
-              <RegularText size={11} color={COLORS.textDark} style={{ marginLeft: 4 }}>
-                Top Rated
-              </RegularText>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.quickFilterChip} activeOpacity={0.7}>
-              <Ionicons name="pricetag" size={12} color="#E74C3C" />
-              <RegularText size={11} color={COLORS.textDark} style={{ marginLeft: 4 }}>
-                Deals
-              </RegularText>
-            </TouchableOpacity>
-          </ScrollView>
-        </View>
       </View>
 
       {/* Enhanced Filter Modal with modern design */}
@@ -529,7 +485,7 @@ export default SearchFilterBar;
 const styles = StyleSheet.create({
   searchContainer: {
     marginHorizontal: 16,
-    marginTop: -15,
+    // marginTop: -15,
     position: 'relative',
     zIndex: 10,
   },
@@ -564,24 +520,24 @@ const styles = StyleSheet.create({
     zIndex: 0,
   },
   searchCard: {
-    borderRadius: 20,
-    padding: 4,
-    elevation: 6,
-    shadowColor: COLORS.primary,
-    shadowOpacity: 0.15,
-    shadowRadius: 12,
-    shadowOffset: { width: 0, height: 6 },
-    borderWidth: 1,
-    borderColor: 'rgba(124, 82, 255, 0.12)',
+    // borderRadius: 20,
+    // padding: 4,
+    // elevation: 6,
+    // shadowColor: COLORS.primary,
+    // shadowOpacity: 0.15,
+    // shadowRadius: 12,
+    // shadowOffset: { width: 0, height: 6 },
+    // borderWidth: 1,
+    // borderColor: 'rgba(124, 82, 255, 0.12)',
   },
   searchWrapper: {
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: 12,
+    // paddingHorizontal: 12,
     paddingVertical: 10,
   },
   searchIconWrapper: {
-    marginRight: 8,
+    // marginTop: -8,
   },
   searchIconBg: {
     width: 36,

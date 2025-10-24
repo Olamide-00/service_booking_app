@@ -122,6 +122,7 @@ const SearchFilterBar: React.FC<SearchFilterBarProps> = ({
               }}
               style={styles.searchInput}
               placeholderTextColor="#A0A0A0"
+              containerStyle={{ width: "80%"}}
             />
 
             {/* Clear button with animation */}

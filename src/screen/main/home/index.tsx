@@ -204,11 +204,10 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.primary,
   },
   scrollContent: {
-    paddingBottom: 100,
+    paddingBottom: 5,
   },
   searchSection: {
-    marginTop: 8,
-    marginBottom: 20,
+    marginTop: -18,
   },
   quickActionsContainer: {
     paddingHorizontal: 16,
@@ -251,7 +250,7 @@ const styles = StyleSheet.create({
   },
   featuredBanner: {
     marginHorizontal: 16,
-    marginBottom: 10,
+    marginBottom: 5,
     borderRadius: 20,
     overflow: 'hidden',
     elevation: 5,
@@ -263,7 +262,7 @@ const styles = StyleSheet.create({
   bannerGradient: {
     padding: 20,
     position: 'relative',
-    minHeight: 140,
+    height: 145,
   },
   bannerDecor1: {
     position: 'absolute',

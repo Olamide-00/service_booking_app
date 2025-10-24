@@ -250,15 +250,14 @@ export default CategoryList;
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 5,
-    marginBottom: 12,
+    marginBottom: 6,
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 20,
-    marginBottom: 14,
+    marginBottom: 7,
   },
   headerLeft: {
     flexDirection: 'row',
@@ -284,7 +283,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 3,
-    paddingVertical: 6,
+    paddingVertical: 5,
     paddingHorizontal: 10,
     backgroundColor: 'rgba(124, 82, 255, 0.08)',
     borderRadius: 16,
@@ -300,7 +299,7 @@ const styles = StyleSheet.create({
   },
   categoryCard: {
     width: 100,
-    height: 78,
+    height: 75,
     borderRadius: 20,
     overflow: 'hidden',
     position: 'relative',

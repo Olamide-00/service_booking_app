@@ -27,6 +27,7 @@ export interface AppInputProps extends TextInputProps {
   containerStyle?: ViewStyle;
   inputStyle?: TextStyle;
   disabled?: boolean;
+
 }
 
 /**
@@ -46,7 +47,7 @@ const CustomTextInput: React.FC<AppInputProps> = ({
   const [isFocused, setIsFocused] = useState(false);
 
   return (
-    <View style={[styles.container, containerStyle]}>
+    <View style={[styles.container, containerStyle, ]}>
       {label && (
         <RegularText
           color="secondary"

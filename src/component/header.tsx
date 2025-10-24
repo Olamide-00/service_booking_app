@@ -75,9 +75,7 @@ const Header: React.FC<HeaderProps> = ({
 
       {/* Main content */}
       <View style={styles.content}>
-        {/* Left section */}
         <View style={styles.leftSection}>
-          {/* Greeting card with glassmorphism */}
           <View style={styles.greetingCard}>
             <View style={styles.greetingCardInner}>
               <RegularText color="rgba(255,255,255,0.9)" size={13}>
@@ -86,65 +84,18 @@ const Header: React.FC<HeaderProps> = ({
               <BoldText color={COLORS.white} size={24} style={styles.userName}>
                 {userName}
               </BoldText>
-              
-              {/* Animated wave underline */}
-              <View style={styles.waveUnderline}>
-                <View style={styles.waveDot} />
-                <View style={[styles.waveDot, { marginLeft: 6 }]} />
-                <View style={[styles.waveDot, { marginLeft: 6 }]} />
-              </View>
             </View>
           </View>
-
-        
         </View>
 
-        {/* Right section - Avatar and notification */}
+
         <View style={styles.rightSection}>
-          {/* Notification button with badge */}
-          <TouchableOpacity
-            style={styles.notificationBtn}
-            onPress={onNotificationPress}
-            activeOpacity={0.7}
-          >
-            <LinearGradient
-              colors={['rgba(255,255,255,0.25)', 'rgba(255,255,255,0.15)']}
-              style={styles.notificationGradient}
-            >
-              <Ionicons name="notifications" size={20} color={COLORS.white} />
-              
-              {/* Notification badge */}
-              <View style={styles.notificationBadge}>
-                <LinearGradient
-                  colors={['#FF6B6B', '#FF5252']}
-                  style={styles.badgeGradient}
-                >
-                  <RegularText color={COLORS.white} size={9}>
-                    5
-                  </RegularText>
-                </LinearGradient>
-              </View>
-
-              {/* Pulse effect */}
-              <View style={styles.pulseRing} />
-            </LinearGradient>
-          </TouchableOpacity>
-
-          {/* Avatar with decorative frame */}
           <TouchableOpacity
             onPress={onAvatarPress}
             activeOpacity={0.8}
             style={styles.avatarWrapper}
           >
-            {/* Outer glow ring */}
-            <View style={styles.avatarOuterRing}>
-              <LinearGradient
-                colors={['rgba(255,255,255,0.4)', 'rgba(255,255,255,0.1)']}
-                style={styles.avatarGlowRing}
-              />
-            </View>
 
-            {/* Avatar container */}
             <View style={styles.avatarContainer}>
               <Image
                 source={
@@ -155,13 +106,6 @@ const Header: React.FC<HeaderProps> = ({
                 resizeMode="cover"
                 style={styles.avatar}
               />
-              
-              {/* Status indicator */}
-              <View style={styles.statusIndicator}>
-                <View style={styles.statusDot} />
-              </View>
-
-              {/* Decorative corner accent */}
               <View style={styles.avatarAccent} />
             </View>
           </TouchableOpacity>
@@ -267,7 +211,7 @@ const styles = StyleSheet.create({
   },
   content: {
     flexDirection: "row",
-    alignItems: "flex-start",
+    // alignItems: "flex-start",
     justifyContent: "space-between",
     paddingTop: Platform.OS === "ios" ? 20 : 50,
     paddingHorizontal: 20,

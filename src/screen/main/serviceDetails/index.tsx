@@ -10,7 +10,7 @@ import {
   Platform,
   Alert,
 } from "react-native";
-import MapView, { Marker } from "react-native-maps";
+// import MapView, { Marker } from "react-native-maps";
 import { LinearGradient } from "expo-linear-gradient";
 import { BoldText, RegularText } from "../../../component/common/text";
 import { COLORS } from "../../../constant/color";
@@ -105,24 +105,24 @@ const ServiceDetails: React.FC<ServiceDetailsProps> = ({ route }) => {
           {/* Provider Info Overlay */}
           <View style={styles.providerOverlay}>
             <View style={styles.providerInfo}>
-              <BoldText size={24} color={COLORS.white}>
+              <BoldText size={"md"} color="white">
                 {service.name}
               </BoldText>
               <View style={styles.providerMeta}>
                 <View style={styles.ratingBadge}>
-                  <Ionicons name="star" size={14} color="#FFD700" />
-                  <BoldText size={13} color={COLORS.white} style={{ marginLeft: 4 }}>
+                  <Ionicons name="star" size={15} color="#FFD700" />
+                  <BoldText size={"sm"} color="white" style={{ marginLeft: 4 }}>
                     {service.rating}
                   </BoldText>
                 </View>
                 <View style={styles.metaDivider} />
-                <RegularText size={13} color="rgba(255,255,255,0.9)">
+                <RegularText size={"sm"} color="white">
                   {service.experienceYears} years exp
                 </RegularText>
                 <View style={styles.metaDivider} />
                 <View style={styles.verifiedBadge}>
-                  <Ionicons name="checkmark-circle" size={14} color="#2ECC71" />
-                  <RegularText size={12} color={COLORS.white} style={{ marginLeft: 3 }}>
+                  <Ionicons name="checkmark-circle" size={15} color="#2ECC71" />
+                  <RegularText size={"sm"} color="white" style={{ marginLeft: 3 }}>
                     Verified
                   </RegularText>
                 </View>
@@ -141,10 +141,10 @@ const ServiceDetails: React.FC<ServiceDetailsProps> = ({ route }) => {
                 style={styles.statGradient}
               >
                 <Ionicons name="cash" size={24} color={COLORS.white} />
-                <BoldText size={18} color={COLORS.white} style={{ marginTop: 6 }}>
+                <BoldText size={"md"} color="white" style={{ marginTop: 6 }}>
                   ${service.pricePerHour}
                 </BoldText>
-                <RegularText size={11} color="rgba(255,255,255,0.85)">
+                <RegularText size={"xs"} color="white">
                   per hour
                 </RegularText>
               </LinearGradient>
@@ -156,10 +156,10 @@ const ServiceDetails: React.FC<ServiceDetailsProps> = ({ route }) => {
                 style={styles.statGradient}
               >
                 <Ionicons name="briefcase" size={24} color={COLORS.white} />
-                <BoldText size={18} color={COLORS.white} style={{ marginTop: 6 }}>
+                <BoldText size={"md"} color="white" style={{ marginTop: 6 }}>
                   {service.experienceYears}
                 </BoldText>
-                <RegularText size={11} color="rgba(255,255,255,0.85)">
+                <RegularText size={"sm"} color="white">
                   years exp
                 </RegularText>
               </LinearGradient>
@@ -171,10 +171,10 @@ const ServiceDetails: React.FC<ServiceDetailsProps> = ({ route }) => {
                 style={styles.statGradient}
               >
                 <Ionicons name="star" size={24} color={COLORS.white} />
-                <BoldText size={18} color={COLORS.white} style={{ marginTop: 6 }}>
+                <BoldText size={"md"} color="white" style={{ marginTop: 6 }}>
                   {service.rating}
                 </BoldText>
-                <RegularText size={11} color="rgba(255,255,255,0.85)">
+                <RegularText size={"sm"} color="white">
                   rating
                 </RegularText>
               </LinearGradient>
@@ -187,12 +187,12 @@ const ServiceDetails: React.FC<ServiceDetailsProps> = ({ route }) => {
               <View style={styles.sectionIconBox}>
                 <Ionicons name="information-circle" size={20} color={COLORS.primary} />
               </View>
-              <BoldText size={18} color={COLORS.textDark}>
+              <BoldText size={"md"} color="black">
                 About
               </BoldText>
             </View>
             <View style={styles.descriptionCard}>
-              <RegularText size={14} color={COLORS.textLight} style={{ lineHeight: 22 }}>
+              <RegularText size={"sm"} color="black" style={{ lineHeight: 22 }}>
                 {service.description}
               </RegularText>
             </View>
@@ -204,7 +204,7 @@ const ServiceDetails: React.FC<ServiceDetailsProps> = ({ route }) => {
               <View style={styles.sectionIconBox}>
                 <MaterialIcons name="build" size={20} color={COLORS.primary} />
               </View>
-              <BoldText size={18} color={COLORS.textDark}>
+              <BoldText size={"md"} color="black">
                 Services Offered
               </BoldText>
             </View>
@@ -212,7 +212,7 @@ const ServiceDetails: React.FC<ServiceDetailsProps> = ({ route }) => {
               {['Pipe Repairs', 'Leak Detection', 'Installation', 'Maintenance'].map((item, index) => (
                 <View key={index} style={styles.serviceChip}>
                   <Ionicons name="checkmark-circle" size={16} color="#2ECC71" />
-                  <RegularText size={13} color={COLORS.textDark} style={{ marginLeft: 6 }}>
+                  <RegularText size={"sm"} color="black" style={{ marginLeft: 6 }}>
                     {item}
                   </RegularText>
                 </View>
@@ -226,10 +226,10 @@ const ServiceDetails: React.FC<ServiceDetailsProps> = ({ route }) => {
               <View style={styles.sectionIconBox}>
                 <Ionicons name="images" size={20} color={COLORS.primary} />
               </View>
-              <BoldText size={18} color={COLORS.textDark}>
+              <BoldText size={"md"} color="black">
                 Gallery
               </BoldText>
-              <RegularText size={12} color={COLORS.gray} style={{ marginLeft: 8 }}>
+              <RegularText size={"sm"} color="secondary" style={{ marginLeft: 8 }}>
                 ({service.gallery.length} photos)
               </RegularText>
             </View>
@@ -249,66 +249,16 @@ const ServiceDetails: React.FC<ServiceDetailsProps> = ({ route }) => {
             </ScrollView>
           </View>
 
-          {/* Location Section */}
-          <View style={styles.section}>
-            <View style={styles.sectionHeader}>
-              <View style={styles.sectionIconBox}>
-                <Ionicons name="location" size={20} color={COLORS.primary} />
-              </View>
-              <BoldText size={18} color={COLORS.textDark}>
-                Location
-              </BoldText>
-            </View>
-            
-            <View style={styles.locationCard}>
-              <View style={styles.locationInfo}>
-                <Ionicons name="navigate" size={18} color={COLORS.primary} />
-                <View style={{ flex: 1, marginLeft: 10 }}>
-                  <BoldText size={14} color={COLORS.textDark}>
-                    {service.location.city}
-                  </BoldText>
-                  <RegularText size={12} color={COLORS.gray}>
-                    Tap map to view full directions
-                  </RegularText>
-                </View>
-                <TouchableOpacity style={styles.directionsBtn} activeOpacity={0.7}>
-                  <Ionicons name="arrow-forward" size={16} color={COLORS.primary} />
-                </TouchableOpacity>
-              </View>
-
-              <View style={styles.mapContainer}>
-                <MapView
-                  style={styles.map}
-                  initialRegion={{
-                    latitude: service.location.lat,
-                    longitude: service.location.lng,
-                    latitudeDelta: 0.05,
-                    longitudeDelta: 0.05,
-                  }}
-                >
-                  <Marker
-                    coordinate={{
-                      latitude: service.location.lat,
-                      longitude: service.location.lng,
-                    }}
-                    title={service.name}
-                    description={service.location.city}
-                  />
-                </MapView>
-              </View>
-            </View>
-          </View>
-
           {/* Reviews Section */}
           <View style={styles.section}>
             <View style={styles.sectionHeader}>
               <View style={styles.sectionIconBox}>
                 <Ionicons name="chatbubbles" size={20} color={COLORS.primary} />
               </View>
-              <BoldText size={18} color={COLORS.textDark}>
+              <BoldText size="md" color="black">
                 Reviews
               </BoldText>
-              <RegularText size={12} color={COLORS.gray} style={{ marginLeft: 8 }}>
+              <RegularText size="sm" color="secondary" style={{ marginLeft: 8 }}>
                 (156)
               </RegularText>
             </View>
@@ -320,14 +270,14 @@ const ServiceDetails: React.FC<ServiceDetailsProps> = ({ route }) => {
                     <Ionicons key={star} name="star" size={16} color="#FFD700" />
                   ))}
                 </View>
-                <RegularText size={13} color={COLORS.textLight} style={{ marginTop: 8 }}>
+                <RegularText size={"sm"} color="white" style={{ marginTop: 8 }}>
                   "Excellent service! Very professional and punctual..."
                 </RegularText>
-                <RegularText size={11} color={COLORS.gray} style={{ marginTop: 6 }}>
+                <RegularText size={"sm"} color="secondary" style={{ marginTop: 6 }}>
                   - Sarah Johnson, 2 days ago
                 </RegularText>
               </View>
-              <Ionicons name="chevron-forward" size={20} color={COLORS.gray} />
+              <Ionicons name="chevron-forward" size={20} color="secondary" />
             </TouchableOpacity>
           </View>
 
@@ -342,14 +292,14 @@ const ServiceDetails: React.FC<ServiceDetailsProps> = ({ route }) => {
           style={styles.bottomBarGradient}
         >
           <View style={styles.priceSection}>
-            <RegularText size={12} color={COLORS.gray}>
+            <RegularText size="sm" color="secondary">
               Starting from
             </RegularText>
             <View style={{ flexDirection: 'row', alignItems: 'baseline' }}>
-              <BoldText size={28} color={COLORS.primary}>
+              <BoldText size={"lg"} color="brand">
                 ${service.pricePerHour}
               </BoldText>
-              <RegularText size={14} color={COLORS.gray}>
+              <RegularText size="sm" color="secondary">
                 /hr
               </RegularText>
             </View>
@@ -366,7 +316,7 @@ const ServiceDetails: React.FC<ServiceDetailsProps> = ({ route }) => {
               end={{ x: 1, y: 0 }}
               style={styles.bookNowGradient}
             >
-              <BoldText size={16} color={COLORS.white}>
+              <BoldText size={"md"} color="white">
                 Book Now
               </BoldText>
               <Ionicons name="calendar" size={20} color={COLORS.white} style={{ marginLeft: 8 }} />

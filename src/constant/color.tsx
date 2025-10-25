@@ -5,4 +5,6 @@ export const COLORS = {
   accent: "#007AFF",
   error: "#E53935",
   success: "#4CAF50",
+  brand: "#667EEA",
+  black: "#000000",
 } as const;

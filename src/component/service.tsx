@@ -14,7 +14,7 @@ import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import providersData from "../constant/db.json";
 
 const { width } = Dimensions.get("window");
-const CARD_WIDTH = (width - 48) / 2; // 2 columns with padding
+const CARD_WIDTH = (width - 48) / 2; 
 
 interface Provider {
   id: number;
@@ -58,7 +58,7 @@ const ServiceCard: React.FC<{ item: Provider; onPress?: () => void }> = ({
         {/* Experience badge */}
         <View style={styles.experienceBadge}>
           <MaterialIcons name="workspace-premium" size={11} color="#FFD700" />
-          <RegularText size={9} color={COLORS.white} style={{ marginLeft: 2 }}>
+          <RegularText size={"xs"} color="white" style={{ marginLeft: 2 }}>
             {item.experienceYears}y
           </RegularText>
         </View>
@@ -76,14 +76,14 @@ const ServiceCard: React.FC<{ item: Provider; onPress?: () => void }> = ({
 
       {/* Card content */}
       <View style={styles.cardBody}>
-        <BoldText size={14} color={COLORS.textDark} numberOfLines={1}>
+        <BoldText size={"sm"} color="black" numberOfLines={1}>
           {item.name}
         </BoldText>
         
         {/* Location row */}
         <View style={styles.locationRow}>
           <Ionicons name="location" size={11} color={COLORS.primary} />
-          <RegularText size={11} color={COLORS.textLight} style={{ marginLeft: 2 }} numberOfLines={1}>
+          <RegularText size={"xs"} color="black" style={{ marginLeft: 2 }} numberOfLines={1}>
             {item.location.city}
           </RegularText>
         </View>
@@ -92,12 +92,12 @@ const ServiceCard: React.FC<{ item: Provider; onPress?: () => void }> = ({
         <View style={styles.ratingContainer}>
           <View style={styles.ratingBox}>
             <Ionicons name="star" size={12} color="#FFD700" />
-            <BoldText size={12} color={COLORS.textDark} style={{ marginLeft: 2 }}>
+            <BoldText size={"xs"} color="black" style={{ marginLeft: 2 }}>
               {item.rating.toFixed(1)}
             </BoldText>
           </View>
           <View style={styles.divider} />
-          <RegularText size={10} color={COLORS.gray}>
+          <RegularText size={"xs"} color="secondary">
             156 reviews
           </RegularText>
         </View>
@@ -111,10 +111,10 @@ const ServiceCard: React.FC<{ item: Provider; onPress?: () => void }> = ({
               end={{ x: 1, y: 0 }}
               style={styles.priceGradient}
             >
-              <BoldText size={13} color={COLORS.white}>
+              <BoldText size={"sm"} color="white">
                 ${item.pricePerHour}
               </BoldText>
-              <RegularText size={9} color="rgba(255,255,255,0.85)">
+              <RegularText size={"xs"} color="white">
                 /hr
               </RegularText>
             </LinearGradient>

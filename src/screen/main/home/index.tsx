@@ -1,224 +1,139 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  Pressable,
-  TouchableOpacity,
-  StatusBar,
-  InteractionManager,
-} from "react-native";
-import React, { useCallback, useEffect, useState } from "react";
-import * as ImagePicker from "expo-image-picker";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { BoldText, RegularText, MediumText } from "@/src/component/text/indext";
-import { Ionicons, MaterialIcons } from "@expo/vector-icons";
-import { COLORS } from "@/src/constant/COLORS";
-import Spacer from "@/src/component/common/spacer";
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
-import AccountBalance from "./component/accountBalance";
-import TransactionAction from "./component/transactionAction";
-import Banner from "@/src/component/common/banner";
-import QuickAction from "./component/quickAction";
-import RecentHistory from "./component/recentHistory";
-import {
-  useFocusEffect,
-  useNavigation,
-  useRoute,
-} from "@react-navigation/native";
-import useAuthStore from "@/src/store/userStore";
-import { useWalletDetails } from "@/src/api/hooks/useWallet";
-import { useGetBalance } from "@/src/api/hooks/useAuth";
-import { Image } from "expo-image";
-import LottieView from "lottie-react-native";
-import { io } from "socket.io-client";
+import { View, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import React from 'react';
+import { LinearGradient } from 'expo-linear-gradient';
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import Header from '../../../component/header';
+import SearchFilterBar from '../../../component/searchBar';
+import CategoryList from '../../../component/category';
+import ServiceCard from '../../../component/service';
+import { COLORS } from '../../../constant/color';
+import { BoldText, RegularText } from '../../../component/common/text';
 
 const Home = () => {
-  const navigation = useNavigation();
-  const userData = useAuthStore((state) => state.userData);
-  const route = useRoute();
-  const { walletData: walletDetails, isLoading, error } = useWalletDetails();
-  const accountNumber = walletDetails?.data?.account_number;
-  const email = userData?.email;
-  const [firstName, lastName] = userData?.name.split(" ") ?? ["", ""];
-  const imageLogo = userData?.profilePicture;
-
-  const socket = io("https://remitbackend-production.up.railway.app");
-  const [currentBalance, setCurrentBalance] = useState(null);
-
-  useEffect(() => {
-    if (email) {
-      // Join the user room after login
-      socket.emit("join", email);
-
-      // Listen for balance updates
-      socket.on("balance_updated", (data) => {
-        setCurrentBalance(data.newBalance);
-      });
-
-      // Handle reconnection
-      socket.on("reconnect", () => {
-        console.log("✅ Reconnected to socket");
-      });
-
-      // Handle disconnection
-      socket.on("disconnect", () => {
-        console.log("❌ Socket disconnected");
-      });
-
-      return () => {
-        socket.off("balance_updated");
-        socket.off("reconnect");
-        socket.off("disconnect");
-        socket.disconnect();
-      };
-    }
-  }, [email]);
-  const { balance, refetch } = useGetBalance(email);
-
-  useFocusEffect(
-    useCallback(() => {
-      refetch();
-    }, [refetch])
-  );
-
-  useEffect(() => {
-    const task = InteractionManager.runAfterInteractions(() => {
-      StatusBar.setBarStyle("dark-content", true);
-    });
-
-    return () => task.cancel();
-  }, []);
-
-  useFocusEffect(
-    useCallback(() => {
-      StatusBar.setBarStyle("dark-content", true);
-      return () => {
-        StatusBar.setBarStyle("light-content", true);
-      };
-    }, [])
-  );
-
-  const isWalletCreated = useAuthStore.getState().isWalletCreated;
-
-  // Get current time greeting
-  const getGreeting = () => {
-    const hour = new Date().getHours();
-    if (hour < 12) return "Good Morning";
-    if (hour < 17) return "Good Afternoon";
-    return "Good Evening";
-  };
-
   return (
-    <SafeAreaView style={styles.root}>
-      {/*Header Section */}
-      <View style={styles.headerContainer} key={route.key}>
-        {/* Top Row */}
-        <View style={styles.topRow}>
-          {/* Left Side - Profile */}
-          <View style={styles.profileSection}>
-            <Pressable
-              style={styles.imageContainer}
-              onPress={() => navigation.navigate("PROFILE")}
-            >
-              {imageLogo ? (
-                <Image source={{ uri: imageLogo }} style={styles.profileImage} />
-              ) : (
-                <View style={styles.defaultImageContainer}>
-                  <Ionicons name="person" size={28} color={COLORS.primary} />
-                </View>
-              )}
-              <View style={styles.onlineIndicator} />
-            </Pressable>
-            
-            <View style={styles.greetingContainer}>
-              <RegularText size="small" style={styles.greetingText}>
-                {getGreeting()}
-              </RegularText>
-              <BoldText size="large" style={styles.nameText}>
-                {firstName}!
-              </BoldText>
-            </View>
-          </View>
-
-          {/* Right Side - Actions */}
-          <View style={styles.actionButtonsContainer}>
-            <TouchableOpacity
-              style={styles.actionButton}
-              onPress={() =>
-                navigation.navigate("StackNavigation", { screen: "Support" })
-              }
-            >
-              <LottieView
-                autoPlay
-                loop
-                source={require("@/assets/json/support.json")}
-                style={styles.supportAnimation}
-              />
-            </TouchableOpacity>
-            
-            <TouchableOpacity
-              style={styles.actionButton}
-              onPress={() =>
-                navigation.navigate("StackNavigation", { screen: "Notification" })
-              }
-            >
-              <Ionicons
-                name="notifications-outline"
-                size={22}
-                color={COLORS.primary}
-              />
-              {/* Notification badge */}
-              <View style={styles.notificationBadge}>
-                <Text style={styles.badgeText}>2</Text>
-              </View>
-            </TouchableOpacity>
-          </View>
-        </View>
-
-        {/* Bottom Row - Tag */}
-        <View style={styles.bottomRow}>
-          <View style={styles.tagSection}>
-            <MaterialIcons 
-              name="local-offer" 
-              size={16} 
-              color="rgba(102, 126, 234, 0.7)" 
-            />
-            <View style={styles.modernTag}>
-              <RegularText size="small" style={styles.tagText}>
-                @{userData?.tag}
-              </RegularText>
-            </View>
-          </View>
+    <View style={styles.root}>
+      <SafeAreaView style={styles.safeArea} edges={['top']}>
+        <Header
+          userName="Olamide"
+          subtitle="Good morning ☀️"
+          avatarUri="https://i.pravatar.cc/150"
+          onAvatarPress={() => console.log("Profile tapped")}
+          onNotificationPress={() => console.log("Notifications opened")}
+        />
+        
+        {/* Animated background decorations */}
+        <View style={styles.backgroundDecor}>
+          <View style={[styles.decorCircle, styles.circle1]} />
+          <View style={[styles.decorCircle, styles.circle2]} />
+          <View style={[styles.decorCircle, styles.circle3]} />
           
-          <View style={[styles.statusIndicator,{backgroundColor: userData?.isWalletCreated ? 'rgba(16, 185, 129, 0.1)' : 'rgba(239, 68, 68, 0.1)', borderColor: userData?.isWalletCreated ? 'rgba(16, 185, 129, 0.2)' : 'rgba(239, 68, 68, 0.2)'}]}>
-            <MaterialIcons name={userData?.isWalletCreated ? "verified" : "cancel"} size={16} color={userData?.isWalletCreated ? "#10b981" : "#ef4444"} />
-            <RegularText size="small" style={[styles.statusText, {color: userData?.isWalletCreated ? "#10b981" : "#ef4444"}]}>{userData?.isWalletCreated ? "Verified" : "Unverified"}</RegularText>
-          </View>
+          {/* Floating geometric shapes */}
+          <View style={[styles.geometricShape, styles.geo1]} />
+          <View style={[styles.geometricShape, styles.geo2]} />
+          
+          {/* Decorative dots scattered */}
+          {[...Array(12)].map((_, i) => (
+            <View
+              key={i}
+              style={[
+                styles.floatingDot,
+                {
+                  top: 120 + (i * 50),
+                  left: 30 + (i * 30) % 300,
+                  width: 3 + (i % 3),
+                  height: 3 + (i % 3),
+                  opacity: 0.08 - (i * 0.003),
+                },
+              ]}
+            />
+          ))}
         </View>
-      </View>
 
-      {/* Account balance */}
-      <AccountBalance balance={currentBalance ?? balance?.data ?? "0.00"} wallet={accountNumber} />
-      <Spacer direction="vertical" size={hp(0.5)} />
+        <ScrollView 
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.scrollContent}
+        >
+          {/* Search section with enhanced spacing */}
+          <View style={styles.searchSection}>
+            <SearchFilterBar />
+          </View>
 
-      {/* Banner */}
-      {
-       userData?.isWalletCreated ? (
-           <TransactionAction />
-        ) : <Banner />
-      }
-     
-      <Spacer direction="vertical" size={hp(0.6)} />
+          {/* Categories Section */}
+          <CategoryList />
 
-      {/* Quick action */}
-      <QuickAction />
+          {/* Featured Banner */}
+          <View style={styles.featuredBanner}>
+            <LinearGradient
+              colors={['#667EEA', '#764BA2']}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={styles.bannerGradient}
+            >
+              {/* Decorative elements */}
+              <View style={styles.bannerDecor1} />
+              <View style={styles.bannerDecor2} />
+              <Ionicons 
+                name="star" 
+                size={40} 
+                color="rgba(255,255,255,0.15)" 
+                style={styles.bannerIcon}
+              />
 
-      {/* Recent transactions */}
-      <RecentHistory email={email} />
-    </SafeAreaView>
+              <View style={styles.bannerContent}>
+                <View style={styles.bannerBadge}>
+                  <Ionicons name="trophy" size={12} color="#FFD700" />
+                  <RegularText size={'sm'} color={COLORS.white} style={{ marginLeft: 4 }}>
+                    PREMIUM
+                  </RegularText>
+                </View>
+                <BoldText size={'xs'} color={COLORS.white} style={{ marginTop: 8 }}>
+                  Get 20% Off
+                </BoldText>
+                <RegularText size={'xs'} color="rgba(255,255,255,0.9)" style={{ marginTop: 4 }}>
+                  First booking with top providers
+                </RegularText>
+                <TouchableOpacity style={styles.bannerBtn} activeOpacity={0.8}>
+                  <RegularText size={'xs'} color="#667EEA" style={{ fontWeight: '600' }}>
+                    Claim Now
+                  </RegularText>
+                  <Ionicons name="arrow-forward" size={14} color="#667EEA" />
+                </TouchableOpacity>
+              </View>
+            </LinearGradient>
+          </View>
+  
+          {/* Top Providers Section Header */}
+          <View style={styles.sectionHeader}>
+            <View style={styles.sectionTitleContainer}>
+              <View style={styles.sectionIconBox}>
+                <LinearGradient
+                  colors={[COLORS.primary, '#8B5CF6']}
+                  style={styles.sectionIconGradient}
+                >
+                  <Ionicons name="people" size={16} color={COLORS.white} />
+                </LinearGradient>
+              </View>
+              <View>
+                <BoldText size={18} color={COLORS.textDark}>
+                  Top Providers
+                </BoldText>
+                <View style={styles.accentLine} />
+              </View>
+            </View>
+            <TouchableOpacity style={styles.filterChip} activeOpacity={0.7}>
+              <Ionicons name="funnel" size={14} color={COLORS.primary} />
+              <RegularText size={11} color={COLORS.primary} style={{ marginLeft: 4 }}>
+                Filter
+              </RegularText>
+            </TouchableOpacity>
+          </View>
+
+          {/* Service Cards Grid */}
+          <ServiceCard />
+        </ScrollView>
+      </SafeAreaView>
+    </View>
   );
 };
 
@@ -227,151 +142,218 @@ export default Home;
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor: '#ffffff',
-    paddingHorizontal: wp("3%"),
-    paddingTop: hp("0.5")
+    backgroundColor: '#F8F9FD',
   },
-  
-  // Header Styles
-  headerContainer: {
-    paddingHorizontal: wp("4%"),
-    paddingTop: hp("1%"),
-    paddingBottom: hp("1.5%"),
-  },
-  
-  // Top Row
-  topRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: hp("1.5%"),
-  },
-  profileSection: {
-    flexDirection: 'row',
-    alignItems: 'center',
+  safeArea: {
     flex: 1,
   },
-  imageContainer: {
-    position: 'relative',
-    marginRight: wp("3.5%"),
-  },
-  profileImage: {
-    width: hp("6%"),
-    height: hp("6%"),
-    borderRadius: hp("3%"),
-    borderWidth: 2,
-    borderColor: 'rgba(102, 126, 234, 0.2)',
-  },
-  defaultImageContainer: {
-    width: hp("6%"),
-    height: hp("6%"),
-    borderRadius: hp("3%"),
-    backgroundColor: 'rgba(102, 126, 234, 0.1)',
-    borderWidth: 2,
-    borderColor: 'rgba(102, 126, 234, 0.2)',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  onlineIndicator: {
+  backgroundDecor: {
     position: 'absolute',
-    bottom: 0,
+    top: 0,
+    left: 0,
     right: 0,
-    width: hp("1.5%"),
-    height: hp("1.5%"),
-    borderRadius: hp("0.75%"),
-    backgroundColor: '#10b981',
-    borderWidth: 2,
-    borderColor: '#ffffff',
+    bottom: 0,
+    zIndex: -1,
   },
-  greetingContainer: {
+  decorCircle: {
+    position: 'absolute',
+    borderRadius: 999,
+    backgroundColor: COLORS.primary,
+    opacity: 0.025,
+  },
+  circle1: {
+    width: 250,
+    height: 250,
+    top: 150,
+    right: -80,
+  },
+  circle2: {
+    width: 180,
+    height: 180,
+    top: 400,
+    left: -60,
+  },
+  circle3: {
+    width: 120,
+    height: 120,
+    top: 650,
+    right: 40,
+  },
+  geometricShape: {
+    position: 'absolute',
+    backgroundColor: 'rgba(124, 82, 255, 0.04)',
+    borderRadius: 12,
+  },
+  geo1: {
+    width: 100,
+    height: 100,
+    top: 200,
+    left: 30,
+    transform: [{ rotate: '25deg' }],
+  },
+  geo2: {
+    width: 70,
+    height: 70,
+    top: 500,
+    right: 50,
+    transform: [{ rotate: '-15deg' }],
+  },
+  floatingDot: {
+    position: 'absolute',
+    borderRadius: 999,
+    backgroundColor: COLORS.primary,
+  },
+  scrollContent: {
+    paddingBottom: 5,
+  },
+  searchSection: {
+    marginTop: -18,
+  },
+  quickActionsContainer: {
+    paddingHorizontal: 16,
+    marginBottom: 20,
+  },
+  quickActionsCard: {
+    borderRadius: 20,
+    padding: 16,
+    borderWidth: 1,
+    borderColor: 'rgba(124, 82, 255, 0.1)',
+  },
+  quickActionsHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  quickActionsIconBox: {
+    width: 36,
+    height: 36,
+    borderRadius: 10,
+    backgroundColor: '#FFF9E6',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 12,
+  },
+  quickActionsGrid: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  quickActionBtn: {
+    alignItems: 'center',
     flex: 1,
   },
-  greetingText: {
-    color: 'rgba(102, 126, 234, 0.7)',
-    marginBottom: hp("0.2%"),
-  },
-  nameText: {
-    color: '#1f2937',
-  },
-  
-  // Action Buttons
-  actionButtonsContainer: {
-    flexDirection: 'row',
-    gap: wp("3%"),
-  },
-  actionButton: {
-    width: hp("5%"),
-    height: hp("5%"),
-    borderRadius: hp("2.5%"),
-    backgroundColor: 'rgba(102, 126, 234, 0.08)',
+  actionIconCircle: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  featuredBanner: {
+    marginHorizontal: 16,
+    marginBottom: 5,
+    borderRadius: 20,
+    overflow: 'hidden',
+    elevation: 5,
+    shadowColor: '#667EEA',
+    shadowOpacity: 0.3,
+    shadowRadius: 10,
+    shadowOffset: { width: 0, height: 5 },
+  },
+  bannerGradient: {
+    padding: 20,
     position: 'relative',
-    borderWidth: 1,
-    borderColor: 'rgba(102, 126, 234, 0.15)',
+    height: 145,
   },
-  supportAnimation: {
-    width: hp("2.8%"),
-    height: hp("2.8%"),
-  },
-  notificationBadge: {
+  bannerDecor1: {
     position: 'absolute',
-    top: -4,
-    right: -4,
-    backgroundColor: '#ef4444',
-    borderRadius: 8,
-    minWidth: 16,
-    height: 16,
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    backgroundColor: 'rgba(255,255,255,0.1)',
+    top: -30,
+    right: -20,
+  },
+  bannerDecor2: {
+    position: 'absolute',
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: 'rgba(255,255,255,0.08)',
+    bottom: -10,
+    left: 40,
+  },
+  bannerIcon: {
+    position: 'absolute',
+    bottom: 20,
+    right: 30,
+    transform: [{ rotate: '-15deg' }],
+  },
+  bannerContent: {
+    zIndex: 1,
+  },
+  bannerBadge: {
+    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: 2,
-    borderColor: '#ffffff',
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    alignSelf: 'flex-start',
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 12,
   },
-  badgeText: {
-    color: '#ffffff',
-    fontSize: 10,
-    fontWeight: '600',
+  bannerBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: COLORS.white,
+    alignSelf: 'flex-start',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 20,
+    marginTop: 12,
+    gap: 6,
   },
-  
-  // Bottom Row
-  bottomRow: {
+  sectionHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    paddingHorizontal: 20,
+    marginTop: 8,
+    marginBottom: 16,
   },
-  tagSection: {
+  sectionTitleContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: wp("2%"),
+    gap: 12,
   },
-  tagLabel: {
-    color: 'rgba(102, 126, 234, 0.7)',
-  },
-  modernTag: {
-    backgroundColor: 'rgba(102, 126, 234, 0.1)',
-    paddingHorizontal: wp("3%"),
-    paddingVertical: hp("0.5%"),
+  sectionIconBox: {
     borderRadius: 12,
-    borderWidth: 1,
-    borderColor: 'rgba(102, 126, 234, 0.2)',
+    overflow: 'hidden',
+    elevation: 3,
+    shadowColor: COLORS.primary,
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+    shadowOffset: { width: 0, height: 2 },
   },
-  tagText: {
-    color: COLORS.primary,
-    fontWeight: '600',
+  sectionIconGradient: {
+    width: 40,
+    height: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  statusIndicator: {
+  accentLine: {
+    width: 50,
+    height: 3,
+    backgroundColor: COLORS.primary,
+    borderRadius: 2,
+    marginTop: 4,
+  },
+  filterChip: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: wp("1%"),
-    backgroundColor: 'rgba(16, 185, 129, 0.1)',
-    paddingHorizontal: wp("2.5%"),
-    paddingVertical: hp("0.5%"),
-    borderRadius: 10,
+    backgroundColor: 'rgba(124, 82, 255, 0.08)',
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderRadius: 20,
     borderWidth: 1,
-    borderColor: 'rgba(16, 185, 129, 0.2)',
-  },
-  statusText: {
-    color: '#10b981',
-    fontWeight: '500',
+    borderColor: 'rgba(124, 82, 255, 0.15)',
   },
 });

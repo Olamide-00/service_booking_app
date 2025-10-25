@@ -1,37 +1,30 @@
 {
   "expo": {
-    "name": "Payverve",
-    "slug": "Payverve",
+    "name": "serviceBookApp",
+    "slug": "serviceBookApp",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/REMITBRAND.png",
+    "icon": "./assets/icon.png",
     "splash": {
-      "image": "./assets/images/REMITBRAND.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
-    "updates": {
-      "enabled": true,
-      "fallbackToCacheTimeout": 0,
-      "checkAutomatically": "ON_LOAD"
-    },
     "ios": {
       "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/REMITBRAND.png",
+        "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.olamide00.Remit"
+      "package": "com.olamide00.serviceBookApp"
     },
     "web": {
       "bundler": "metro",
-      "output": "static",
-      "favicon": "./assets/images/playStore.png"
+      "output": "static"
     },
     "plugins": [
       [
@@ -42,36 +35,13 @@
         }
       ],
       [
-        "expo-splash-screen",
-        {
-          "image": "./assets/images/REMITBRAND.png",
-          "imageWidth": 200,
-          "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
-        }
-      ],
-      [
         "expo-notifications",
         {
-          "icon": "./assets/images/pushNoti.png",
+          "icon": "./assets/favicon.png",
           "color": "#ffffff",
           "defaultChannel": "default",
           "sounds": [],
           "enableBackgroundRemoteNotifications": true
-        }
-      ],
-      [
-        "expo-font",
-        {
-          "fonts": [
-            "./assets/fonts/Merienda-Black.ttf",
-            "./assets/fonts/Merienda-Bold.ttf",
-            "./assets/fonts/Merienda-ExtraBold.ttf",
-            "./assets/fonts/Merienda-Light.ttf",
-            "./assets/fonts/Merienda-Medium.ttf",
-            "./assets/fonts/Merienda-Regular.ttf",
-            "./assets/fonts/Merienda-SemiBold.ttf"
-          ]
         }
       ],
       "expo-secure-store",
@@ -83,9 +53,6 @@
     "extra": {
       "router": {
         "origin": false
-      },
-      "eas": {
-        "projectId": "bb609444-7573-4355-98d5-b3bea302a502"
       }
     },
     "runtimeVersion": {

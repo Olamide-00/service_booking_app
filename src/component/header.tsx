@@ -10,7 +10,7 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 import { BoldText, RegularText } from "./common/text";
 import { COLORS } from "../constant/color";
-import { Ionicons, MaterialIcons, FontAwesome5 } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 
 const { width } = Dimensions.get("window");
 
@@ -78,16 +78,15 @@ const Header: React.FC<HeaderProps> = ({
         <View style={styles.leftSection}>
           <View style={styles.greetingCard}>
             <View style={styles.greetingCardInner}>
-              <RegularText color="rgba(255,255,255,0.9)" size={13}>
+              <RegularText color="white" size={"sm"}>
                 {subtitle}
               </RegularText>
-              <BoldText color={COLORS.white} size={24} style={styles.userName}>
+              <BoldText color="white" size={"md"} style={styles.userName}>
                 {userName}
               </BoldText>
             </View>
           </View>
         </View>
-
 
         <View style={styles.rightSection}>
           <TouchableOpacity
@@ -95,7 +94,6 @@ const Header: React.FC<HeaderProps> = ({
             activeOpacity={0.8}
             style={styles.avatarWrapper}
           >
-
             <View style={styles.avatarContainer}>
               <Image
                 source={
@@ -211,11 +209,12 @@ const styles = StyleSheet.create({
   },
   content: {
     flexDirection: "row",
-    // alignItems: "flex-start",
+    alignItems: "center",
     justifyContent: "space-between",
-    paddingTop: Platform.OS === "ios" ? 20 : 50,
+    paddingTop: Platform.OS === "ios" ? 20 : 40,
     paddingHorizontal: 20,
     zIndex: 1,
+    paddingBottom: 20,
   },
   leftSection: {
     flex: 1,
@@ -237,92 +236,11 @@ const styles = StyleSheet.create({
     marginTop: 2,
     letterSpacing: 0.5,
   },
-  waveUnderline: {
-    flexDirection: 'row',
-    marginTop: 8,
-    alignItems: 'center',
-  },
-  waveDot: {
-    width: 6,
-    height: 6,
-    borderRadius: 3,
-    backgroundColor: 'rgba(255,255,255,0.6)',
-  },
-  statsRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: 10,
-    backgroundColor: 'rgba(255,255,255,0.12)',
-    borderRadius: 12,
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    alignSelf: 'flex-start',
-  },
-  statItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  statDivider: {
-    width: 1,
-    height: 14,
-    backgroundColor: 'rgba(255,255,255,0.3)',
-    marginHorizontal: 12,
-  },
   rightSection: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    gap: 12,
-  },
-  notificationBtn: {
-    marginTop: 4,
-  },
-  notificationGradient: {
-    width: 46,
-    height: 46,
-    borderRadius: 23,
-    alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: 1.5,
-    borderColor: 'rgba(255,255,255,0.3)',
-    position: 'relative',
-  },
-  notificationBadge: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-  },
-  badgeGradient: {
-    minWidth: 18,
-    height: 18,
-    borderRadius: 9,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: 5,
-    borderWidth: 2,
-    borderColor: '#6C3FED',
-  },
-  pulseRing: {
-    position: 'absolute',
-    width: 46,
-    height: 46,
-    borderRadius: 23,
-    borderWidth: 2,
-    borderColor: 'rgba(255,255,255,0.3)',
   },
   avatarWrapper: {
     position: 'relative',
-  },
-  avatarOuterRing: {
-    position: 'absolute',
-    top: -4,
-    left: -4,
-    right: -4,
-    bottom: -4,
-  },
-  avatarGlowRing: {
-    width: 64,
-    height: 64,
-    borderRadius: 32,
   },
   avatarContainer: {
     width: 56,
@@ -336,20 +254,6 @@ const styles = StyleSheet.create({
   avatar: {
     width: '100%',
     height: '100%',
-  },
-  statusIndicator: {
-    position: 'absolute',
-    bottom: 0,
-    right: 0,
-    backgroundColor: COLORS.white,
-    borderRadius: 10,
-    padding: 2,
-  },
-  statusDot: {
-    width: 10,
-    height: 10,
-    borderRadius: 5,
-    backgroundColor: '#2ECC71',
   },
   avatarAccent: {
     position: 'absolute',

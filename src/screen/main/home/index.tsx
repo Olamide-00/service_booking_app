@@ -2,20 +2,22 @@ import { View, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import React from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import Header from '../../../component/header';
 import SearchFilterBar from '../../../component/searchBar';
 import CategoryList from '../../../component/category';
-import ServiceCard from '../../../component/service';
 import { COLORS } from '../../../constant/color';
 import { BoldText, RegularText } from '../../../component/common/text';
 import { styles } from './style';
 import ServiceList from '../../../component/service';
-import { useNavigation } from '@react-navigation/native';
+import { HomeScreenProps } from '../../../type/type';
 
-const Home = () => {
+const Home: React.FC<HomeScreenProps> = ({ navigation }) => {
 
-  const navigation = useNavigation();
+  // Pass the provider data correctly to ServiceDetails
+  const handleSelectProvider = (provider: any) => {
+    navigation.navigate("ServiceDetails", { service: provider });
+  };
 
   return (
     <View style={styles.root}>
@@ -129,8 +131,8 @@ const Home = () => {
             </View>
           </View>
 
-          {/* Service Cards Grid */}
-          <ServiceList onSelectProvider={() => navigation.navigate("ServiceDetails")} />
+          {/* Service Cards Grid - Pass handleSelectProvider correctly */}
+          <ServiceList onSelectProvider={handleSelectProvider} />
         </ScrollView>
       </SafeAreaView>
     </View>

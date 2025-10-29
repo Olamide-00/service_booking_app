@@ -35,6 +35,7 @@ const Home: React.FC<HomeScreenProps> = ({ navigation }) => {
           <View style={[styles.decorCircle, styles.circle1]} />
           <View style={[styles.decorCircle, styles.circle2]} />
           <View style={[styles.decorCircle, styles.circle3]} />
+
           
           {/* Floating geometric shapes */}
           <View style={[styles.geometricShape, styles.geo1]} />

@@ -28,7 +28,7 @@ const ServiceDetails: React.FC<ServiceDetailsScreenProps> = ({ route, navigation
   const service = route.params.service;
 
   const handleBookingConfirm = (bookingData: any) => {
-    const msg = `✅ Booking confirmed for ${service.name} on ${bookingData.date} for ${bookingData.hours} hour(s).`;
+    const msg = `Booking confirmed for ${service.name} on ${bookingData.date} for ${bookingData.hours} hour(s).`;
 
     if (Platform.OS === "android") {
       ToastAndroid.show(msg, ToastAndroid.LONG);
